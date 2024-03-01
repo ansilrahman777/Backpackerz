@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from .serializers import UserRegisterSerializer ,LoginSerializer ,PasswordResetRequestSerializer ,SetNewPasswordSerializer
+from .serializers import UserRegisterSerializer ,LoginSerializer ,PasswordResetRequestSerializer ,SetNewPasswordSerializer ,LogoutUserSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .utils import send_otp
@@ -65,6 +65,7 @@ class LoginUserView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
+
 # class TestLogin(GenericAPIView):
 #     permission_classes=[IsAuthenticated]
 
@@ -73,6 +74,9 @@ class LoginUserView(GenericAPIView):
 #             'msg':'its ok done'
 #         }
 #         return Response(data,status=status.HTTP_200_OK)
+
+
+
 
 class PasswordResetRequestView(GenericAPIView):
     serializer_class= PasswordResetRequestSerializer
@@ -99,3 +103,13 @@ class SetNewPassword(GenericAPIView):
             serializer=self.serializer_class(data=request.data)
             serializer.is_valid(raise_exception=True)
             return Response ({'message':'Password reset Successfull'},status=status.HTTP_200_OK)
+
+class LogoutUserView(GenericAPIView):
+    serializer_class=LogoutUserSerializer
+    permission_class=[IsAuthenticated]
+
+    def post(self,request):
+        serializer=self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
