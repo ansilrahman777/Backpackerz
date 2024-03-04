@@ -1,13 +1,58 @@
 import register_bg from './../assets/Images/register_bg.jpg';
 import login_form_bg from './../assets/Images/login_form_bg.jpg';
 import { FaUser } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../Components/User/Header/Header';
+import { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import Spinner from '../Components/Spinner';
 
 
 
 const LoginPage = () => {
 
+  const navigate = useNavigate()
+
+  const [error, setError] = useState("")
+  const [isLoading,setIsLoading] = useState(false)
+
+  const [loginData, setLoginData] = useState({
+    email:"",
+    password:"",
+  })
+
+  const handleOnChange = (e) => {
+    setLoginData({...loginData,[e.target.name]:e.target.value})
+  
+  }
+
+  const handleOnSubmit = async (e) => {
+    e.preventDefault()
+    const {email,password}=loginData
+    if(!email || !password) {
+      setError("Email and Password are requied")
+    }else{
+      setIsLoading(true)
+      const res = await axios.post("http://127.0.0.1:8000/api/login/",loginData)
+      const response = res.data
+      console.log(response)
+      setIsLoading(false)
+      const user={
+        "email":response.email,
+        "name":response.full_name
+      }
+      if (res.status === 200){
+        localStorage.setItem("user",JSON.stringify(user))
+        localStorage.setItem("access",JSON.stringify(response.access_token))
+        localStorage.setItem("refresh",JSON.stringify(response.refresh_token))
+        navigate('/')
+        toast.success("loging successfull")
+      }
+
+
+    }
+  }
 
   return (
     <>
@@ -24,16 +69,15 @@ const LoginPage = () => {
             <div className="w-full md:w-3/4 flex flex-col items-center justify-center py-16 px-12">
               <FaUser className="h-8 w-8 mr-2 text-white mt-14" />
               <p className='font-medium text-white'>User Login </p>
-              <form className="px-8 pt-4 pb-8">
-
+              <form className="px-8 pt-4 pb-8" onSubmit={handleOnSubmit}>
+                  {isLoading && <Spinner /> }
                 <div className="mb-2">
-                  {/* <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
-                    Email
-                  </label> */}
                   <input
                     type='email'
                     placeholder=' Email'
                     name='email'
+                    value={loginData.email}
+                    onChange={handleOnChange}
                     className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />
@@ -46,6 +90,8 @@ const LoginPage = () => {
                     type='password'
                     placeholder=' Password'
                     name='password'
+                    value={loginData.password}
+                    onChange={handleOnChange}
                     className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />

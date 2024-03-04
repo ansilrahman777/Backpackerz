@@ -66,14 +66,14 @@ class LoginUserView(GenericAPIView):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
-# class TestLogin(GenericAPIView):
-#     permission_classes=[IsAuthenticated]
+class TestLogin(GenericAPIView):
+    permission_classes=[IsAuthenticated]
 
-#     def get(self,request):
-#         data ={
-#             'msg':'its ok done'
-#         }
-#         return Response(data,status=status.HTTP_200_OK)
+    def get(self,request):
+        data ={
+            'msg':'its ok done'
+        }
+        return Response(data,status=status.HTTP_200_OK)
 
 
 

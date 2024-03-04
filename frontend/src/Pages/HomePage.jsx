@@ -3,8 +3,12 @@ import home_bg from './../assets/Images/home_bg.jpg';
 import dubai_img from './../assets/Images/dubai_img.jpg'
 import './../index.css'
 
+import PropTypes from 'prop-types';
+
 
 function HomePage() {
+
+  const user = JSON.parse(localStorage.getItem('user'));
 
 
   const locations = [
@@ -23,6 +27,11 @@ function HomePage() {
       <p className="text-white text-sm">{name}</p>
     </div>
   );
+
+  LocationCard.propTypes = {
+    name: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+  };
   
   
 
@@ -38,6 +47,10 @@ function HomePage() {
       </p>
     </div>
   );
+  TopLocationCard.propTypes = {
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+  };
   
   
   
@@ -48,7 +61,7 @@ function HomePage() {
       <div className='min-h-screen bg-cover' style={{ backgroundImage: `url(${home_bg})`, backgroundSize: 'cover' }}>
         <Header />
         <div className="flex flex-col items-center justify-center flex-grow mt-32 cherry-bomb text-black text-4xl decoration-red-800">
-        <h1 className="text-center cherry-bomb text-ba text-neutral-800 decoration-red-800  font-extrabold text-8xl mb-4">Welcome Traveller</h1>
+        <h1 className="text-center cherry-bomb text-ba text-neutral-800 decoration-red-800  font-extrabold text-8xl mb-4">Welcome {user && user.name}</h1>
           We are aware of your travel arrangements
           <p className=" items-center text-center cherry-bomb text-black  text-xl">
           BACKPACKERZ is a platform for adventurers to connect, </p>
