@@ -12,7 +12,8 @@ import AdminDashboard from './Pages/Admin/AdminDashboard'
 import AdminPackage from './Pages/Admin/AdminPackage'
 import AdminProfile from './Pages/Admin/AdminProfile'
 import AdminPackageAdd from './Pages/Admin/AdminPackageAdd'
-
+import TripPage from './Pages/User/TripPage'
+import TripdetailsPage from './Pages/User/TripdetailsPage'
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
           <Route path="/otp/verify" element={<OtpVerficiation />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/trip" element={<TripPage />} />
+          <Route path="/trip-details/:id" element={<TripdetailsPage />} />
+
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />

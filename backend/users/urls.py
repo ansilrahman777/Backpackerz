@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import RegisterUserView ,VerifyUserEmail ,LoginUserView ,PasswordResetConfirm ,PasswordResetRequestView ,SetNewPassword ,LogoutUserView ,TestLogin
+from .views import PackageExclusionListAPIView, PackageInclusionListAPIView, ItineraryListAPIView, PackageImageListAPIView, PackageListAPIView, PackageDetailAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -14,4 +15,14 @@ urlpatterns = [
     path('password_reset/',PasswordResetRequestView.as_view(),name='password-reset'),
     path('password-reset-confirm/<uidb64>/<token>/',PasswordResetConfirm.as_view(),name='password-reset-confirm'),
     path('set-new-password/',SetNewPassword.as_view(),name='set-new-password'),
+
+
+    path('packages/', PackageListAPIView.as_view(), name='package-list'),
+    path('package-images/', PackageImageListAPIView.as_view(), name='package-image-list'),
+    path('itineraries/', ItineraryListAPIView.as_view(), name='itinerary-list'),
+    path('inclusions/', PackageInclusionListAPIView.as_view(), name='inclusion-list'),
+    path('exclusions/', PackageExclusionListAPIView.as_view(), name='exclusion-list'),
+    path('packages/<int:pk>/',PackageDetailAPIView.as_view(), name='package-detail'),
+
+
 ]

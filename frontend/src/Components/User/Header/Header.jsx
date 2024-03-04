@@ -10,7 +10,7 @@ function Header() {
 
     const menu = [
         { name: 'Home', icon: GoHomeFill, link: '/' },
-        { name: 'Trips', icon: PiTelegramLogoFill },
+        { name: 'Trips', icon: PiTelegramLogoFill, link:'trip/'},
         { name: 'About', icon: MdArticle },
         { name: 'Contact', icon: MdPermContactCalendar }
     ];

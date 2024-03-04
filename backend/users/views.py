@@ -2,17 +2,24 @@ from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from .serializers import UserRegisterSerializer ,LoginSerializer ,PasswordResetRequestSerializer ,SetNewPasswordSerializer ,LogoutUserSerializer
+from .serializers import PackageSerializer, PackageImageSerializer, ItinerarySerializer, PackageInclusionSerializer, PackageExclusionSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .utils import send_otp
-from .models import OTP , User
+from .models import OTP, User, Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from rest_framework import generics
 
 
 
 # Create your views here.
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Auth session ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
 
 class RegisterUserView(GenericAPIView):
     serializer_class = UserRegisterSerializer
@@ -76,8 +83,6 @@ class TestLogin(GenericAPIView):
         return Response(data,status=status.HTTP_200_OK)
 
 
-
-
 class PasswordResetRequestView(GenericAPIView):
     serializer_class= PasswordResetRequestSerializer
     def post(self,request):
@@ -114,3 +119,43 @@ class LogoutUserView(GenericAPIView):
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Auth session end------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Package session------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+
+
+class PackageListAPIView(generics.ListAPIView):
+    queryset = Package.objects.all()
+    serializer_class = PackageSerializer
+
+class PackageImageListAPIView(generics.ListAPIView):
+    queryset = PackageImage.objects.all()
+    serializer_class = PackageImageSerializer
+
+class ItineraryListAPIView(generics.ListAPIView):
+    queryset = Itinerary.objects.all()
+    serializer_class = ItinerarySerializer
+
+class PackageInclusionListAPIView(generics.ListAPIView):
+    queryset = PackageInclusion.objects.all()
+    serializer_class = PackageInclusionSerializer
+
+class PackageExclusionListAPIView(generics.ListAPIView):
+    queryset = PackageExclusion.objects.all()
+    serializer_class = PackageExclusionSerializer
+
+class PackageDetailAPIView(generics.RetrieveAPIView):
+    queryset = Package.objects.all()
+    serializer_class = PackageSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)

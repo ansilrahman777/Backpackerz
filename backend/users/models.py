@@ -53,6 +53,7 @@ class Package(models.Model):
     destination = models.CharField(_("Destination"), max_length=255)
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
+    image_url = models.ImageField(_("Package Image"), upload_to='photos/package/', null=True)
 
     class Meta:
         verbose_name = _("Package")

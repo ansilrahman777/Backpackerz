@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken,TokenError
@@ -11,6 +11,9 @@ from django.urls import reverse
 from .utils import send_normal_email
 
 
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Auth session ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -142,3 +145,45 @@ class LogoutUserSerializer(serializers.Serializer):
             return self.fail('bad_token')
     class Meta:
         fields = ['refresh_token']
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Auth session end------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------package session ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+
+
+class PackageImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PackageImage
+        fields = '__all__'
+
+class ItinerarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Itinerary
+        fields = '__all__'
+
+class PackageInclusionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PackageInclusion
+        fields = '__all__'
+
+class PackageExclusionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PackageExclusion
+        fields = '__all__'
+class PackageSerializer(serializers.ModelSerializer):
+    images = PackageImageSerializer(many=True, read_only=True)
+    itinerary = ItinerarySerializer(many=True, read_only=True)
+    inclusions = PackageInclusionSerializer(many=True, read_only=True)
+    exclusions = PackageExclusionSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Package
+        fields = '__all__'
