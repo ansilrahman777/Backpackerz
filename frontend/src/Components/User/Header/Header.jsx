@@ -34,10 +34,10 @@ function Header() {
                     ))}
                 </div>
                 
-                <NavLink to="/profile" activeClassName="active">
+                <NavLink to="/profile" ClassName="active">
                     <h1>profile</h1>
                 </NavLink>
-                <NavLink to="/login" activeClassName="active">
+                <NavLink to="/login" ClassName="active">
                     <img className='flex w-[30px] rounded-full cursor-pointer' src={profile} />
                 </NavLink>
             </div>

@@ -70,7 +70,7 @@ class PackageImage(models.Model):
         verbose_name_plural = _("Package Images")
 
     def __str__(self):
-        return f"Image for {self.package.title}"
+        return f"Image for {self.package.package_name}"
 
 class Itinerary(models.Model):
     package = models.ForeignKey(Package, related_name='itinerary', on_delete=models.CASCADE)

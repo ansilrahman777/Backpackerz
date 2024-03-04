@@ -2,13 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User, OTP, Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
 
-
-class CustomUserAdmin(UserAdmin):
-    model = User
-    list_display = ('email', 'first_name', 'last_name', 'mobile', 'is_staff', 'is_superuser', 'is_verified', 'is_active', 'date_joined', 'last_login')
-    ordering = ('email',)
-
-admin.site.register(User, CustomUserAdmin)
+admin.site.register(User)
 
 @admin.register(OTP)
 class OTPAdmin(admin.ModelAdmin):
