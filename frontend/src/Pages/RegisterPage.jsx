@@ -6,49 +6,81 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from "axios";
-import {toast} from "react-toastify"
-
-
+import { toast } from "react-toastify";
+import Spinner from '../Components/Spinner';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
-    fist_name:"",
-    last_name:"",
-    email:"",
-    mobile:"",
-    password:"",
-    confirm_password:"",
+    first_name: "",
+    last_name: "",
+    email: "",
+    mobile: "",
+    password: "",
+    confirm_password: "",
+  });
 
-  })
-
-  const [error, setError] = useState(
-    ""
-  )
 
   const { first_name, last_name, email, mobile, password, confirm_password } = formData;
 
-  const handleOnChange = (e)=> {
-    setFormData({...formData,[e.target.name]:e.target.value})
-  }
+  const handleOnChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const handleOnSubmit = async (e)=> {
-    e.preventDefault()
-    if (!email || !first_name || !last_name || !mobile || !password || !confirm_password){
-      setError("All fields are required")
-    }else{
-      const res = await axios.post("http://127.0.0.1:8000/api/register/",formData)
-      const response = res.data
-      if(res.status===201){
-        navigate("/otp/verify")
-        toast.success(response.message)
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    if (!email || !first_name || !last_name || !mobile || !password || !confirm_password) {
+      toast.error("All fields are required");
+      
+    } else if (first_name.length < 3) {
+      toast.error("First name must be at least 3 characters long");
+    } else if (!validateEmail(email)) {
+      toast.error("Invalid email address");
+    } else if (!validateMobile(mobile)) {
+      toast.error("Invalid mobile number");
+    } else if (password.length < 8) {
+      toast.error("Password must be at least 8 characters long");
+    } else if (password !== confirm_password) {
+      toast.error("Passwords do not match");
+    } else {
+      try {
+        const res = await axios.post("http://127.0.0.1:8000/api/register/", formData);
+        const response = res.data;
+        if (res.status === 201) {
+          navigate("/otp/verify");
+          toast.success(response.message);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 400 && error.response.data.email) {
+          toast.error("Email already exists. Please use a different email address.");
+        }else if (error.response && error.response.status === 400 && error.response.data.mobile) {
+          toast.error("mobile already exists. Please use a different mobile Number.");
+        } else {
+          console.error("Registration error:", error);
+          toast.error("Registration failed. Please try again later.");
+        }
+      }finally {
+        setIsLoading(false); // Set isLoading back to false after submission
       }
     }
-    // console.log(formData)
-
-  }
+  };
+  const validateEmail = (email) => {
+    // Regular expression for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  
+  const validateMobile = (mobile) => {
+    // Regular expression for mobile number validation
+    const mobileRegex = /^[0-9]{10}$/;
+    return mobileRegex.test(mobile);
+  };
+  
+  
 
   return (
     <>
@@ -59,7 +91,7 @@ const RegisterPage = () => {
             <div className="w-full md:w-3/4 flex flex-col items-center justify-center py-16 px-12">
               <FaUser className="h-8 w-8 mr-2 text-white" />
               <p className='font-medium text-white'>Signup to Register</p>
-              <p>{error ? error:""}</p>
+              {isLoading && <Spinner/>}
               <form className="px-8 pt-4 pb-8" onSubmit={handleOnSubmit}>
                 <div className="mb-2">
                   <input
@@ -97,10 +129,12 @@ const RegisterPage = () => {
                 <div className="mb-2">
                   <input
                     type='tel'
-                    placeholder=' Mobile'
+                    placeholder=' Mobile (10 digits)'
                     name='mobile'
                     value={mobile}
                     onChange={handleOnChange}
+                    pattern="[0-9]{10}"
+                    title="Mobile number must be 10 digits"
                     className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />
@@ -108,10 +142,11 @@ const RegisterPage = () => {
                 <div className="mb-2">
                   <input
                     type='password'
-                    placeholder="Password"
+                    placeholder="Password (min. 6 characters)"
                     name="password"
                     value={password}
                     onChange={handleOnChange}
+                    minLength="6"
                     className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />
@@ -173,7 +208,7 @@ const RegisterPage = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default RegisterPage;
