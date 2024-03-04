@@ -5,7 +5,6 @@ import { GoHomeFill } from "react-icons/go";
 import { PiTelegramLogoFill } from "react-icons/pi";
 import HeaderItems from './HeaderItems';
 import { Link, NavLink } from 'react-router-dom';
-import Profile from '../../../Pages/Profile';
 
 function Header() {
 

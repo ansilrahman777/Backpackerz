@@ -44,5 +44,58 @@ class OTP(models.Model):
     
     def __str__(self):
         return f"{self.user.first_name} passcode "
-    
+
+class Package(models.Model):
+    package_name = models.CharField(_("Package Name"), max_length=255)
+    description = models.TextField(_("Description"))
+    price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
+    duration = models.PositiveIntegerField(_("Duration in days"))
+    destination = models.CharField(_("Destination"), max_length=255)
+    created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Package")
+        verbose_name_plural = _("Packages")
+
+    def __str__(self):
+        return self.package_name
+
+class PackageImage(models.Model):
+    package = models.ForeignKey(Package, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(_("Image"), upload_to='photos/package_images/')
+
+    class Meta:
+        verbose_name = _("Package Image")
+        verbose_name_plural = _("Package Images")
+
+    def __str__(self):
+        return f"Image for {self.package.title}"
+
+class Itinerary(models.Model):
+    package = models.ForeignKey(Package, related_name='itinerary', on_delete=models.CASCADE)
+    day_number = models.PositiveIntegerField(_("Day Number"))
+    description = models.TextField(_("Description"))
+    image = models.ImageField(_("Image"), upload_to='photos/package_images/day_wise_itinerary')
+
+    class Meta:
+        verbose_name = _("Itinerary")
+        verbose_name_plural = _("Itineraries")
+
+    def __str__(self):
+        return f"Day {self.day_number} - {self.package.package_name}"
+
+class PackageInclusion(models.Model):
+    package = models.ForeignKey('Package', related_name='inclusions', on_delete=models.CASCADE)
+    inclusion = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.inclusion
+
+class PackageExclusion(models.Model):
+    package = models.ForeignKey('Package', related_name='exclusions', on_delete=models.CASCADE)
+    exclusion = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.exclusion
 
