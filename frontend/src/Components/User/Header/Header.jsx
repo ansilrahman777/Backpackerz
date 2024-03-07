@@ -5,6 +5,8 @@ import { GoHomeFill } from "react-icons/go";
 import { PiTelegramLogoFill } from "react-icons/pi";
 import HeaderItems from './HeaderItems';
 import { Link, NavLink } from 'react-router-dom';
+import { MdManageAccounts } from "react-icons/md";
+
 
 function Header() {
 
@@ -35,7 +37,7 @@ function Header() {
                 </div>
                 
                 <NavLink to="/profile" ClassName="active">
-                    <h1>profile</h1>
+                    <MdManageAccounts style={{ fontSize: '30px' }} />
                 </NavLink>
                 <NavLink to="/login" ClassName="active">
                     <img className='flex w-[30px] rounded-full cursor-pointer' src={profile} />

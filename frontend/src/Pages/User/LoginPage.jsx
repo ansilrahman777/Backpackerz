@@ -3,7 +3,7 @@ import login_form_bg from './../../assets/Images/login_form_bg.jpg';
 import { FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../Components/User/Header/Header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Spinner from '../../Components/Spinner';
@@ -18,6 +18,14 @@ const LoginPage = () => {
         email: "",
         password: "",
     });
+
+    useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (user) {
+            // User is already logged in, redirect to homepage
+            navigate("/");
+        }
+    }, [navigate]);
 
     const handleOnChange = (e) => {
         setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -122,7 +130,7 @@ const LoginPage = () => {
                                 <div className="flex items-center justify-center mt-4">
                                     <div className="text-center">
                                         <p>
-                                            <Link to="/register" className="text-white text-sm hover:text-blue-700">
+                                            <Link to="/forgot-password" className="text-white text-sm hover:text-blue-700">
                                                 forgot password
                                             </Link>
                                         </p>
