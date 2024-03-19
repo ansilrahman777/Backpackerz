@@ -59,9 +59,6 @@ const RegisterPage = () => {
     }
   };
   
-  
-
-  
 
   useEffect(() => {
     /* global google */
