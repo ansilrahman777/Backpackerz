@@ -101,3 +101,59 @@ class PackageExclusion(models.Model):
     def __str__(self):
         return self.exclusion
 
+
+class Destination(models.Model):
+    destination_name = models.CharField(_("Destination Name"), max_length=255)
+    season = models.CharField(_("Season"), max_length=100)
+    description = models.TextField(_("Description"))
+    state = models.CharField(_("State"), max_length=100)
+    country = models.CharField(_("Country"), max_length=100)
+    image = models.ImageField(_("Image"), upload_to='photos/destination/')
+
+    class Meta:
+        verbose_name = _("Destination")
+        verbose_name_plural = _("Destinations")
+
+    def __str__(self):
+        return self.destination_name
+
+class Hotel(models.Model):
+    destination = models.ForeignKey(Destination, related_name='hotels', on_delete=models.CASCADE)
+    hotel_name = models.CharField(_("Hotel Name"), max_length=255)
+    pricing = models.DecimalField(_("Pricing"), max_digits=10, decimal_places=2)
+    contact_no = models.CharField(_("Contact No"), max_length=20)
+    hotel_type = models.CharField(_("Hotel Type"), max_length=100)
+    is_available = models.BooleanField(_("Is Available"), default=True)
+    rooms = models.PositiveIntegerField(_("Rooms"))
+    rating = models.DecimalField(_("Rating"), max_digits=3, decimal_places=2)
+
+    class Meta:
+        verbose_name = _("Hotel")
+        verbose_name_plural = _("Hotels")
+
+    def __str__(self):
+        return self.hotel_name
+
+class HotelImage(models.Model):
+    hotel = models.ForeignKey(Hotel, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(_("Image"), upload_to='photos/hotel_images/')
+
+    class Meta:
+        verbose_name = _("Hotel Image")
+        verbose_name_plural = _("Hotel Images")
+
+    def __str__(self):
+        return f"Image for {self.hotel.hotel_name}"
+
+class HotelItinerary(models.Model):
+    hotel = models.ForeignKey(Hotel, related_name='itinerary', on_delete=models.CASCADE)
+    day = models.PositiveIntegerField(_("Day"))
+    description = models.TextField(_("Description"))
+    activity = models.TextField(_("Activity"), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _("Hotel Itinerary")
+        verbose_name_plural = _("Hotel Itineraries")
+
+    def __str__(self):
+        return f"Day {self.day} - {self.hotel.hotel_name} Itinerary"

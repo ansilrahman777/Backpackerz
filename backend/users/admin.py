@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, OTP, Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
+from .models import User, OTP, Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion, Destination, Hotel, HotelImage, HotelItinerary
 
 admin.site.register(User)
 
@@ -33,3 +33,23 @@ class PackageInclusionAdmin(admin.ModelAdmin):
 class PackageExclusionAdmin(admin.ModelAdmin):
     list_display = ['package', 'exclusion']
     list_filter = ['package']
+
+@admin.register(Destination)
+class DestinationAdmin(admin.ModelAdmin):
+    list_display = ['destination_name', 'season','description','state','country']
+    list_filter = ['destination_name']
+
+@admin.register(Hotel)
+class HotelAdmin(admin.ModelAdmin):
+    list_display = ['destination', 'hotel_name','pricing','hotel_type','is_available','rooms']
+    list_filter = ['destination']
+
+@admin.register(HotelImage)
+class HotelImageAdmin(admin.ModelAdmin):
+    list_display = ['hotel', 'image']
+    list_filter = ['hotel']
+
+@admin.register(HotelItinerary)
+class HotelItineraryAdmin(admin.ModelAdmin):
+    list_display = ['hotel', 'day','description','activity']
+    list_filter = ['hotel']
