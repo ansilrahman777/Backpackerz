@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Header from "../../Components/Admin/Header";
@@ -7,17 +7,17 @@ import { MdAddPhotoAlternate } from "react-icons/md";
 import { toast } from "react-toastify";
 
 function EditPackagePage() {
-  const { id } = useParams(); // Assuming you have a route parameter for package id
+  const { id } = useParams();
   const [formData, setFormData] = useState({
     package_name: "",
     description: "",
     price: "",
     duration: "",
     destination: "",
+    image: null,
   });
 
   useEffect(() => {
-    // Fetch package details when component mounts
     axios
       .get(`http://127.0.0.1:8000/api/admin_side/packages/${id}/`)
       .then((response) => {
@@ -26,7 +26,7 @@ function EditPackagePage() {
       })
       .catch((error) => {
         console.error("Error fetching package details:", error);
-        // Handle error
+        toast.error("Error fetching package details");
       });
   }, [id]);
 
@@ -35,19 +35,39 @@ function EditPackagePage() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .put(`http://127.0.0.1:8000/api/admin_side/packages/${id}/`, formData)
-      .then((response) => {
-        toast.success("Package updated successfully");
-        console.log("Package updated successfully:", response.data);
-      })
-      .catch((error) => {
-        toast.error("Error updating package");
-        console.error("Error updating package:", error);
-      });
+  const handleImageChange = (e) => {
+    setFormData({ ...formData, image: e.target.files[0] });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("package_name", formData.package_name);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("price", formData.price);
+    formDataToSend.append("duration", formData.duration);
+    formDataToSend.append("destination", formData.destination);
+    formDataToSend.append("image", formData.image);
+
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/admin_side/packages/${id}/`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      toast.success("Package updated successfully");
+      console.log("Package updated successfully:", response.data);
+    } catch (error) {
+      console.error("Error updating package:", error);
+      toast.error("Error updating package");
+    }
+  };
+  
 
   return (
     <div>
@@ -137,41 +157,41 @@ function EditPackagePage() {
                 </div>
 
                 <div className="col-span-full">
-                  <label
-                    htmlFor="file-upload"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Package Image
-                  </label>
-                  <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                    <div className="text-center">
-                      <MdAddPhotoAlternate
-                        className="mx-auto h-12 w-12 text-gray-300"
-                        aria-hidden="true"
-                      />
-                      <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                        <label
-                          htmlFor="file-upload"
-                          className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                        >
-                          <span>Upload a file</span>
-                          <input
-                            id="file-upload"
-                            name="file-upload"
-                            type="file"
-                            className="sr-only"
-                            // onChange={handleImageChange} // Add onChange event listener
-                            accept="image/*" // Add accept attribute to allow only image files
-                          />
-                        </label>
-                        <p className="pl-1">or drag and drop</p>
-                      </div>
-                      <p className="text-xs leading-5 text-gray-600">
-                        PNG, JPG, GIF up to 10MB
-                      </p>
+                <label
+                  htmlFor="file-upload"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Package Image
+                </label>
+                <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                  <div className="text-center">
+                    <MdAddPhotoAlternate
+                      className="mx-auto h-12 w-12 text-gray-300"
+                      aria-hidden="true"
+                    />
+                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                      <label
+                        htmlFor="file-upload"
+                        className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                      >
+                        <span>Upload a file</span>
+                        <input
+                          id="file-upload"
+                          name="file-upload"
+                          type="file"
+                          className="sr-only"
+                          onChange={handleImageChange}
+                          accept="image/*"
+                        />
+                      </label>
+                      <p className="pl-1">or drag and drop</p>
                     </div>
+                    <p className="text-xs leading-5 text-gray-600">
+                      PNG, JPG, GIF up to 10MB
+                    </p>
                   </div>
                 </div>
+              </div>
                 <div className="mt-2 flex lg:ml-4 lg:mt-0">
                   <span className="sm:ml-3">
                     <button

@@ -38,7 +38,7 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = []
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    "http://127.0.0.1:8000",
 ]
 
 
@@ -177,3 +177,8 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD =env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS =env('EMAIL_USE_TLS')
+
+
+GOOGLE_CLIENT_ID="870413795721-oga36e5o5afiv23jra73biuvci9elscc.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="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"
+SOCIAL_AUTH_PASSWORD="backpackerzgoogle"

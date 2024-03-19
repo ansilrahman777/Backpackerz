@@ -8,7 +8,9 @@ from django.utils.http import urlsafe_base64_encode , urlsafe_base64_decode
 from django.utils.encoding import smart_str, smart_bytes ,force_str,DjangoUnicodeDecodeError
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from .utils import send_normal_email
+from .utils import send_normal_email ,Google,register_social_user
+from django.conf import settings 
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------
@@ -149,6 +151,60 @@ class LogoutUserSerializer(serializers.Serializer):
 
 # --------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------Auth session end------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------GOOGLE Signin session ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+# class GoogleSignInSerializer(serializers.Serializer):
+#     access_token=serializers.CharField(min_length=6)
+
+
+#     def validate_access_token(self, access_token):
+#         google_user_data=Google.validate(access_token)
+#         try:
+#             userid=google_user_data['sub']
+            
+#         except:
+#             raise serializers.ValidationError("this token has expired or invalid please try again")
+        
+#         if google_user_data['aud'] != settings.GOOGLE_CLIENT_ID:
+#             raise AuthenticationFailed('Could not verify user.')
+
+#         email=google_user_data['email']
+#         first_name=google_user_data['given_name']
+#         last_name=google_user_data['family_name']
+#         provider='google'
+
+#         return register_social_user(provider, email, first_name, last_name)
+class GoogleSignInSerializer(serializers.Serializer):
+    access_token = serializers.CharField(min_length=6)
+
+    def validate_access_token(self, access_token):
+        google_user_data = Google.validate(access_token)
+        try:
+            userid = google_user_data['sub']
+        except:
+            raise serializers.ValidationError("this token has expired or invalid please try again")
+        
+        if google_user_data['aud'] != settings.GOOGLE_CLIENT_ID:
+            raise AuthenticationFailed('Could not verify user.')
+
+        email = google_user_data['email']
+        first_name = google_user_data['given_name']
+        last_name = google_user_data['family_name']
+        provider = 'google'
+
+        return register_social_user(provider, email, first_name, last_name)
+
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------GOOGLE Signin session ends ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
 

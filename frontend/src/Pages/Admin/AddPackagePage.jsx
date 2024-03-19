@@ -35,29 +35,35 @@ function AddPackagePage() {
     formDataToSend.append("price", formData.price);
     formDataToSend.append("duration", formData.duration);
     formDataToSend.append("destination", formData.destination);
-    formDataToSend.append("image", formData.image);
-
+    formDataToSend.append("image_url", formData.image);
+  
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/admin_side/packages/add/",
-        formDataToSend
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set content type to multipart form data
+          },
+        }
       );
-
+  
       console.log("Package added successfully:", response.data);
       toast.success("Package added successfully");
-      navigate('/admin/packages')
+      navigate('/admin/packages');
     } catch (error) {
       console.error("Error adding package:", error);
       toast.error("Error adding package");
     }
   };
+  
 
   return (
     <div>
       <Header />
       <div className="flex">
         <AsideBar />
-        <form onSubmit={handleSubmit} className="ml-16 m-4">
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className="ml-16 m-4">
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
               <h2 className="text-base font-semibold leading-7 text-gray-900">

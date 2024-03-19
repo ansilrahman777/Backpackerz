@@ -2,12 +2,13 @@ import Header from '../../Components/User/Header/Header';
 import register_bg from './../../assets/Images/register_bg.jpg';
 import register_form_bg from './../../assets/Images/register_form_bg.jpg';
 import { FaUser } from 'react-icons/fa';
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from "axios";
 import { toast } from "react-toastify";
 import Spinner from '../../Components/Spinner';
+import { useEffect } from 'react';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -23,6 +24,57 @@ const RegisterPage = () => {
     confirm_password: "",
   });
 
+  const handleSigninWithGoogle = async (response) => {
+    const payload = response.credential;
+    try {
+      const server_res = await axios.post("http://127.0.0.1:8000/api/google/", { 'access_token': payload });
+      console.log(server_res);
+      // const {email,full_name}=server_res
+      // console.log(access_token.email);
+      console.log(server_res.data.access_token.access_token);
+      console.log(server_res.data.access_token.refresh_token);
+      
+      // Check if response data exists and contains the expected properties
+      if (server_res) {
+        const user = {
+          email: server_res.data.access_token.email,
+          name: server_res.data.access_token.full_name
+        };
+  
+        if (server_res.status === 200) {
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("access", JSON.stringify(server_res.data.access_token.access_token
+            ));
+          localStorage.setItem("refresh", JSON.stringify(server_res.data.access_token.refresh_token
+            )); // If available
+          navigate('/');
+          toast.success("Login successful");
+        }
+      } else {
+        toast.error("An error occurred while signing in with Google. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+      toast.error("An error occurred while signing in with Google. Please try again later.");
+    }
+  };
+  
+  
+
+  
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID,
+      callback: handleSigninWithGoogle
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("signInDiv"),
+      { theme: "outline", size: "medium", text: "continue_with", shape: "circle", width: "250" }
+    );
+  }, []);
+  
 
   const { first_name, last_name, email, mobile, password, confirm_password } = formData;
 
@@ -175,17 +227,9 @@ const RegisterPage = () => {
                   <span className="px-3 text-white text-xs">OR</span>
                   <hr className="border-t border-gray-300 w-full" />
                 </div>
-                <div className="relative mt-2">
-                  <input
-                    type="text"
-                    id="signin_with_google"
-                    className="appearance-none border rounded-full w-full py-1 px-2 pl-8 leading-tight focus:outline-none focus:shadow-outline"
-                  />
-                  <span className="absolute ml-10 inset-y-0 left-0 flex items-center">
-                    <FcGoogle className="text-gray-400 mr-1" />
-                    <span className="text-black">Sign In with Google</span>
-                  </span>
-                </div>
+
+                <div className="relative mt-2" id="signInDiv"></div>
+
                 <div className="flex items-center justify-center mt-4">
                   <div className="text-center">
                     <p className="text-white">Already Have a account?</p>

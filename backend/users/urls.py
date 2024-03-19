@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import RegisterUserView ,VerifyUserEmail ,LoginUserView ,PasswordResetConfirm ,PasswordResetRequestView ,SetNewPassword ,LogoutUserView ,TestLogin
-from .views import PackageExclusionListAPIView, PackageInclusionListAPIView, ItineraryListAPIView, PackageImageListAPIView, PackageListAPIView, PackageDetailAPIView
+from .views import PackageExclusionListAPIView, PackageInclusionListAPIView, ItineraryListAPIView, PackageImageListAPIView, PackageListAPIView, PackageDetailAPIView, GoogleOauthSignInView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -9,6 +9,8 @@ urlpatterns = [
     path('login/',LoginUserView.as_view(),name='login'),
     path('logout/',LogoutUserView.as_view(),name='logout'),
     path('toekn/refresh/',TokenRefreshView.as_view(),name='refresh-token'),
+
+    path('google/', GoogleOauthSignInView.as_view(), name='google'),
 
     path('logintest/',TestLogin.as_view(),name='test'),
 

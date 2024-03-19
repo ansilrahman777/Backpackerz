@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from .serializers import UserRegisterSerializer ,LoginSerializer ,PasswordResetRequestSerializer ,SetNewPasswordSerializer ,LogoutUserSerializer
-from .serializers import PackageSerializer, PackageImageSerializer, ItinerarySerializer, PackageInclusionSerializer, PackageExclusionSerializer
+from .serializers import PackageSerializer, PackageImageSerializer, ItinerarySerializer, PackageInclusionSerializer, PackageExclusionSerializer, GoogleSignInSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .utils import send_otp
@@ -122,6 +122,36 @@ class LogoutUserView(GenericAPIView):
 # --------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------Auth session end------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Google SignIN session ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+# class GoogleOauthSignInview(GenericAPIView):
+#     serializer_class=GoogleSignInSerializer
+
+#     def post(self, request):
+#         print(request.data)
+#         serializer=self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         data=((serializer.validated_data)['access_token'])
+#         return Response(data, status=status.HTTP_200_OK) 
+
+class GoogleOauthSignInView(GenericAPIView):
+    serializer_class = GoogleSignInSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        return Response(data, status=status.HTTP_200_OK)
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Google SignIN end------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 
