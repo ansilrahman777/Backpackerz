@@ -36,7 +36,7 @@ class PackageExclusionAdmin(admin.ModelAdmin):
 
 @admin.register(Destination)
 class DestinationAdmin(admin.ModelAdmin):
-    list_display = ['destination_name', 'season','description','state','country']
+    list_display = ['destination_name', 'season','description','state','country','image_url']
     list_filter = ['destination_name']
 
 @admin.register(Hotel)

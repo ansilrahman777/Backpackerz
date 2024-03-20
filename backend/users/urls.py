@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import RegisterUserView ,VerifyUserEmail ,LoginUserView ,PasswordResetConfirm ,PasswordResetRequestView ,SetNewPassword ,LogoutUserView ,TestLogin
-from .views import PackageExclusionListAPIView, PackageInclusionListAPIView, ItineraryListAPIView, PackageImageListAPIView, PackageListAPIView, PackageDetailAPIView, GoogleOauthSignInView
+from .views import PackageExclusionListAPIView, PackageInclusionListAPIView, ItineraryListAPIView, PackageImageListAPIView, PackageListAPIView, PackageDetailAPIView, GoogleOauthSignInView, DestinationListAPIView, DestinationDetailView, UserListCreateAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -25,6 +25,13 @@ urlpatterns = [
     path('inclusions/', PackageInclusionListAPIView.as_view(), name='inclusion-list'),
     path('exclusions/', PackageExclusionListAPIView.as_view(), name='exclusion-list'),
     path('packages/<int:pk>/',PackageDetailAPIView.as_view(), name='package-detail'),
+
+    path('destinations/', DestinationListAPIView.as_view(), name='destination-list'),
+    path('destination/<int:pk>/', DestinationDetailView.as_view(), name='destination-detail'),
+
+    path('users/', UserListCreateAPIView.as_view(), name='user-list-create'),
+
+
 
 
 ]

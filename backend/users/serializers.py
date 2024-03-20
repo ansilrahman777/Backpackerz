@@ -14,7 +14,7 @@ from django.conf import settings
 
 
 # --------------------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------Auth session ------------------------------------------------------
+# ----------------------------------------------------Auth Section ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
 
@@ -48,12 +48,14 @@ class LoginSerializer(serializers.ModelSerializer):
     email=serializers.EmailField(max_length=225,min_length=6)
     password=serializers.CharField(max_length=68,write_only=True)
     full_name=serializers.CharField(max_length=225,read_only=True)
+    mobile=serializers.CharField(max_length=225,read_only=True)
+    
     access_token=serializers.CharField(max_length=225,read_only=True)
-    refresh_token=serializers.CharField(max_length=225,read_only=True)
+    refresh_token=serializers.CharField(max_length=50,read_only=True)
     
     class Meta:
         model=User
-        fields=['email','password','full_name','access_token','refresh_token']
+        fields=['email','password','full_name','mobile','access_token','refresh_token']
 
     def validate(self ,attrs):
         email=attrs.get('email')
@@ -70,6 +72,7 @@ class LoginSerializer(serializers.ModelSerializer):
         return {
             'email':user.email,
             'full_name':user.get_full_name,
+            'mobile':user.mobile,
             'access_token':str(user_tokens.get('access')),
             'refresh_token':str(user_tokens.get('refresh'))
         }
@@ -150,13 +153,13 @@ class LogoutUserSerializer(serializers.Serializer):
 
 
 # --------------------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------Auth session end------------------------------------------------------
+# ----------------------------------------------------Auth Section end------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
 
 
 # --------------------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------GOOGLE Signin session ------------------------------------------------------
+# ----------------------------------------------------GOOGLE Signin Section ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
 # class GoogleSignInSerializer(serializers.Serializer):
@@ -204,13 +207,13 @@ class GoogleSignInSerializer(serializers.Serializer):
 
 
 # --------------------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------GOOGLE Signin session ends ------------------------------------------------------
+# ----------------------------------------------------GOOGLE Signin Section ends ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
 
 
 # --------------------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------package session ------------------------------------------------------
+# ----------------------------------------------------Package Section ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
 
@@ -243,3 +246,60 @@ class PackageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Package
         fields = '__all__'
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Package section ends ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Destination Sections ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+from .models import Destination, Hotel, HotelImage, HotelItinerary
+
+
+class HotelImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HotelImage
+        fields = ['image']
+
+class HotelItinerarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HotelItinerary
+        fields = ['day', 'description', 'activity']
+
+class HotelSerializer(serializers.ModelSerializer):
+    images = HotelImageSerializer(many=True, read_only=True)
+    itinerary = HotelItinerarySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Hotel
+        fields = ['id', 'hotel_name', 'pricing', 'contact_no', 'hotel_type', 'is_available', 'rooms', 'rating', 'images', 'itinerary']
+
+class DestinationSerializer(serializers.ModelSerializer):
+    hotels = HotelSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Destination
+        fields = ['id', 'destination_name', 'season', 'description', 'state', 'country', 'image_url', 'hotels']
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Destination Sections ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------User Sections ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'first_name', 'last_name', 'mobile', 'is_staff', 'is_superuser', 'is_verified', 'is_active', 'date_joined', 'last_login']
+

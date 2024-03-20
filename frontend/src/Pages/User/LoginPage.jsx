@@ -57,7 +57,8 @@ const LoginPage = () => {
   
           const user = {
               email: response.email,
-              name: response.full_name
+              name: response.full_name,
+              mobile:response.mobile
           };
   
           if (res.status === 200) {

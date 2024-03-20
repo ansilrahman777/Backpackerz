@@ -6,13 +6,15 @@ import { PiTelegramLogoFill } from "react-icons/pi";
 import HeaderItems from './HeaderItems';
 import { Link, NavLink } from 'react-router-dom';
 import { MdManageAccounts } from "react-icons/md";
+import { GiTripleGate } from "react-icons/gi";
 
 
 function Header() {
 
     const menu = [
         { name: 'Home', icon: GoHomeFill, link: '/' },
-        { name: 'Trips', icon: PiTelegramLogoFill, link:'trip/'},
+        { name: 'Trips', icon: PiTelegramLogoFill, link:'/trip'},
+        { name: 'Destination', icon: GiTripleGate, link:'/destination'},
         { name: 'About', icon: MdArticle },
         { name: 'Contact', icon: MdPermContactCalendar }
     ];

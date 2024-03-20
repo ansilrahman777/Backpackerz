@@ -108,7 +108,7 @@ class Destination(models.Model):
     description = models.TextField(_("Description"))
     state = models.CharField(_("State"), max_length=100)
     country = models.CharField(_("Country"), max_length=100)
-    image = models.ImageField(_("Image"), upload_to='photos/destination/')
+    image_url = models.ImageField(_("Image"), upload_to='photos/destination/',null=True)
 
     class Meta:
         verbose_name = _("Destination")

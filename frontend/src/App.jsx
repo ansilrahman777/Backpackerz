@@ -17,6 +17,8 @@ import AddPackagePage from './Pages/Admin/AddPackagePage'
 import ForgotPassword from './Pages/User/ForgotPassword'
 import ResetPassword from './Pages/User/ResetPassword'
 import EditPackagePage from './Pages/Admin/EditPackagePage'
+import Destinations from './Pages/User/Destinations'
+import DestinationDetails from './Pages/User/DestinationDetails'
 
 function App() {
   return (
@@ -30,7 +32,9 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/trip" element={<TripPage />} />
+          <Route path="/destination" element={<Destinations />} />
           <Route path="/trip-details/:id" element={<TripdetailsPage />} />
+          <Route path="/destination-details/:id" element={<DestinationDetails />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/password-reset-confirm/:uid/:token/" element={<ResetPassword />} />
 
