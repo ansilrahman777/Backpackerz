@@ -6,7 +6,7 @@ function AsideBar() {
         <ul className="space-y-2">
         <li><Link to="/admin/dashboard" className="cursor-pointer hover:text-gray-300">Dashboard</Link></li>
         <li><Link to="/admin/packages" className="cursor-pointer hover:text-gray-300">Packages</Link></li>
-        <li><Link to="/admin/hotels" className="cursor-pointer hover:text-gray-300">Hotels</Link></li>
+        <li><Link to="/admin/destinations" className="cursor-pointer hover:text-gray-300">Destinations</Link></li>
         <li><Link to="/admin/booking" className="cursor-pointer hover:text-gray-300">Booking</Link></li>
         <li><Link to="/admin/users" className="cursor-pointer hover:text-gray-300">Users</Link></li>
         <li><Link to="/admin/banner" className="cursor-pointer hover:text-gray-300">Banner</Link></li>

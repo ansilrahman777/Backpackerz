@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import RegisterUserView ,VerifyUserEmail ,LoginUserView ,PasswordResetConfirm ,PasswordResetRequestView ,SetNewPassword ,LogoutUserView ,TestLogin
 from .views import PackageExclusionListAPIView, PackageInclusionListAPIView, ItineraryListAPIView, PackageImageListAPIView, PackageListAPIView, PackageDetailAPIView, GoogleOauthSignInView, DestinationListAPIView, DestinationDetailView, UserListCreateAPIView
+from .views import HotelDetailAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -8,7 +9,7 @@ urlpatterns = [
     path('verify-email/',VerifyUserEmail.as_view(),name='verify'),
     path('login/',LoginUserView.as_view(),name='login'),
     path('logout/',LogoutUserView.as_view(),name='logout'),
-    path('toekn/refresh/',TokenRefreshView.as_view(),name='refresh-token'),
+    path('token/refresh/',TokenRefreshView.as_view(),name='refresh-token'),
 
     path('google/', GoogleOauthSignInView.as_view(), name='google'),
 
@@ -28,6 +29,8 @@ urlpatterns = [
 
     path('destinations/', DestinationListAPIView.as_view(), name='destination-list'),
     path('destination/<int:pk>/', DestinationDetailView.as_view(), name='destination-detail'),
+    path('hotels/<int:pk>/', HotelDetailAPIView.as_view(), name='hotel-detail'),
+
 
     path('users/', UserListCreateAPIView.as_view(), name='user-list-create'),
 

@@ -14,11 +14,17 @@ import AdminProfile from './Pages/Admin/AdminProfile'
 import TripPage from './Pages/User/TripPage'
 import TripdetailsPage from './Pages/User/TripdetailsPage'
 import AddPackagePage from './Pages/Admin/AddPackagePage'
+import AdminDestinations from './Pages/Admin/AdminDestinations'
+import AdminDestinationDetail from './Pages/Admin/AdminDestinationDetail'
+import AddDestinations from './Pages/Admin/AddDestinations'
 import ForgotPassword from './Pages/User/ForgotPassword'
 import ResetPassword from './Pages/User/ResetPassword'
 import EditPackagePage from './Pages/Admin/EditPackagePage'
 import Destinations from './Pages/User/Destinations'
 import DestinationDetails from './Pages/User/DestinationDetails'
+import HotelDetails from './Pages/User/HotelDetails'
+import EditDestination from './Pages/Admin/EditDestination'
+import AdminHotelDetails from './Pages/Admin/AdminHotelDetails'
 
 function App() {
   return (
@@ -35,15 +41,25 @@ function App() {
           <Route path="/destination" element={<Destinations />} />
           <Route path="/trip-details/:id" element={<TripdetailsPage />} />
           <Route path="/destination-details/:id" element={<DestinationDetails />} />
+          <Route path="/hotel-detail/:id" element={<HotelDetails />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/password-reset-confirm/:uid/:token/" element={<ResetPassword />} />
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/packages" element={<AdminPackage />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
+
+          <Route path="/admin/packages" element={<AdminPackage />} />
           <Route path="/admin/add-package" element={<AddPackagePage />} />
           <Route path="/admin/packages/edit/:id" element={<EditPackagePage />} />
+
+          <Route path="/admin/destinations" element={<AdminDestinations />} />
+          <Route path="/admin/destination/:id" element={<AdminDestinationDetail />} />
+          <Route path="/admin/add-destination" element={<AddDestinations />} />
+          <Route path="/admin/destination/edit/:id" element={<EditDestination />} />
+          
+          <Route path="/admin/hotel_details/:id" element={<AdminHotelDetails />} />
+
 
           
         </Routes>

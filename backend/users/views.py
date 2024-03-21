@@ -202,8 +202,8 @@ class PackageDetailAPIView(generics.RetrieveAPIView):
 # --------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------Destination Section ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
-from .models import Destination
-from .serializers import DestinationSerializer
+from .models import Destination, Hotel
+from .serializers import DestinationSerializer, HotelSerializer
 
 class DestinationListAPIView(generics.ListAPIView):
     queryset = Destination.objects.all()
@@ -212,6 +212,17 @@ class DestinationListAPIView(generics.ListAPIView):
 class DestinationDetailView(generics.RetrieveAPIView):
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
+
+class HotelDetailAPIView(generics.RetrieveAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({
+            'request': self.request
+        })
+        return context
 
 
 # --------------------------------------------------------------------------------------------------------------------------

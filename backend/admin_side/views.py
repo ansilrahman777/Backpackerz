@@ -64,3 +64,46 @@ class AddPackageAPIView(generics.CreateAPIView):
 class EditPackageAPIView(generics.RetrieveUpdateAPIView):
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------package session ends ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------destination session------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+
+from .serializers import DestinationSerializer,HotelSerializer
+from users.models import Destination, Hotel
+
+class DestinationListAPIView(generics.ListAPIView):
+    queryset = Destination.objects.all()
+    serializer_class = DestinationSerializer
+
+class DestinationDetailAPIView(generics.RetrieveAPIView):
+    queryset = Destination.objects.all()
+    serializer_class = DestinationSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class AddDestinationAPIView(generics.CreateAPIView):
+    serializer_class = DestinationSerializer
+
+class EditDestinationAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Destination.objects.all()
+    serializer_class = DestinationSerializer
+
+
+class HotelDetailAPIView(generics.RetrieveAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({
+            'request': self.request
+        })
+        return context
