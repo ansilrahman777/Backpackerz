@@ -38,10 +38,10 @@ function Header() {
                     ))}
                 </div>
                 
-                <NavLink to="/profile" ClassName="active">
+                <NavLink to="/profile" className="active">
                     <MdManageAccounts style={{ fontSize: '30px' }} />
                 </NavLink>
-                <NavLink to="/login" ClassName="active">
+                <NavLink to="/login" className="active">
                     <img className='flex w-[30px] rounded-full cursor-pointer' src={profile} />
                 </NavLink>
             </div>
