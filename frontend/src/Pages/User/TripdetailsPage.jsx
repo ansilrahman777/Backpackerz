@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'; // Import useParams hook
+import { Link, useParams } from 'react-router-dom'; // Import useParams hook
 import Header from '../../Components/User/Header/Header';
 
 function TripdetailsPage() {
   const { id } = useParams(); // Destructure the id parameter using useParams
   const [packageDetail, setPackageDetail] = useState(null);
+  console.log(id);
 
   useEffect(() => {
     // Fetch package details from the backend API
@@ -20,7 +21,7 @@ function TripdetailsPage() {
   }, [id]); // Add id to the dependency array
 
   return (
-<div>
+  <div>
 
     <div className='min-h-screen bg-cover' style={{ backgroundImage: `url(${packageDetail ?packageDetail.image_url:''})`, backgroundSize: 'cover' }}>
         <Header />
@@ -29,104 +30,126 @@ function TripdetailsPage() {
           <p className=" items-center text-center cherry-bomb text-black text-5xl">
           {packageDetail ?packageDetail.price:''} /-</p>
         </div>
+        <div className="card w-48 bg-white border-solid border border-black absolute -bottom-16 right-[4%]">
+          <div className="card-body items-center text-center">
+            <p className='text-xl font-bold font-serif'>₹ {packageDetail ?packageDetail.price:''}</p>
+            <p className='text-xs font-bold font-serif'>PER HEAD</p>
+            <div className="justify-center">
+              <Link 
+                to={`/package-booking?id=${id}`}
+                className="rounded-md p-2 px-4 bg-emerald-600">
+                Book Now
+              </Link>
+            </div>
+          </div>
+        </div>
         
-    </div>
-    {/* <div className="p-10">
-        <h1 className="text-2xl font-bold font-serif mb-2 ml-16">{packageDetail ?packageDetail.package_name:''}</h1>
-        <p className="text-gray-700 font-semiboldfont-serif mb-4 ml-16">{packageDetail ?packageDetail.description:''}</p>
-    </div> */}
-            
+    </div>    
 
-    <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
-        <div>
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Day Wise Itirary</h2>
-            <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+    <div className="m-10 items-start justify-center">
+        <h1 className="text-2xl font-bold font-serif mb-2 ">{packageDetail ?packageDetail.package_name:''}</h1>
+        <p className="text-gray-700 font-semiboldfont-serif mb-4 ">{packageDetail ?packageDetail.description:''}</p>
+    </div>
+    <div className="m-10 items-start justify-center flex ">
+        <div className='w-3/4'>
+            <h2 className="text-2xl font-bold font-serif mb-2">Day Wise Itirary</h2>
             {packageDetail? packageDetail.itinerary.map((item, index) => (
-                <div key={index} className="border-t border-gray-200 pt-4">
-                    <dt className="font-medium text-gray-900">Day {item.day_number}</dt>
-                    <dd className="mt-2 text-sm text-gray-500">Description: {item.description}</dd>
+              <ol key={index} className="relative border-l border-gray-200 dark:border-gray-700">
+              <li className=" ml-4">
+              <div
+                className="absolute w-3 h-3 bg-gray-200 rounded-full -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+              </div>
+                <div  key={index} className="collapse bg-base-200 mt-1">
+                  <input type="checkbox" className="peer" /> 
+                  <div className="collapse-title bg-slate-700 text-lg text-white peer-checked:bg-gray-500 peer-checked:text-black">
+                    Day Itirary {item.day_number}
+                  </div>
+                  <div className="collapse-content flex bg-slate-700 text-primary-content peer-checked:bg-gray-500 peer-checked:text-black"> 
+                    <p>{item.description}</p>
+                    <div className="flex w-[500px]">
+                      <div className="image-container rounded-lg bg-gray-100 w-[200px] overflow-hidden flex items-center justify-center">
+                        <img
+                          src={item.image}
+                          alt={item.day_number}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </li>
+            </ol>
                 )) :''}  
-            </dl>
         </div>
-        <div className="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
-            {packageDetail ? packageDetail.itinerary.map((item, index) => (
-                <div key={index} className="border-t border-gray-200 pt-4">
-                <dt className="font-medium text-gray-900">Day {item.day_number}</dt>
-                <img
-                    src={item.image}
-                    alt={item.day_number}
-                    className="rounded-lg bg-gray-100"
-                />
-                </div>
-                )):''}
-        </div>
-    </div>
+        <div className="w-2/4 p-2">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl lg:mx-0">
+              <p className="text-2xl font-bold font-serif mb-2">
+                Inculsions and Exclusions
+              </p>
+            </div>
+            <div className="collapse collapse-arrow bg-base-200">
+              <input type="radio" name="my-accordion-2" defaultChecked /> 
+              <div className="collapse-title text-xl font-medium">
+              <h2 className="mb-2 text-lg font-semibold text-gray-900">Inculsions:</h2>
 
-    <div className="bg-white py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Package</h2>
-          <p className="mt-2 text-lg leading-8 text-gray-600">
-            Inculsions and Exclusions
-          </p>
-        </div>
-
-        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {packageDetail?packageDetail.inclusions && (
+              </div>
+              <div className="collapse-content"> 
+                {packageDetail?packageDetail.inclusions && (
+                    <>
+                    <ul className='max-w-md space-y-1 text-black list-inside'>
+                        {packageDetail.inclusions.map((inclusion, index) => (
+                        <li key={index} className="flex items-center">
+                          <svg className="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                          </svg>
+                          {inclusion.inclusion}</li>
+                        ))}
+                    </ul>
+                    </>
+                ):''}
+              </div>
+            </div>
+            <div className="collapse collapse-arrow bg-base-200">
+              <input type="radio" name="my-accordion-2" /> 
+              <div className="collapse-title text-xl font-medium">
+              <h2 className="mb-2 text-lg font-semibold text-gray-900">Exclusions:</h2>
+              </div>
+              <div className="collapse-content"> 
+                {packageDetail?packageDetail.exclusions && (
                 <>
-                <h3>Inclusions:</h3>
-                <ul>
-                    {packageDetail.inclusions.map((inclusion, index) => (
-                    <li key={index}>{inclusion.inclusion}</li>
+                  <ul className='max-w-md space-y-1 text-black list-inside'>
+                    {packageDetail.exclusions.map((exclusion, index) => (
+                      <li key={index} className="flex items-center">
+                      <svg className="w-3.5 h-3.5 me-2 text-gray-500 dark:text-gray-400 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                      </svg>
+                        {exclusion.exclusion}
+                      </li>
                     ))}
-                </ul>
+                  </ul>
                 </>
-            ):''}
+              ):''}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {packageDetail?packageDetail.exclusions && (
-            <>
-              <h3>Exclusions:</h3>
-              <ul>
-                {packageDetail.exclusions.map((exclusion, index) => (
-                  <li key={index}>{exclusion.exclusion}</li>
-                ))}
-              </ul>
-            </>
-          ):''}
-        </div>
-      </div>
     </div>
+    <div className="carousel carousel-center rounded-box m-8 gap-2">
+      {packageDetail?packageDetail.images && (
+        <>
+            {packageDetail.images.map((image, index) => (
+              
+            <div key={index} className="carousel-item w-3/4 h-[300px] rounded-box " >
+              <img className='w-full h-full object-cover object-center'src={image.image} alt="image" />
+            </div> 
+            ))}
+        </>
+      ):''}
+    </div>            
+      
 
-      {/* {packageDetail ? (
-        <div>
-          {packageDetail.inclusions && (
-            <>
-              <h3>Inclusions:</h3>
-              <ul>
-                {packageDetail.inclusions.map((inclusion, index) => (
-                  <li key={index}>{inclusion.inclusion}</li>
-                ))}
-              </ul>
-            </>
-          )}
-          {packageDetail.exclusions && (
-            <>
-              <h3>Exclusions:</h3>
-              <ul>
-                {packageDetail.exclusions.map((exclusion, index) => (
-                  <li key={index}>{exclusion.exclusion}</li>
-                ))}
-              </ul>
-            </>
-          )}
-          
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )} */}
-    </div>
+  </div>
   );
 }
 

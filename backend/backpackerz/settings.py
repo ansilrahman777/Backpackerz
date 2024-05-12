@@ -136,7 +136,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=10),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=10),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
@@ -170,7 +170,6 @@ MEDIA_ROOT = BASE_DIR/'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 #smtp configuration
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = env('EMAIL_PORT')
@@ -182,3 +181,8 @@ EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET')
 SOCIAL_AUTH_PASSWORD = env('SOCIAL_AUTH_PASSWORD')
+
+PUBLIC_KEY = 'pk_test_51P8iuOSEpt8cRvLgJpOr1qzycQ5jwtwCMCbICSJPo393y72KzVxHaddOhR6r0enE3P5laLGeaMLXgpGDzVpLJ2i1003yCkSugy'
+STRIPE_SECRET_KEY = 'sk_test_51P8iuOSEpt8cRvLgvDtWujtdviN8oEyqwamJS8Mqok2hxBqoq148idYuV4gWISrgnEKL2KH1g2CJOWARA2iI2Obi00aY5Kl5LZ'
+
+SITE_URL='http://localhost:5173/'

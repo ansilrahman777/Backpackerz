@@ -1,71 +1,21 @@
-import RegisterPage from './Pages/User/RegisterPage'
-import HomePage from './Pages/User/HomePage'
-import LoginPage from './Pages/User/LoginPage'
-import OtpVerficiation from './Pages/User/OtpVerficiation'
-import {Route, BrowserRouter as Router, Routes} from "react-router-dom"
-import {ToastContainer} from 'react-toastify'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './index.css'
-import Profile from './Pages/User/Profile'
-import AdminLogin from './Pages/Admin/AdminLogin'
-import AdminDashboard from './Pages/Admin/AdminDashboard'
-import AdminPackage from './Pages/Admin/AdminPackage'
-import AdminProfile from './Pages/Admin/AdminProfile'
-import TripPage from './Pages/User/TripPage'
-import TripdetailsPage from './Pages/User/TripdetailsPage'
-import AddPackagePage from './Pages/Admin/AddPackagePage'
-import AdminDestinations from './Pages/Admin/AdminDestinations'
-import AdminDestinationDetail from './Pages/Admin/AdminDestinationDetail'
-import AddDestinations from './Pages/Admin/AddDestinations'
-import ForgotPassword from './Pages/User/ForgotPassword'
-import ResetPassword from './Pages/User/ResetPassword'
-import EditPackagePage from './Pages/Admin/EditPackagePage'
-import Destinations from './Pages/User/Destinations'
-import DestinationDetails from './Pages/User/DestinationDetails'
-import HotelDetails from './Pages/User/HotelDetails'
-import EditDestination from './Pages/Admin/EditDestination'
-import AdminHotelDetails from './Pages/Admin/AdminHotelDetails'
+import './index.css';
+import UserWrapper from './Wrapper/UserWrapper ';
+import AdminWrapper from './Wrapper/AdminWrapper';
 
 function App() {
   return (
-    <>
-      <Router>
+    <Router>
       <ToastContainer />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<RegisterPage/>} />
-          <Route path="/otp/verify" element={<OtpVerficiation />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/trip" element={<TripPage />} />
-          <Route path="/destination" element={<Destinations />} />
-          <Route path="/trip-details/:id" element={<TripdetailsPage />} />
-          <Route path="/destination-details/:id" element={<DestinationDetails />} />
-          <Route path="/hotel-detail/:id" element={<HotelDetails />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/password-reset-confirm/:uid/:token/" element={<ResetPassword />} />
-
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/profile" element={<AdminProfile />} />
-
-          <Route path="/admin/packages" element={<AdminPackage />} />
-          <Route path="/admin/add-package" element={<AddPackagePage />} />
-          <Route path="/admin/packages/edit/:id" element={<EditPackagePage />} />
-
-          <Route path="/admin/destinations" element={<AdminDestinations />} />
-          <Route path="/admin/destination/:id" element={<AdminDestinationDetail />} />
-          <Route path="/admin/add-destination" element={<AddDestinations />} />
-          <Route path="/admin/destination/edit/:id" element={<EditDestination />} />
-          
-          <Route path="/admin/hotel_details/:id" element={<AdminHotelDetails />} />
-
-
-          
-        </Routes>
-      </Router>
-    </>
-  )
+      <Routes>
+        <Route path="*" element={<UserWrapper />} />
+        <Route path="/admin/*" element={<AdminWrapper />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

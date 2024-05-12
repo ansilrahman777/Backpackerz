@@ -57,7 +57,10 @@ const LoginPage = () => {
   
           const user = {
               email: response.email,
+              user_id:response.id,
               name: response.full_name,
+              first_name:response.first_name,
+              last_name:response.last_name,
               mobile:response.mobile
           };
   

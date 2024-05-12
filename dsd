@@ -1,0 +1,144 @@
+[33mcommit 941baac64dd5f94dc216e4999e98681acb925321[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Sat Mar 23 20:42:08 2024 +0530
+
+    simple commit className issue in console
+
+[33mcommit e88199c7e66fa4b7802d387fcf705f7866c0f05f[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Thu Mar 21 21:44:11 2024 +0530
+
+    admin side destionaiton pages and functions in backend
+
+[33mcommit 016ff29d4eafdd03bcbe1b65340b56f9857b8def[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Wed Mar 20 11:46:17 2024 +0530
+
+    destination forntend view and profile view is done
+
+[33mcommit 73fa8c5623ea9f3b5d28ec227fcd794a8ad352fd[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Wed Mar 20 01:22:39 2024 +0530
+
+    destiantion and hotel model created
+
+[33mcommit 949d7dd27f1f49db2a747ca1e6f65324e0cd5a42[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Tue Mar 19 20:18:54 2024 +0530
+
+    sos commit after secret reveal
+
+[33mcommit ae7d48b3ca325188e6dfa414ba15953e3d5fe049[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Tue Mar 19 20:15:44 2024 +0530
+
+    sos commit after secret reveal
+
+[33mcommit be873c1e1279c4ecfa062c156c38b31a126088eb[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Tue Mar 19 20:15:06 2024 +0530
+
+    sos commit after secret reveal
+
+[33mcommit 257efe0648564638cf6fe3fe1797bba5a4ef5dbd[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Tue Mar 19 20:03:01 2024 +0530
+
+    sensitive information updated to env file
+
+[33mcommit 5c4deb35e31fc4cd9f43c81f6d05701bb396f937[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Tue Mar 19 19:50:53 2024 +0530
+
+    sos done
+
+[33mcommit 6152c638a9591b91da163782a664868ffc4b4c0b[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Thu Mar 7 14:03:16 2024 +0530
+
+    admin side package adding and editing
+
+[33mcommit 2f86fc0204fb5434e298433a6c899b3e0c113b81[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Tue Mar 5 02:57:58 2024 +0530
+
+    package display in user side
+
+[33mcommit 80771af8a0de8ea048a0dcaec5eac52fc494325f[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Mon Mar 4 20:58:53 2024 +0530
+
+    frontend design of admin and auth
+
+[33mcommit a5a0ca9f1f36d50a7c74a72fbe4a05f5507ca05d[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Mon Mar 4 14:10:39 2024 +0530
+
+    added models regarding package models
+
+[33mcommit bd94f8da0a2ede70409e1e132115028f868849ca[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Mon Mar 4 11:06:39 2024 +0530
+
+    authentication bugs fixing done
+
+[33mcommit d5f0357ef0377b429a6a39bd3e5478f25fccbfda[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Mon Mar 4 09:17:25 2024 +0530
+
+    otp verification done and bugs in logout
+
+[33mcommit 61f17d2283fc87b37f916a848d75ed8f50bde8c8[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Sat Mar 2 00:14:10 2024 +0530
+
+    frontend design for register,login and homepage
+
+[33mcommit 8fe28245bbc64e9b24ef07cdd33111f3aeebbbb2[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Fri Mar 1 21:28:12 2024 +0530
+
+    logout and frontend setup
+
+[33mcommit cb148dc9ab736647a1d9c008e1968dba0402698f[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Fri Mar 1 21:06:44 2024 +0530
+
+    reset password tested using postman
+
+[33mcommit 7122a6fc6fb02377b39a47f3a2bfa1e859bf6bbe[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Fri Mar 1 16:47:28 2024 +0530
+
+    email otp verification and login, tested using postman
+
+[33mcommit a9fdc3679b748ff277dbe339309b2a0d271d8363[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Fri Mar 1 16:14:59 2024 +0530
+
+    adding untracked files
+
+[33mcommit 8ba220f8bee28765284d56248b03609a5379f1b8[m
+Merge: 300ec5e e797493
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Fri Mar 1 16:04:47 2024 +0530
+
+    Merge branch 'main' of https://github.com/ansilrahman777/Backpackerz
+
+[33mcommit 300ec5eea499e43791445545367873b93e31aae3[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Fri Mar 1 16:02:29 2024 +0530
+
+    user model and otp verification and tested using postman
+
+[33mcommit e797493a74736a0fbe4067dab9b37ce69a3a54fc[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Fri Mar 1 15:02:51 2024 +0530
+
+    created readme
+
+[33mcommit 8065fe6be07f65cdc826256049bf905d8b3288cb[m
+Author: ANSIL RAHMAN <rahmanansil777@gmail.com>
+Date:   Fri Mar 1 15:00:48 2024 +0530
+
+    django setup done

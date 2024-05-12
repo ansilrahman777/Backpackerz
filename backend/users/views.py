@@ -11,6 +11,12 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework import generics
+from django.conf import settings
+from django.shortcuts import redirect
+import stripe
+from rest_framework.views import APIView
+from django.contrib.auth import get_user_model
+from django.db import transaction
 
 
 
@@ -233,8 +239,130 @@ class HotelDetailAPIView(generics.RetrieveAPIView):
 # ----------------------------------------------------User Section ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer,UserUpdateSerializer
 
 class UserListCreateAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    
+class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserUpdateSerializer
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------User Section ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Booking Section ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+from .models import HotelBooking
+from .serializers import HotelBookingSerializer
+
+class HotelBookingListCreateAPIView(generics.ListCreateAPIView):
+    queryset = HotelBooking.objects.all()
+    serializer_class = HotelBookingSerializer
+
+class HotelBookingDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = HotelBooking.objects.all()
+    serializer_class = HotelBookingSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = request.data
+
+        if 'status' in data and 'booking_status' in data:
+            instance.status = data['status']
+            instance.booking_status = data['booking_status']
+            instance.save()
+            return Response(self.get_serializer(instance).data, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Missing status or booking_status in request data'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+class StripeCheckoutView(APIView):
+    User = get_user_model()
+    def post(self, request):
+        try:
+            user_id = request.data.get('user_id')
+            print("userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr____iddddd",user_id)
+            booking_id = request.data.get('booking_id')
+            print(f"Retrieved booking ID from session metadata: {booking_id}")
+            booking = HotelBooking.objects.get(id=booking_id)
+            hotel = booking.hotel
+            print('-------------------imge--------')
+            image_url = request.build_absolute_uri(hotel.image_url.url)
+            print(image_url)
+            print('-------------------imge--------')
+
+
+            
+            checkout_session = stripe.checkout.Session.create(
+                    line_items=[
+                        {
+                            'price_data' : {
+                                'currency': 'inr',
+                                'product_data':{
+                                    'name': hotel.hotel_name,
+                                    'images': [image_url],
+                                },
+                                'unit_amount': int(booking.total * 100),
+                            },
+                            'quantity': 1,
+                        },
+                    ],
+                    payment_method_types=['card'],
+                    mode='payment',
+                    success_url='http://127.0.0.1:8000/api/stripe-success/?session_id={CHECKOUT_SESSION_ID}',
+                    cancel_url=settings.SITE_URL + '/?canceled=True',
+                    customer_email=booking.email,
+                    billing_address_collection='required',
+                    payment_intent_data={
+                        'description': f'Booking ID: {booking.id}',
+                    },
+                    metadata={
+                        'booking_id': booking.id,
+                    },
+
+            )
+            return redirect(checkout_session.url)    
+
+        except Exception as e:
+            print(f"Error in StripeCheckoutView: {str(e)}")
+            return Response(
+                {'error':'something went wrong....'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class StripeSuccessView(APIView):
+    def get(self, request):
+        try:
+            session_id = request.GET.get('session_id')
+
+            print("====================",session_id)
+            # Retrieve the session from Stripe to confirm payment success
+            session = stripe.checkout.Session.retrieve(session_id)
+
+            # Get the booking ID from the session's metadata
+            booking_id = session.metadata.get('booking_id')
+
+            print("==========================",booking_id)
+            
+            # Update the booking status to 'Payment Complete'
+            with transaction.atomic():
+                booking = HotelBooking.objects.get(id=booking_id)
+                booking.status = 'Payment Complete'
+                booking.payment_method = 'Stripe'
+                booking.save()    
+
+            return redirect('http://localhost:5173/hotelBookingSuccess?success=true')
+
+        except stripe.error.StripeError as e:
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )      

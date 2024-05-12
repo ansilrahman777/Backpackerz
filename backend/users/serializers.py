@@ -48,6 +48,8 @@ class LoginSerializer(serializers.ModelSerializer):
     email=serializers.EmailField(max_length=225,min_length=6)
     password=serializers.CharField(max_length=68,write_only=True)
     full_name=serializers.CharField(max_length=225,read_only=True)
+    first_name=serializers.CharField(max_length=225,read_only=True)
+    last_name=serializers.CharField(max_length=225,read_only=True)
     mobile=serializers.CharField(max_length=225,read_only=True)
     
     access_token=serializers.CharField(max_length=225,read_only=True)
@@ -55,7 +57,7 @@ class LoginSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=User
-        fields=['email','password','full_name','mobile','access_token','refresh_token']
+        fields=['id','email','password','first_name','last_name','full_name','mobile','access_token','refresh_token']
 
     def validate(self ,attrs):
         email=attrs.get('email')
@@ -70,7 +72,10 @@ class LoginSerializer(serializers.ModelSerializer):
         user_tokens=user.tokens()
 
         return {
+            'id': user.id,
             'email':user.email,
+            'first_name':user.first_name,
+            'last_name':user.last_name,
             'full_name':user.get_full_name,
             'mobile':user.mobile,
             'access_token':str(user_tokens.get('access')),
@@ -258,8 +263,12 @@ class PackageSerializer(serializers.ModelSerializer):
 # ----------------------------------------------------Destination Sections ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
-from .models import Destination, Hotel, HotelImage, HotelItinerary
+from .models import Destination, Hotel, HotelImage, HotelItinerary, HotelDetail
 
+class HotelDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HotelDetail
+        fields = ['detail']
 
 class HotelImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -271,13 +280,15 @@ class HotelItinerarySerializer(serializers.ModelSerializer):
         model = HotelItinerary
         fields = ['day', 'description', 'activity']
 
+
 class HotelSerializer(serializers.ModelSerializer):
     images = HotelImageSerializer(many=True, read_only=True)
     itinerary = HotelItinerarySerializer(many=True, read_only=True)
+    details = HotelDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = Hotel
-        fields = ['id', 'hotel_name', 'pricing', 'contact_no', 'hotel_type', 'is_available', 'rooms', 'rating', 'images', 'itinerary']
+        fields = ['id','destination','hotel_name', 'hotel_description','pricing', 'contact_no', 'hotel_type', 'is_available', 'rooms', 'rating', 'images', 'itinerary','details','image_url']
 
 class DestinationSerializer(serializers.ModelSerializer):
     hotels = HotelSerializer(many=True, read_only=True)
@@ -303,3 +314,23 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'email', 'first_name', 'last_name', 'mobile', 'is_staff', 'is_superuser', 'is_verified', 'is_active', 'date_joined', 'last_login']
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name', 'mobile', 'is_staff', 'is_superuser', 'is_verified', 'is_active']
+        read_only_fields = ['email']  # Make email read-only to prevent changing it
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------User Sections ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------Bookin section------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+from .models import HotelBooking
+
+class HotelBookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HotelBooking
+        fields = '__all__'
