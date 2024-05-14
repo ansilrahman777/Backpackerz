@@ -52,7 +52,8 @@ class Package(models.Model):
     package_name = models.CharField(_("Package Name"), max_length=255)
     description = models.TextField(_("Description"))
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
-    duration = models.PositiveIntegerField(_("Duration in days"))
+    duration = models.PositiveIntegerField(_("Duration in days"), null=True)
+    no_of_nights = models.PositiveIntegerField(_("Duration in nights"), null=True)
     destination = models.CharField(_("Destination"), max_length=255)
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
@@ -122,6 +123,7 @@ class Destination(models.Model):
 class Hotel(models.Model):
     destination = models.ForeignKey(Destination, related_name='hotels', on_delete=models.CASCADE)
     hotel_name = models.CharField(_("Hotel Name"), max_length=255)
+    destination_name = models.CharField(_("Destination Name"), max_length=255,null=True)
     hotel_description = models.CharField(_("Hotel description"),null=True)
     pricing = models.DecimalField(_("Pricing"), max_digits=10, decimal_places=2)
     contact_no = models.CharField(_("Contact No"), max_length=20)

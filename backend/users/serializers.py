@@ -288,7 +288,7 @@ class HotelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Hotel
-        fields = ['id','destination','hotel_name', 'hotel_description','pricing', 'contact_no', 'hotel_type', 'is_available', 'rooms', 'rating', 'images', 'itinerary','details','image_url']
+        fields = ['id','destination','destination_name','hotel_name', 'hotel_description','pricing', 'contact_no', 'hotel_type', 'is_available', 'rooms', 'rating', 'images', 'itinerary','details','image_url']
 
 class DestinationSerializer(serializers.ModelSerializer):
     hotels = HotelSerializer(many=True, read_only=True)

@@ -12,7 +12,7 @@ class OTPAdmin(admin.ModelAdmin):
 
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ['package_name', 'destination', 'price', 'duration', 'created_at', 'updated_at']
+    list_display = ['package_name', 'destination', 'price', 'no_of_nights','duration', 'created_at', 'updated_at']
     search_fields = ['package_name', 'destination']
 
 @admin.register(PackageImage)
@@ -41,7 +41,7 @@ class DestinationAdmin(admin.ModelAdmin):
 
 @admin.register(Hotel)
 class HotelAdmin(admin.ModelAdmin):
-    list_display = ['destination', 'hotel_name','pricing','hotel_type','is_available','rooms']
+    list_display = ['destination', 'hotel_name','destination_name','pricing','hotel_type','is_available','rooms']
     list_filter = ['destination']
 
 @admin.register(HotelImage)
