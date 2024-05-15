@@ -40,7 +40,7 @@ function HotelBooking() {
 
   useEffect(() => {
     if (hotelDetail && formData.no_of_guest) {
-      const totalAmount = hotelDetail.pricing * formData.no_of_guest;
+      const totalAmount = hotelDetail.pricing * formData.no_of_room;
     setTotal(totalAmount)
     }
   }, [hotelDetail, formData.no_of_guest]);
@@ -286,7 +286,7 @@ function HotelBooking() {
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-lg font-bold">
-                    Adults X {formData.no_of_guest}
+                    Adults X {formData.no_of_room}
                   </p>
                   <p className="text-sm text-gray-500">Seirve Charge:0 </p>
                   <p className="text-sm text-gray-500">Tax:0 </p>
