@@ -13,7 +13,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     first_name = models.CharField(max_length=100,verbose_name=_('First Name'))
     last_name = models.CharField(max_length=100,verbose_name=_('Last Name'))
     mobile = models.CharField(max_length=50, unique=True)
-    
+    is_online = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
@@ -104,6 +104,36 @@ class PackageExclusion(models.Model):
     def __str__(self):
         return self.exclusion
 
+class PackageBooking(models.Model):
+    STATUS_CHOICES = (
+        ('Pending', 'Pending'),
+        ('Confirmed', 'Confirmed'),
+        ('Cancelled', 'Cancelled'),
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=15)
+    email = models.EmailField(max_length=254)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    booking_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    total_amount = models.DecimalField(_("Total Amount"), max_digits=10, decimal_places=2)
+    no_of_guests = models.PositiveIntegerField(_("Number of Guests"))
+    booking_id = models.CharField(max_length=20, unique=True, blank=True, null=True,editable=False)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.package.package_name}"
+
+    def save(self, *args, **kwargs):
+        if not self.booking_id:
+            self.booking_id = self.generate_booking_id()
+        super().save(*args, **kwargs)
+
+    def generate_booking_id(self):
+        unique_id = uuid.uuid4().hex[:6].upper()  
+        return f'BOOK-{unique_id}'   
 
 class Destination(models.Model):
     destination_name = models.CharField(_("Destination Name"), max_length=255)
@@ -209,7 +239,7 @@ class HotelBooking(models.Model):
     status = models.CharField(max_length=50, choices=PAYMENT_STATUS_CHOICES, default='Pending Payment')
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, default='Not-paid')
     booking_status = models.CharField(max_length=20, choices=BOOKING_STATUS_CHOICES, default='Upcoming')
-    booking_number = models.CharField(max_length=20, unique=True, blank=True, null=True)
+    booking_number = models.CharField(max_length=20, unique=True, blank=True, null=True,editable=False)
 
     def save(self, *args, **kwargs):
         if not self.booking_number:

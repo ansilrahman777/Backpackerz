@@ -7,9 +7,21 @@ from django.contrib.auth import authenticate, login, logout
 from .serializers import LoginSerializer, LogoutSerializer
 from rest_framework import generics
 from users.models import Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
-from .serializers import PackageSerializer, PackageImageSerializer, ItinerarySerializer, PackageInclusionSerializer, PackageExclusionSerializer
+from .serializers import PackageSerializer, PackageImageSerializer, ItinerarySerializer, PackageInclusionSerializer, PackageExclusionSerializer, UserSerializer
+from django.contrib.auth import get_user_model
+from users.models import User
+from chat.models import ChatMessage
 
 
+User = get_user_model()
+class UniqueUserListView(APIView):
+    def get(self, request, *args, **kwargs):
+        # user_ids = ChatMessage.objects.values('sender').distinct()
+        user_ids = ChatMessage.objects.exclude(sender__is_superuser=True).values('sender').distinct()
+        users = User.objects.filter(id__in=user_ids)
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+    
 # --------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------auth session------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------

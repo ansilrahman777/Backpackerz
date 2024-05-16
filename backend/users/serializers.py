@@ -328,9 +328,14 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 # ----------------------------------------------------Bookin section------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
-from .models import HotelBooking
+from .models import HotelBooking, PackageBooking
 
 class HotelBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = HotelBooking
+        fields = '__all__'
+
+class PackageBookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PackageBooking
         fields = '__all__'

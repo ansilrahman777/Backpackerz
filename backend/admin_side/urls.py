@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import LoginAPIView ,LogoutAPIView, PackageListAPIView, PackageDetailAPIView, AddPackageAPIView, EditPackageAPIView, DestinationListAPIView, DestinationDetailAPIView, HotelDetailAPIView, AddDestinationAPIView, EditDestinationAPIView
+from .views import UniqueUserListView
 
 urlpatterns = [
     path('login/', LoginAPIView.as_view(), name='login'),
@@ -12,8 +13,11 @@ urlpatterns = [
     
     path('destinations/', DestinationListAPIView.as_view(), name='destination'),
     path('destinations/add/', AddDestinationAPIView.as_view(), name='add-destination'),
-    path('destination/<int:pk>/', DestinationDetailAPIView.as_view(), name='destination-deatail'),
+    path('destination/<int:pk>/', DestinationDetailAPIView.as_view(), name='destination-detail'),
     path('destination/edit/<int:pk>/', EditDestinationAPIView.as_view(), name='edit-destination'),
 
     path('hotels/<int:pk>/', HotelDetailAPIView.as_view(), name='hotel-detail'),
+
+    path('chat-unique-users/', UniqueUserListView.as_view(), name='unique-users'),
+
 ]

@@ -1,37 +1,27 @@
-import React, { useEffect, useState } from 'react'
-
-
+import React, { useEffect, useState } from "react";
 
 const MessageInput = ({ sendMessage, socket }) => {
-const {user, userInfo} = useSelector((state) => state.auth);
-  const [message, setMessage] = useState('');
-  const dispatch = useDispatch()
-  
-  useEffect(() => {
-    // Dispatch the getUserInfo action when the component mounts
-    if (user) {
-      dispatch(getUserInfo());
-    }
-  }, [dispatch, user]);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     setMessage(e.target.value);
   }
 
   const handleSend = () => {
-    if (message.trim() !== '') {
-      console.log(userInfo.id);
-      console.log('----------------------------');
+    if (message.trim() !== "") {
+      console.log(user.user_id);
+      console.log("----------------------------");
       const formattedMessage = {
-          "message": message,
-          "sender": userInfo.id 
+        message: message,
+        sender: user.user_id,
       };
       sendMessage(formattedMessage, socket); // Send message only if it's not empty
-      setMessage('');
+      setMessage("");
     }
   };
 
-  console.log("=========admin==================id", userInfo.id);
+  console.log("=========admin=======sfdsfsdfs===========id", user.user_id);
   return (
     <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
       <div className="flex-grow ml-4">
@@ -39,8 +29,8 @@ const {user, userInfo} = useSelector((state) => state.auth);
           <input
             type="text"
             placeholder="Type your Message"
-            value={inputValue}
-            onChange={handleChange}
+            value={message}
+            onChange={handleChange }
             className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
           />
         </div>
@@ -71,6 +61,6 @@ const {user, userInfo} = useSelector((state) => state.auth);
       </div>
     </div>
   );
-}
+};
 
 export default MessageInput;

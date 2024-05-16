@@ -9,8 +9,8 @@ function AsideBar() {
         <li><Link to="/admin/destinations" className="cursor-pointer hover:text-gray-300">Destinations</Link></li>
         <li><Link to="/admin/booking" className="cursor-pointer hover:text-gray-300">Booking</Link></li>
         <li><Link to="/admin/users" className="cursor-pointer hover:text-gray-300">Users</Link></li>
-        <li><Link to="/admin/banner" className="cursor-pointer hover:text-gray-300">Banner</Link></li>
         <li><Link to="/admin/enquiry" className="cursor-pointer hover:text-gray-300">Enquiry</Link></li>
+        <li><Link to="/admin/admin_chat" className="cursor-pointer hover:text-gray-300">chat</Link></li>
         </ul>
       </div>
     )

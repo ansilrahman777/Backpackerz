@@ -256,8 +256,8 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
 # ----------------------------------------------------Booking Section ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
-from .models import HotelBooking
-from .serializers import HotelBookingSerializer
+from .models import HotelBooking, PackageBooking
+from .serializers import HotelBookingSerializer, PackageBookingSerializer
 
 class HotelBookingListCreateAPIView(generics.ListCreateAPIView):
     queryset = HotelBooking.objects.all()
@@ -278,6 +278,18 @@ class HotelBookingDetailView(generics.RetrieveUpdateDestroyAPIView):
             return Response(self.get_serializer(instance).data, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Missing status or booking_status in request data'}, status=status.HTTP_400_BAD_REQUEST)
+
+class PackageBookingListAPIView(generics.ListCreateAPIView):
+    queryset = PackageBooking.objects.all()
+    serializer_class = PackageBookingSerializer
+
+class PackageBookingDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PackageBooking.objects.all()
+    serializer_class = PackageBookingSerializer
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------payment Section ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 class StripeCheckoutView(APIView):
@@ -314,7 +326,7 @@ class StripeCheckoutView(APIView):
                     success_url='http://127.0.0.1:8000/api/stripe-success/?session_id={CHECKOUT_SESSION_ID}',
                     cancel_url=settings.SITE_URL + '/?canceled=True',
                     customer_email=booking.email,
-                    billing_address_collection='required',
+                    # billing_address_collection='required',
                     payment_intent_data={
                         'description': f'Booking ID: {booking.id}',
                     },

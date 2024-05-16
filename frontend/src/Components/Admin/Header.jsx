@@ -27,7 +27,7 @@ function Header() {
         {/* Add other navigation tabs here */}
       </div>
       <button className="bg-black hover:bg-slate-500 text-white px-4 py-2 rounded-full">
-      <NavLink to="/admin/profile" ClassName="active">
+      <NavLink to="/admin/profile" className="active">
       <CgProfile/>
         </NavLink>
       </button>

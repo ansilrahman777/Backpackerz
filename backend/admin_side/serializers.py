@@ -1,15 +1,16 @@
 from rest_framework import serializers
-from users.models import Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
+from users.models import Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion, User
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'email', 'is_online']
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=255)
     password = serializers.CharField(max_length=128, write_only=True)
 
 class LogoutSerializer(serializers.Serializer):
     pass  # No fields required for logout
-
-
-
 
 
 class PackageImageSerializer(serializers.ModelSerializer):

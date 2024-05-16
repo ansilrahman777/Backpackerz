@@ -286,7 +286,7 @@ function HotelBooking() {
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-lg font-bold">
-                    Adults X {formData.no_of_room}
+                    Rooms X {formData.no_of_room}
                   </p>
                   <p className="text-sm text-gray-500">Seirve Charge:0 </p>
                   <p className="text-sm text-gray-500">Tax:0 </p>

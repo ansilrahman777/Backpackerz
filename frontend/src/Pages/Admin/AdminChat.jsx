@@ -1,8 +1,9 @@
-import React ,{ useEffect, useState }from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
+import axios from "axios";
+import Sidebar from "../../Components/Admin/chat/Sidebar";
 import ChatArea from "../../Components/Admin/chat/ChatArea";
-
 
 const AdminChat = () => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -13,11 +14,9 @@ const AdminChat = () => {
   useEffect(() => {
     const fetchChatUsers = async () => {
       try {
-       
         const response = await axios.get(
-          'http://127.0.0.1:8000/api/v1/admin/chat-unique-users/'
+          "http://127.0.0.1:8000/api/admin_side/chat-unique-users/"
         );
-
         setUsers(
           response.data.map((user) => ({
             ...user,
@@ -31,12 +30,12 @@ const AdminChat = () => {
     fetchChatUsers();
   }, []);
 
-  console.log("=====this is the users ======", users);
-  console.log("=========================selected user", selectedUser);
+  console.log("users list --", users);
+  console.log("selected user --", selectedUser);
 
   useEffect(() => {
     const newSocket = new WebSocket(
-      `wss://findme.siyadsavad.online/ws/chat/${selectedUser}/`
+      `ws://localhost:8000/ws/chat/${selectedUser}/`
     );
     console.log("-------------------");
     console.log(newSocket);
@@ -56,22 +55,26 @@ const AdminChat = () => {
     };
   }, [selectedUser]);
 
-  console.log("=======messagesssssssssssssssssssssssss", messages);
+  console.log("messages ---- ", messages);
+
   return (
     <div>
       <Header />
       <div className="flex">
-        <AsideBar
-          messages={messages}
-          selectedUser={selectedUser}
-          setSelectedUser={setSelectedUser}
-          users={users}
-        />
-        <ChatArea
-          messages={messages}
-          selectedUser={selectedUser}
-          socket={socket}
-        />
+        <AsideBar />
+        <div className="flex">
+          <Sidebar
+            messages={messages}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+            users={users}
+          />
+          <ChatArea
+            messages={messages}
+            selectedUser={selectedUser}
+            socket={socket}
+          />
+        </div>
       </div>
     </div>
   );

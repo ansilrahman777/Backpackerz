@@ -46,6 +46,7 @@ CORS_ALLOWED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,7 +57,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'users',
-    'admin_side'
+    'admin_side',
+    'chat'
 
 ]
 
@@ -89,7 +91,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backpackerz.wsgi.application'
+# WSGI_APPLICATION = 'backpackerz.wsgi.application'
+ASGI_APPLICATION = 'backpackerz.asgi.application'
+
+CHANNEL_LAYERS = {
+  "default": {
+    "BACKEND":"channels_redis.core.RedisChannelLayer",
+    "CONFIG":{"hosts": [("127.0.0.1", 6379)]},
+  }
+}
 
 
 # Database

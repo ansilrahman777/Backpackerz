@@ -1,14 +1,27 @@
 import React from "react";
 import { useState } from "react";
 
-function MessageInput() {
-  const [inputValue, setInputValue] = useState("");
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+const MessageInput = ({sendMessage}) => {
+  const user = JSON.parse(localStorage.getItem("user"));  
+  const [message, setMessage] = useState('');
+  console.log("message--",message);
+
+  const handleChange = (e) => {
+    setMessage(e.target.value);
   };
-  const handleSendMessage = () => {
-    console.log("message send");
+
+  const handleSend = () => {
+      if (message.trim() !== '') {
+        const messageData = {
+          "message": message,
+          "sender": user.user_id
+        };
+        sendMessage(messageData); // Send message only if it's not empty
+        setMessage('');
+      }
+    
   };
+  
   return (
     <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
       <div className="flex-grow ml-4">
@@ -16,8 +29,8 @@ function MessageInput() {
           <input
             type="text"
             placeholder="Type your Message"
-            value={inputValue}
-            onChange={handleInputChange}
+            value={message}
+            onChange={handleChange}
             className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
           />
         </div>
@@ -25,7 +38,7 @@ function MessageInput() {
       <div className="ml-4">
         <button
           className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-          onClick={handleSendMessage}
+          onClick={handleSend}
         >
           <span>Send</span>
           <span className="ml-2">
