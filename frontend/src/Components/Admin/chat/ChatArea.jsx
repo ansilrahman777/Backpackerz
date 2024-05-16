@@ -11,7 +11,7 @@ function ChatArea({ messages, selectedUser, socket }) {
   };
 
   return (
-    <div className="flex h-screen w-[800px]">
+    <div className="flex h-screen w-[700px]">
       <div className="flex flex-row h-full w-full overflow-x-hidden">
         <div className="flex h-full justify-center text-gray-800 w-full">
           <div className="flex flex-row h-[600px] w-full">
