@@ -17,11 +17,13 @@ import Test from '../Pages/User/Test';
 import PackageBooking from '../Pages/User/PackageBooking';
 import Payment from '../Pages/User/Payment';
 import Chat from '../Pages/User/Chat';
-import Booking from '../Pages/User/Booking';
+import Booking from '../Pages/User/PackageBookingList';
 import HotelBooking from '../Pages/User/HotelBooking';
 import HotelConfirmBooking from '../Pages/User/HotelConfirmBooking';
 import HotelBookingSuccess from '../Pages/User/HotelBookingSuccess';
 import PackageBookingConfirmed from '../Pages/User/PackageBookingConfirmed';
+import PackageBookingList from '../Pages/User/PackageBookingList';
+import HotelBookingList from '../Pages/User/HotelBookingList';
 
 const UserWrapper = () => {
   return (
@@ -50,9 +52,12 @@ const UserWrapper = () => {
         <Route path="/hotel-booking" element={<HotelBooking/>} />
         <Route path="/hotel-booking-details/:bookingId" element={<HotelConfirmBooking/>} />
         <Route path="/hotelBookingSuccess" element={<HotelBookingSuccess/>} />
+        <Route path="/hotel-booking-list" element={<HotelBookingList />} />
 
         <Route path="/package-booking" element={<PackageBooking />} />
         <Route path="/package-booking-confirmed/:booking_id" element={<PackageBookingConfirmed />} />
+        <Route path="/package-booking-list" element={<PackageBookingList />} />
+
       </Routes>
     </>
   );

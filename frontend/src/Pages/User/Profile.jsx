@@ -112,7 +112,7 @@ function Profile() {
         style={{ backgroundImage: `url(${register_bg})` }}
       >
         <Header />
-        <div className="container mx-auto ">
+        <div className="container mx-auto">
           <div className="flex flex-col md:flex-row w-10/12 mt-32 md:w-8/12 bg-sky-300 bg-opacity-70 mx-auto rounded-md overflow-hidden shadow-lg">
             {/* Profile Info Section */}
             <div
@@ -133,14 +133,17 @@ function Profile() {
                   </p>
                 </div>
                 <div className="w-full h-[200px] px-8 mt-4">
-                  <Link to='/booking' className="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
-                    Booking
+                  <Link to='/package-booking-list' className="flex items-center my-1 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
+                   PACKAGE BOOKING
+                  </Link>
+                  <Link to='/hotel-booking-list' className="flex items-center my-1 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
+                   HOTEL BOOKING
                   </Link>
                 </div>
                 <div className="flex-1 flex flex-col items-center px-8 mt-2">
                   <div className="flex items-center ">
                     <button
-                      className="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100"
+                      className="flex items-center my-1 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100"
                       onClick={handleLogOut}
                     >
                       <span>Logout</span> <IoLogOut className="inline-block" />

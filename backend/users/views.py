@@ -279,6 +279,14 @@ class HotelBookingDetailView(generics.RetrieveUpdateDestroyAPIView):
         else:
             return Response({'error': 'Missing status or booking_status in request data'}, status=status.HTTP_400_BAD_REQUEST)
 
+class UserHotelBookingListAPIView(generics.ListAPIView):
+    serializer_class = HotelBookingSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        return HotelBooking.objects.filter(user_id=user_id)
+    
+    
 class PackageBookingListAPIView(generics.ListCreateAPIView):
     queryset = PackageBooking.objects.all()
     serializer_class = PackageBookingSerializer
@@ -286,6 +294,13 @@ class PackageBookingListAPIView(generics.ListCreateAPIView):
 class PackageBookingDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PackageBooking.objects.all()
     serializer_class = PackageBookingSerializer
+
+class UserPackageBookingListAPIView(generics.ListAPIView):
+    serializer_class = PackageBookingSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        return PackageBooking.objects.filter(user_id=user_id)
 
 # --------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------payment Section ------------------------------------------------------

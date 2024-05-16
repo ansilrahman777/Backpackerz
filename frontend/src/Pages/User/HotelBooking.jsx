@@ -11,7 +11,7 @@ function HotelBooking() {
 
   const [hotelDetail, setHotelDetail] = useState(null);
   const [total, setTotal] = useState(0);
-  
+
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -25,75 +25,98 @@ function HotelBooking() {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const id = searchParams.get("id");
-    
+
     if (id) {
       axios
-      .get(`http://127.0.0.1:8000/api/hotels/${id}/`)
-      .then((response) => {
-        setHotelDetail(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching package details:", error);
-      });
+        .get(`http://127.0.0.1:8000/api/hotels/${id}/`)
+        .then((response) => {
+          setHotelDetail(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching package details:", error);
+        });
     }
-  }, [location.search,formData]);
+  }, [location.search, formData]);
 
   useEffect(() => {
     if (hotelDetail && formData.no_of_guest) {
       const totalAmount = hotelDetail.pricing * formData.no_of_room;
-    setTotal(totalAmount)
+      setTotal(totalAmount);
     }
   }, [hotelDetail, formData.no_of_guest]);
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    const user = JSON.parse(localStorage.getItem("user")); // Fetch user from local storage
-    const hotel = hotelDetail; // Use hotelDetail fetched earlier
-    
-    
+
+    // Name validation
+    if (formData.full_name.length < 3) {
+      toast.error("Name must be at least 3 characters long");
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    // Phone validation
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      toast.error("Please enter a valid phone number");
+      return;
+    }
+
+    // Adjust maximum number of guests based on number of rooms
+    let maxGuests = 3 * formData.no_of_room;
+
+    // Guest validation
+    if (formData.no_of_guest > maxGuests) {
+      toast.error(
+        `Maximum ${maxGuests} guests allowed for ${formData.no_of_room} rooms`
+      );
+      return;
+    }
+
+    // Proceed with form submission
+    const user = JSON.parse(localStorage.getItem("user"));
     const updatedFormData = {
       ...formData,
-      user: user.user_id, // Assuming user id is needed
-      hotel: hotel.id, // Assuming hotel id is needed
-      total: total
+      user: user.user_id,
+      hotel: hotelDetail.id,
+      total: total,
     };
 
-    console.log(updatedFormData);
-
-    let no_of_guest = parseInt(updatedFormData.no_of_guest)
-    updatedFormData.no_of_guest=no_of_guest
-
-
     axios
-      .post("http://127.0.0.1:8000/api/hotelbookings/", updatedFormData) // Send form data with user and hotel details
+      .post("http://127.0.0.1:8000/api/hotelbookings/", updatedFormData)
       .then((response) => {
         const bookingId = response.data.id;
         navigate(`/hotel-booking-details/${bookingId}`);
-
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
         toast.error("Error submitting form. Please try again later.");
-
       });
   };
-  
+
   return (
     <div>
-      <div className="h-1/2 bg-center" style={{
-        backgroundImage: `url(${
-          hotelDetail && hotelDetail.images && hotelDetail.images.length > 0
-            ? hotelDetail.images[1].image
-            : "home_bg"
-        })`,
-        backgroundSize: "cover",
-      }}>
+      <div
+        className="h-1/2 bg-center"
+        style={{
+          backgroundImage: `url(${
+            hotelDetail && hotelDetail.images && hotelDetail.images.length > 0
+              ? hotelDetail.images[1].image
+              : "home_bg"
+          })`,
+          backgroundSize: "cover",
+        }}
+      >
         <Header />
         <div className="flex flex-col items-center justify-center flex-grow mt-12 cherry-bomb text-black text-4xl decoration-red-800">
           <h1 className="text-center cherry-bomb text-ba text-white decoration-red-800  font-extrabold text-8xl mb-4">
@@ -133,9 +156,7 @@ function HotelBooking() {
               <div className="text-black text-xl font-medium ">
                 ₹ {hotelDetail ? hotelDetail.pricing : ""}/-
               </div>
-              <div className="ml-4 text-xl font-bold text-black">
-                Per Room
-              </div>
+              <div className="ml-4 text-xl font-bold text-black">Per Room</div>
             </div>
           </div>
         </div>
@@ -208,6 +229,7 @@ function HotelBooking() {
                       name="start_date"
                       value={formData.start_date}
                       onChange={handleFormChange}
+                      min={new Date().toISOString().split("T")[0]}
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder="Start Date"
                       required
@@ -236,7 +258,7 @@ function HotelBooking() {
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-5 group">
-                  <input
+                    <input
                       type="number"
                       name="no_of_guest"
                       value={formData.no_of_guest}
@@ -292,9 +314,7 @@ function HotelBooking() {
                   <p className="text-sm text-gray-500">Tax:0 </p>
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-right">
-                  {total}
-                  </p>
+                  <p className="text-lg font-bold text-right">{total}</p>
                   <p className="text-sm text-right text-gray-500"> ₹ 0</p>
                   <p className="text-sm text-right text-gray-500"> ₹ 0</p>
                 </div>
@@ -306,9 +326,7 @@ function HotelBooking() {
                   <p className="text-lg font-bold">Total</p>
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-right">
-                    ₹ {total}
-                  </p>
+                  <p className="text-lg font-bold text-right">₹ {total}</p>
                 </div>
               </div>
             </div>

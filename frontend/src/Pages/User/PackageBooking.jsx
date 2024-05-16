@@ -48,14 +48,41 @@ function PackageBooking() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    for (const key in formData) {
-      if (formData.hasOwnProperty(key) && formData[key] === "") {
-        toast.error(`${key} is required`);
-        return;
-      }
+    const errors = [];
+
+    if (formData.full_name.length < 3) {
+      errors.push("Full name must be at least 3 characters long.");
+    }
+
+    if (!validateEmail(formData.email)) {
+      errors.push("Email is not valid.");
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+    if (formData.start_date < today) {
+      errors.push("Start date cannot be in the past.");
+    }
+
+    if (!/^\d{10}$/.test(formData.phone)) {
+      toast.error("Mobile number must be 10 digits long.");
+      return;
+    }
+
+    if (formData.no_of_guests < 1 || formData.no_of_guests > 10) {
+      errors.push("Number of guests must be between 1 and 10.");
+    }
+
+    if (errors.length > 0) {
+      errors.forEach((error) => toast.error(error));
+      return;
     }
 
     const totalAmount = packageDetail.price * formData.no_of_guests;
@@ -199,6 +226,7 @@ function PackageBooking() {
                       name="start_date"
                       value={formData.start_date}
                       onChange={handleFormChange}
+                      min={new Date().toISOString().split("T")[0]}
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
@@ -218,6 +246,7 @@ function PackageBooking() {
                     value={formData.no_of_guests}
                     onChange={handleFormChange}
                     min="1"
+                    max="10"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required

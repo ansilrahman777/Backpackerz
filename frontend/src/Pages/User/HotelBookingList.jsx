@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Header from "../../Components/User/Header/Header";
+import axios from "axios";
 
-function Booking() {
+function HotelBookingList() {
   const [bookings, setBookings] = useState([]);
   const [user, setUser] = useState(null);
 
@@ -14,7 +14,7 @@ function Booking() {
 
       axios
         .get(
-          `http://127.0.0.1:8000/api/user-package-bookings/${storedUser.user_id}/`
+          `http://127.0.0.1:8000/api/user-hotel-bookings/${storedUser.user_id}/`
         )
         .then((response) => {
           setBookings(response.data);
@@ -29,22 +29,26 @@ function Booking() {
 
   // Booking.jsx
 
-const cancelBooking = (bookingId) => {
-    axios.patch(`http://127.0.0.1:8000/api/user-package-bookings/${bookingId}/cancel/`)
-    .then(response => {
+  const cancelBooking = (bookingId) => {
+    axios
+      .patch(
+        `http://127.0.0.1:8000/api/user-hotel-bookings/${bookingId}/cancel/`
+      )
+      .then((response) => {
         // Update bookings state after cancellation
-        setBookings(prevBookings => prevBookings.map(booking => {
+        setBookings((prevBookings) =>
+          prevBookings.map((booking) => {
             if (booking.id === bookingId) {
-                return { ...booking, status: 'Cancelled' };
+              return { ...booking, status: "Cancelled" };
             }
             return booking;
-        }));
-    })
-    .catch(error => {
-        console.error('Error cancelling booking:', error);
-    });
-};
-
+          })
+        );
+      })
+      .catch((error) => {
+        console.error("Error cancelling booking:", error);
+      });
+  };
 
   return (
     <div>
@@ -93,13 +97,11 @@ const cancelBooking = (bookingId) => {
                         <tr key={booking.id}>
                           <td className="px-4 py-4 text-xs font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                             <div className="inline-flex items-center gap-x-3">
-                              <span>{booking.booking_id}</span>
+                              <span>{booking.booking_number}</span>
                             </div>
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {new Date(
-                              booking.booking_date
-                            ).toLocaleDateString()}
+                          {booking.start_date} to {booking.end_date}
                           </td>
                           <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                             <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
@@ -126,13 +128,13 @@ const cancelBooking = (bookingId) => {
                             </div>
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {booking.package}
+                            {booking.no_of_room}
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {booking.no_of_guests}
+                            {booking.no_of_guest}
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {booking.total_amount}
+                            {booking.total}
                           </td>
                           <td>
                             {booking.status === "Pending" && (
@@ -155,4 +157,4 @@ const cancelBooking = (bookingId) => {
   );
 }
 
-export default Booking;
+export default HotelBookingList;
