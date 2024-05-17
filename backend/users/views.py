@@ -302,6 +302,25 @@ class UserPackageBookingListAPIView(generics.ListAPIView):
         user_id = self.kwargs['user_id']
         return PackageBooking.objects.filter(user_id=user_id)
 
+class CancelBookingAPIView(generics.UpdateAPIView):
+    queryset = PackageBooking.objects.all()
+    serializer_class = PackageBookingSerializer
+
+    def patch(self, request, *args, **kwargs):
+        print("Cancel Booking API View hit")
+        try:
+            booking = self.get_object()
+            print("Booking found:", booking)
+            if booking.status != 'Cancelled':
+                booking.status = 'Cancelled'
+                booking.save()
+                return Response({'message': 'Booking cancelled successfully'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'Booking is already cancelled'}, status=status.HTTP_400_BAD_REQUEST)
+        except PackageBooking.DoesNotExist:
+            print("Booking not found")
+            return Response({'message': 'Booking not found'}, status=status.HTTP_404_NOT_FOUND)
+
 # --------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------payment Section ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------

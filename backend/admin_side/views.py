@@ -6,7 +6,7 @@ from rest_framework import status
 from django.contrib.auth import authenticate, login, logout
 from .serializers import LoginSerializer, LogoutSerializer
 from rest_framework import generics
-from users.models import Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
+from users.models import Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion,HotelBooking,PackageBooking
 from .serializers import PackageSerializer, PackageImageSerializer, ItinerarySerializer, PackageInclusionSerializer, PackageExclusionSerializer, UserSerializer
 from django.contrib.auth import get_user_model
 from users.models import User
@@ -119,3 +119,32 @@ class HotelDetailAPIView(generics.RetrieveAPIView):
             'request': self.request
         })
         return context
+from .serializers import PackageBookingSerializer, HotelBookingSerializer
+
+class PackageBookingListAPIView(generics.ListAPIView):
+    queryset = PackageBooking.objects.all()
+    serializer_class = PackageBookingSerializer
+
+class HotelBookingListAPIView(generics.ListAPIView):
+    queryset = HotelBooking.objects.all()
+    serializer_class = HotelBookingSerializer
+
+class CancelBookingAPIView(APIView):
+    def patch(self, request, pk):
+        try:
+            booking = PackageBooking.objects.get(pk=pk)
+            booking.status = 'Cancelled'
+            booking.save()
+            return Response({'message': 'Booking cancelled successfully'}, status=status.HTTP_200_OK)
+        except PackageBooking.DoesNotExist:
+            return Response({'message': 'Booking not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class ConfirmBookingAPIView(APIView):
+    def patch(self, request, pk):
+        try:
+            booking = PackageBooking.objects.get(pk=pk)
+            booking.status = 'Confirmed'
+            booking.save()
+            return Response({'message': 'Booking confirmed successfully'}, status=status.HTTP_200_OK)
+        except PackageBooking.DoesNotExist:
+            return Response({'message': 'Booking not found'}, status=status.HTTP_404_NOT_FOUND)

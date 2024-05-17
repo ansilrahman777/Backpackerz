@@ -18,11 +18,16 @@ function EditDestination() {
     country: "",
     image: "",
   });
+  const [loading, setLoading] = useState(false); // Loading state
 
   useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:8000/api/admin_side/destination/${id}/`)
-      .then((response) => {
+    const fetchData = async () => {
+      setLoading(true); // Set loading to true when the component mounts
+
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/admin_side/destination/${id}/`
+        );
         const destinationData = response.data;
         setFormData({
           destinationName: destinationData.destination_name,
@@ -32,11 +37,15 @@ function EditDestination() {
           country: destinationData.country,
           image: destinationData.image_url,
         });
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching destination details:", error);
         toast.error("Error fetching destination details");
-      });
+      } finally {
+        setLoading(false); // Set loading to false when the data fetching is complete
+      }
+    };
+
+    fetchData(); // Call the fetchData function
   }, [id]);
 
   const handleChange = (e) => {
@@ -46,15 +55,26 @@ function EditDestination() {
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
-    setFormData({ ...formData, image: selectedImage });
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewImage(reader.result);
-    };
-    reader.readAsDataURL(selectedImage);
+    const allowedFormats = ["image/jpeg", "image/png"];
+  
+    // Check if the selected file format is allowed
+    if (selectedImage && allowedFormats.includes(selectedImage.type)) {
+      setFormData({ ...formData, image: selectedImage });
+  
+      // Preview the selected image
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(selectedImage); // Convert the selected image to a data URL
+    } else {
+      // Show error message or toast indicating invalid file format
+      toast.error("Invalid file format. Please select a PNG or JPG image.");
+      // Clear the file input field
+      e.target.value = null;
+    }
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -64,7 +84,7 @@ function EditDestination() {
     formDataToSend.append("description", formData.description);
     formDataToSend.append("state", formData.state);
     formDataToSend.append("country", formData.country);
-    if (formData.image) {
+    if (formData.image instanceof File) {
       formDataToSend.append("image_url", formData.image);
     }
 
@@ -86,6 +106,15 @@ function EditDestination() {
       toast.error("Error updating destination");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <l-miyagi size="35" stroke="3.5" speed="0.9" color="black"></l-miyagi>
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <div>

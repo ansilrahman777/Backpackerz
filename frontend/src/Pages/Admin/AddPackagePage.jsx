@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { MdAddPhotoAlternate } from "react-icons/md";
@@ -17,14 +17,33 @@ function AddPackagePage() {
     image: null, // This will hold the selected image file
   });
 
+  const [loading, setLoading] = useState(false); // Loading state
+
+    useEffect(() => {
+        setLoading(true); // Set loading to true when the component mounts
+        setLoading(false); // Set loading to false when the component is fully loaded
+    }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleImageChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
+    const file = e.target.files[0];
+    const allowedFormats = ["image/jpeg", "image/png"];
+  
+    // Check if the selected file format is allowed
+    if (file && allowedFormats.includes(file.type)) {
+      setFormData({ ...formData, image: file });
+    } else {
+      // Show error message or toast indicating invalid file format
+      toast.error("Invalid file format. Please select a PNG or JPG image.");
+      // Clear the file input field
+      e.target.value = null;
+    }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +76,14 @@ function AddPackagePage() {
     }
   };
   
-
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <l-miyagi size="35" stroke="3.5" speed="0.9" color="black"></l-miyagi>
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
+  }
   return (
     <div>
       <Header />
@@ -176,7 +202,7 @@ function AddPackagePage() {
                         <p className="pl-1">or drag and drop</p>
                       </div>
                       <p className="text-xs leading-5 text-gray-600">
-                        PNG, JPG, GIF up to 10MB
+                        PNG, JPG, 
                       </p>
                     </div>
                   </div>

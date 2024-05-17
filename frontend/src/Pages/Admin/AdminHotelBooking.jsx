@@ -7,7 +7,7 @@ function AdminHotelBooking() {
 
   useEffect(() => {
     // Fetch data from API when component mounts
-    fetch("http://127.0.0.1:8000/api/admin_side/hotel-bookings/") // Replace with your API endpoint
+    fetch("http://127.0.0.1:8000/api/admin_side/hotel-bookings/") 
       .then((response) => response.json())
       .then((data) => setBookings(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -91,11 +91,11 @@ function AdminHotelBooking() {
                         <tr key={booking.id}>
                           <td className="px-4 py-4 text-xs font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                             <div className="inline-flex items-center gap-x-3">
-                              <span>{booking.booking_id}</span>
+                              <span>{booking.booking_number}</span>
                             </div>
                           </td>
                           <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {new Date(booking.booking_date).toLocaleDateString()}
+                          {new Date(booking.start_date).toLocaleDateString()}
                           </td>
                           <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                             <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
@@ -124,10 +124,10 @@ function AdminHotelBooking() {
                           {booking.hotel_name}
                           </td>
                           <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {booking.no_of_rooms}
+                          {booking.no_of_room}
                           </td>
                           <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {booking.total_amount}
+                          {booking.total}
                           </td>
                           <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                             Action

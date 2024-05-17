@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import RegisterUserView ,VerifyUserEmail ,LoginUserView ,PasswordResetConfirm ,PasswordResetRequestView ,SetNewPassword ,LogoutUserView ,TestLogin
 from .views import PackageExclusionListAPIView, PackageInclusionListAPIView, ItineraryListAPIView, PackageImageListAPIView, PackageListAPIView, PackageDetailAPIView, GoogleOauthSignInView, DestinationListAPIView, DestinationDetailView, UserListCreateAPIView, UserRetrieveUpdateAPIView
-from .views import HotelDetailAPIView, HotelBookingListCreateAPIView, HotelBookingDetailView, StripeCheckoutView, StripeSuccessView, PackageBookingListAPIView, PackageBookingDetailAPIView, UserPackageBookingListAPIView,UserHotelBookingListAPIView
+from .views import HotelDetailAPIView, HotelBookingListCreateAPIView, HotelBookingDetailView, StripeCheckoutView, StripeSuccessView, PackageBookingListAPIView, PackageBookingDetailAPIView, UserPackageBookingListAPIView,UserHotelBookingListAPIView,CancelBookingAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -38,6 +38,8 @@ urlpatterns = [
      path('packagebookings/', PackageBookingListAPIView.as_view(), name='package-booking'),
     path('packagebookings/<int:pk>/', PackageBookingDetailAPIView.as_view(), name='package-booking-detail'),
     path('user-package-bookings/<int:user_id>/', UserPackageBookingListAPIView.as_view(), name='user-package-booking-list'),
+    path('package-bookings/<int:pk>/cancel/', CancelBookingAPIView.as_view(), name='package-booking-cancel'),
+
     
     path('hotelbookings/', HotelBookingListCreateAPIView.as_view(), name='hotel-booking'),
     path('hotelbookings/<int:pk>', HotelBookingDetailView.as_view(), name='hotel-booking-detail'),

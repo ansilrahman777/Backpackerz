@@ -5,6 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import UserWrapper from './Wrapper/UserWrapper ';
 import AdminWrapper from './Wrapper/AdminWrapper';
+import { miyagi } from 'ldrs'
+miyagi.register()
 
 function App() {
   return (

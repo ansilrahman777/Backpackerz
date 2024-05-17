@@ -12,11 +12,12 @@ import AdminDestinationDetail from './../Pages/Admin/AdminDestinationDetail';
 import AddDestinations from './../Pages/Admin/AddDestinations';
 import EditDestination from './../Pages/Admin/EditDestination';
 import AdminHotelDetails from './../Pages/Admin/AdminHotelDetails';
-import AdminHotelBooking from './../Pages/Admin/AdminHotelBooking';
-import AdminPackageBooking from './../Pages/Admin/AdminPackageBooking';
 
 import PrivateRoute from './../Wrapper/PrivateRoute';
 import AdminChat from '../Pages/Admin/AdminChat';
+
+import AdminHotelBooking from '../Pages/Admin/AdminHotelBooking';
+import AdminPackageBooking from '../Pages/Admin/AdminPackageBooking';
 
 
 // AdminRoutes component containing all the private routes
@@ -36,6 +37,7 @@ const AdminRoutes = () => {
       <Route path="/hotel_details/:id" element={<AdminHotelDetails />} />
       <Route path="/hotel_booking" element={<AdminHotelBooking />} />
       <Route path="/package_booking" element={<AdminPackageBooking />} />
+ 
       
 
       <Route path="/admin_chat" element={<AdminChat />} />

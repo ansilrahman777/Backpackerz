@@ -27,24 +27,24 @@ function PackageBookingList() {
     }
   }, []);
 
-  // Booking.jsx
-
-const cancelBooking = (bookingId) => {
-    axios.patch(`http://127.0.0.1:8000/api/user-package-bookings/${bookingId}/cancel/`)
-    .then(response => {
+  const cancelBooking = (bookingId) => {
+    axios
+      .patch(`http://127.0.0.1:8000/api/package-bookings/${bookingId}/cancel/`)
+      .then((response) => {
         // Update bookings state after cancellation
-        setBookings(prevBookings => prevBookings.map(booking => {
+        setBookings((prevBookings) =>
+          prevBookings.map((booking) => {
             if (booking.id === bookingId) {
-                return { ...booking, status: 'Cancelled' };
+              return { ...booking, status: "Cancelled" };
             }
             return booking;
-        }));
-    })
-    .catch(error => {
-        console.error('Error cancelling booking:', error);
-    });
-};
-
+          })
+        );
+      })
+      .catch((error) => {
+        console.error("Error cancelling booking:", error);
+      });
+  };
 
   return (
     <div>
@@ -97,9 +97,7 @@ const cancelBooking = (bookingId) => {
                             </div>
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {new Date(
-                              booking.booking_date
-                            ).toLocaleDateString()}
+                            {new Date(booking.booking_date).toLocaleDateString()}
                           </td>
                           <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                             <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">

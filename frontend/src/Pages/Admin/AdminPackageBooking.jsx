@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
+import axios from 'axios';
 
 function AdminPackageBooking() {
   const [bookings, setBookings] = useState([]);
 
-  useEffect(() => {
-    // Fetch data from API when component mounts
-    fetch("http://127.0.0.1:8000/api/admin_side/package-bookings/") // Replace with your API endpoint
+  // Define the fetchBookings function
+  const fetchBookings = () => {
+    fetch("http://127.0.0.1:8000/api/admin_side/package-bookings/")
       .then((response) => response.json())
       .then((data) => setBookings(data))
       .catch((error) => console.error("Error fetching data:", error));
+  };
+
+  useEffect(() => {
+    // Fetch data from API when component mounts
+    fetchBookings();
   }, []);
+
   const cancelBooking = (id) => {
-    axios.patch(`ccc`)
+    axios.patch(`http://127.0.0.1:8000/api/admin_side/package-bookings/${id}/cancel/`)
       .then(() => {
         fetchBookings(); // Refresh the bookings after cancellation
       })
@@ -53,49 +60,49 @@ function AdminPackageBooking() {
                         </th>
                         <th
                           scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Date
                         </th>
 
                         <th
                           scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Status
                         </th>
 
                         <th
                           scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Customer
                         </th>
 
                         <th
                           scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
-                          package Name
+                          Package Name
                         </th>
 
                         <th
                           scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
-                          guest
+                          Guest
                         </th>
 
                         <th
                           scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Amount
                         </th>
 
                         <th
                           scope="col"
-                          class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                          className="flex justify-center px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Action
                         </th>
@@ -109,45 +116,44 @@ function AdminPackageBooking() {
                               <span>{booking.booking_id}</span>
                             </div>
                           </td>
-                          <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {new Date(booking.booking_date).toLocaleDateString()}
+                          <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                            {new Date(booking.booking_date).toLocaleDateString()}
                           </td>
-                          <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                            <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
-                              <h2 class="text-sm font-normal">{booking.status}</h2>
+                          <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                            <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
+                              <h2 className="text-sm font-normal">{booking.status}</h2>
                             </div>
                           </td>
-                          <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            <div class="flex items-center gap-x-2">
+                          <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                            <div className="flex items-center gap-x-2">
                               <img
-                                class="object-cover w-8 h-8 rounded-full"
+                                className="object-cover w-8 h-8 rounded-full"
                                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
                                 alt=""
                               />
                               <div>
-                                <h2 class="text-sm font-medium text-gray-800 dark:text-white ">
-                                {booking.full_name}
-
+                                <h2 className="text-sm font-medium text-gray-800 dark:text-white ">
+                                  {booking.full_name}
                                 </h2>
-                                <p class="text-xs font-normal text-gray-600 dark:text-gray-400">
-                                {booking.email}
+                                <p className="text-xs font-normal text-gray-600 dark:text-gray-400">
+                                  {booking.email}
                                 </p>
                               </div>
                             </div>
                           </td>
-                          <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {booking.package_name}
-                          </td>
-                          <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {booking.no_of_guests}
-                          </td>
-                          <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {booking.total_amount}
+                          <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                            {booking.package_name}
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            <button onClick={() => cancelBooking(booking.id)}>Cancel</button>
-                            <br/>
-                            <button onClick={() => confirmBooking(booking.id)}>Confirm</button>
+                            {booking.no_of_guests}
+                          </td>
+                          <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                            {booking.total_amount}
+                          </td>
+                          <td className="flex px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                            <button className="text-red-800 mx-3" onClick={() => cancelBooking(booking.id)}>Cancel</button>
+                            <br />
+                            <button className="text-green-400 mx-3" onClick={() => confirmBooking(booking.id)}>Confirm</button>
                           </td>
                         </tr>
                       ))}

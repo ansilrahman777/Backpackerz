@@ -9,7 +9,6 @@ function EditPackagePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState("");
-
   const [formData, setFormData] = useState({
     packageName: "",
     description: "",
@@ -18,8 +17,10 @@ function EditPackagePage() {
     destination: "",
     image: "",
   });
+  const [loading, setLoading] = useState(true); // Initialize loading state as true
 
   useEffect(() => {
+    setLoading(true); // Set loading to true when the component mounts
     axios
       .get(`http://127.0.0.1:8000/api/admin_side/packages/${id}/`)
       .then((response) => {
@@ -30,12 +31,14 @@ function EditPackagePage() {
           price: packageData.price,
           duration: packageData.duration,
           destination: packageData.destination,
-          image: packageData.image_url, // reset image to null as you might not want to display the existing image
+          image: packageData.image_url,
         });
+        setLoading(false); // Set loading to false when data is fetched
       })
       .catch((error) => {
         console.error("Error fetching package details:", error);
         toast.error("Error fetching package details");
+        setLoading(false); // Set loading to false even if there's an error
       });
   }, [id]);
 
@@ -46,14 +49,20 @@ function EditPackagePage() {
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
-    setFormData({ ...formData, image: selectedImage });
+    const allowedFormats = ["image/jpeg", "image/png"];
 
-    // Preview the selected image
-    const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewImage(reader.result); // Set previewImage state to display the selected image
-    };
-    reader.readAsDataURL(selectedImage); // Convert the selected image to a data URL
+    if (selectedImage && allowedFormats.includes(selectedImage.type)) {
+      setFormData({ ...formData, image: selectedImage });
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(selectedImage);
+    } else {
+      toast.error("Invalid file format. Please select a PNG or JPG image.");
+      e.target.value = null;
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -65,7 +74,9 @@ function EditPackagePage() {
     formDataToSend.append("price", formData.price);
     formDataToSend.append("duration", formData.duration);
     formDataToSend.append("destination", formData.destination);
-    if (formData.image) {
+
+    // Check if image field is not empty
+    if (formData.image instanceof File) {
       formDataToSend.append("image_url", formData.image);
     }
 
@@ -87,6 +98,15 @@ function EditPackagePage() {
       toast.error("Error updating package");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <l-miyagi size="35" stroke="3.5" speed="0.9" color="black"></l-miyagi>
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -181,7 +201,7 @@ function EditPackagePage() {
                   <div className="mt-2 flex justify-start rounded-lg">
                     <div>
                       <img
-                        src={previewImage || formData.image} // Use the previewImage state if available, otherwise use formData.image
+                        src={previewImage || formData.image}
                         alt={formData.packageName}
                         className="rounded-md h-[256px] w-[256px] object-cover object-center group-hover:opacity-75"
                       />

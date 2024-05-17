@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from users.models import Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion, User
+from users.models import Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion, User, HotelBooking, PackageBooking
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -74,3 +74,15 @@ class DestinationSerializer(serializers.ModelSerializer):
         model = Destination
         fields = ['id', 'destination_name', 'season', 'description', 'state', 'country', 'image_url', 'hotels']
 
+class PackageBookingSerializer(serializers.ModelSerializer):
+    package_name = serializers.CharField(source='package.package_name')  
+    class Meta:
+        model = PackageBooking
+        fields = '__all__'
+
+class HotelBookingSerializer(serializers.ModelSerializer):
+    hotel_name = serializers.CharField(source='hotel.hotel_name')  # Include hotel name
+
+    class Meta:
+        model = HotelBooking
+        fields = '__all__'
