@@ -30,7 +30,7 @@ function AsideBar() {
         </li>
         <li className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
           <Link
-            to="/admin/hotel_booking"
+            to="/admin/hotel-booking"
             className="cursor-pointer hover:text-gray-300"
           >
             Hotel Booking
@@ -38,7 +38,7 @@ function AsideBar() {
         </li>
         <li className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
           <Link
-            to="/admin/package_booking"
+            to="/admin/package-booking"
             className="cursor-pointer hover:text-gray-300"
           >
             Package Booking

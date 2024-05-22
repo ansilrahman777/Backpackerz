@@ -70,12 +70,48 @@ class PackageDetailAPIView(generics.RetrieveAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class AddPackageAPIView(generics.CreateAPIView):
+    queryset = Package.objects.all()
     serializer_class = PackageSerializer
 
 
 class EditPackageAPIView(generics.RetrieveUpdateAPIView):
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
+
+class PackageImageCreateAPIView(generics.CreateAPIView):
+    queryset = PackageImage.objects.all()
+    serializer_class = PackageImageSerializer
+
+class PackageImageUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = PackageImage.objects.all()
+    serializer_class = PackageImageSerializer
+
+# Views for Itinerary
+class ItineraryCreateAPIView(generics.CreateAPIView):
+    queryset = Itinerary.objects.all()
+    serializer_class = ItinerarySerializer
+
+class ItineraryUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Itinerary.objects.all()
+    serializer_class = ItinerarySerializer
+
+# Views for PackageInclusion
+class PackageInclusionCreateAPIView(generics.CreateAPIView):
+    queryset = PackageInclusion.objects.all()
+    serializer_class = PackageInclusionSerializer
+
+class PackageInclusionUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = PackageInclusion.objects.all()
+    serializer_class = PackageInclusionSerializer
+
+# Views for PackageExclusion
+class PackageExclusionCreateAPIView(generics.CreateAPIView):
+    queryset = PackageExclusion.objects.all()
+    serializer_class = PackageExclusionSerializer
+
+class PackageExclusionUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = PackageExclusion.objects.all()
+    serializer_class = PackageExclusionSerializer
 # --------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------package session ends ------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------

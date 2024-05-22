@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CancelBookingAPIView, ConfirmBookingAPIView, HotelBookingListAPIView, LoginAPIView ,LogoutAPIView, PackageBookingListAPIView, PackageListAPIView, PackageDetailAPIView, AddPackageAPIView, EditPackageAPIView, DestinationListAPIView, DestinationDetailAPIView, HotelDetailAPIView, AddDestinationAPIView, EditDestinationAPIView
+from .views import CancelBookingAPIView, ConfirmBookingAPIView, HotelBookingListAPIView, ItineraryCreateAPIView, ItineraryUpdateAPIView, LoginAPIView ,LogoutAPIView, PackageBookingListAPIView, PackageExclusionCreateAPIView, PackageExclusionUpdateAPIView, PackageImageCreateAPIView, PackageImageUpdateAPIView, PackageInclusionCreateAPIView, PackageInclusionUpdateAPIView, PackageListAPIView, PackageDetailAPIView, AddPackageAPIView, EditPackageAPIView, DestinationListAPIView, DestinationDetailAPIView, HotelDetailAPIView, AddDestinationAPIView, EditDestinationAPIView
 from .views import UniqueUserListView
 
 urlpatterns = [
@@ -10,6 +10,18 @@ urlpatterns = [
     path('packages/<int:pk>/', PackageDetailAPIView.as_view(), name='package-detail'),
     path('packages/add/', AddPackageAPIView.as_view(), name='add-package'),
     path('packages/edit/<int:pk>/', EditPackageAPIView.as_view(), name='edit-package'),
+
+    path('package-images/add/', PackageImageCreateAPIView.as_view(), name='add-package-image'),
+    path('package-images/edit/<int:pk>/', PackageImageUpdateAPIView.as_view(), name='edit-package-image'),
+
+    path('itineraries/add/', ItineraryCreateAPIView.as_view(), name='add-itinerary'),
+    path('itineraries/edit/<int:pk>/', ItineraryUpdateAPIView.as_view(), name='edit-itinerary'),
+
+    path('inclusions/add/', PackageInclusionCreateAPIView.as_view(), name='add-inclusion'),
+    path('inclusions/edit/<int:pk>/', PackageInclusionUpdateAPIView.as_view(), name='edit-inclusion'),
+
+    path('exclusions/add/', PackageExclusionCreateAPIView.as_view(), name='add-exclusion'),
+    path('exclusions/edit/<int:pk>/', PackageExclusionUpdateAPIView.as_view(), name='edit-exclusion'),
     
     path('destinations/', DestinationListAPIView.as_view(), name='destination'),
     path('destinations/add/', AddDestinationAPIView.as_view(), name='add-destination'),

@@ -21,7 +21,7 @@ class PackageImageAdmin(admin.ModelAdmin):
 
 @admin.register(Itinerary)
 class ItineraryAdmin(admin.ModelAdmin):
-    list_display = ['package', 'day_number', 'description', 'image']
+    list_display = ['package', 'day_number', 'image']
     list_filter = ['package']
 
 @admin.register(PackageInclusion)

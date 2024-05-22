@@ -49,7 +49,7 @@ class OTP(models.Model):
         return f"{self.user.first_name} passcode "
 
 class Package(models.Model):
-    package_name = models.CharField(_("Package Name"), max_length=255)
+    package_name = models.CharField(_("Package Name"), max_length=255,unique=True)
     description = models.TextField(_("Description"))
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
     duration = models.PositiveIntegerField(_("Duration in days"), null=True)

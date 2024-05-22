@@ -18,11 +18,11 @@ function HotelConfirmBooking() {
         setBookingDetails(response.data);
         if (response.data.status === "Payment Complete") {
           // Redirect to home page if booking status is "payment complete"
-          toast.error("Booking completed.");
+          toast.success("Booking completed.");
           navigate("/");
         }
       })
-      .catch((error) => {
+      .catch((error) => { 
         console.error("Error fetching booking details:", error);
       });
   }, [bookingId]); // Include bookingId in the dependency array

@@ -34,15 +34,49 @@ class PackageExclusionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PackageSerializer(serializers.ModelSerializer):
-    images = PackageImageSerializer(many=True, read_only=True)
-    itinerary = ItinerarySerializer(many=True, read_only=True)
-    inclusions = PackageInclusionSerializer(many=True, read_only=True)
-    exclusions = PackageExclusionSerializer(many=True, read_only=True)
-    
+    images = PackageImageSerializer(many=True, required=False)
+    itinerary = ItinerarySerializer(many=True, required=False)
+    inclusions = PackageInclusionSerializer(many=True, required=False)
+    exclusions = PackageExclusionSerializer(many=True, required=False)
+
     class Meta:
         model = Package
         fields = '__all__'
 
+    def update(self, instance, validated_data):
+        images_data = validated_data.pop('images', [])
+        itinerary_data = validated_data.pop('itinerary', [])
+        inclusions_data = validated_data.pop('inclusions', [])
+        exclusions_data = validated_data.pop('exclusions', [])
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        self._update_nested(instance.images, images_data, PackageImage)
+        self._update_nested(instance.itinerary, itinerary_data, Itinerary)
+        self._update_nested(instance.inclusions, inclusions_data, PackageInclusion)
+        self._update_nested(instance.exclusions, exclusions_data, PackageExclusion)
+
+        return instance
+
+    def _update_nested(self, related_manager, nested_data, model_class):
+        """
+        Helper method to update nested serializers.
+        """
+        existing_ids = {item.id: item for item in related_manager.all()}
+        for item_data in nested_data:
+            item_id = item_data.get('id')
+            if item_id and item_id in existing_ids:
+                item_instance = existing_ids.pop(item_id)
+                for attr, value in item_data.items():
+                    setattr(item_instance, attr, value)
+                item_instance.save()
+            else:
+                model_class.objects.create(**item_data)
+
+        for remaining_item in existing_ids.values():
+            remaining_item.delete()
 
 
 
