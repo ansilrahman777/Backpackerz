@@ -121,9 +121,10 @@ class PackageExclusionUpdateAPIView(generics.RetrieveUpdateAPIView):
 # --------------------------------------------------------------------------------------------------------------------------
 
 
-from .serializers import DestinationSerializer,HotelSerializer
-from users.models import Destination, Hotel
+from users.models import Destination, Hotel, HotelImage, HotelItinerary, HotelDetail
+from .serializers import DestinationSerializer, HotelSerializer, HotelImageSerializer, HotelItinerarySerializer, HotelDetailSerializer
 
+# Destination Views
 class DestinationListAPIView(generics.ListAPIView):
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
@@ -136,25 +137,69 @@ class DestinationDetailAPIView(generics.RetrieveAPIView):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class HotelsByDestinationAPIView(generics.ListAPIView):
+    serializer_class = HotelSerializer
+
+    def get_queryset(self):
+        destination_id = self.kwargs['destination_id']
+        return Hotel.objects.filter(destination_id=destination_id)
 
 class AddDestinationAPIView(generics.CreateAPIView):
+    queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
 
 class EditDestinationAPIView(generics.RetrieveUpdateAPIView):
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
 
+# Hotel Views
+class HotelListAPIView(generics.ListAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
 
 class HotelDetailAPIView(generics.RetrieveAPIView):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context.update({
-            'request': self.request
-        })
-        return context
+class AddHotelAPIView(generics.CreateAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+class EditHotelAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+
+# Hotel Image Views
+class AddHotelImageAPIView(generics.CreateAPIView):
+    queryset = HotelImage.objects.all()
+    serializer_class = HotelImageSerializer
+
+class EditHotelImageAPIView(generics.RetrieveUpdateAPIView):
+    queryset = HotelImage.objects.all()
+    serializer_class = HotelImageSerializer
+
+# Hotel Itinerary Views
+class AddHotelItineraryAPIView(generics.CreateAPIView):
+    queryset = HotelItinerary.objects.all()
+    serializer_class = HotelItinerarySerializer
+
+class EditHotelItineraryAPIView(generics.RetrieveUpdateAPIView):
+    queryset = HotelItinerary.objects.all()
+    serializer_class = HotelItinerarySerializer
+
+# Hotel Detail Views
+class AddHotelDetailAPIView(generics.CreateAPIView):
+    queryset = HotelDetail.objects.all()
+    serializer_class = HotelDetailSerializer
+
+class EditHotelDetailAPIView(generics.RetrieveUpdateAPIView):
+    queryset = HotelDetail.objects.all()
+    serializer_class = HotelDetailSerializer
+
+    
+
+
 from .serializers import PackageBookingSerializer, HotelBookingSerializer
 
 class PackageBookingListAPIView(generics.ListAPIView):

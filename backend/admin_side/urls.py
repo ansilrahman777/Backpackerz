@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CancelBookingAPIView, ConfirmBookingAPIView, HotelBookingListAPIView, ItineraryCreateAPIView, ItineraryUpdateAPIView, LoginAPIView ,LogoutAPIView, PackageBookingListAPIView, PackageExclusionCreateAPIView, PackageExclusionUpdateAPIView, PackageImageCreateAPIView, PackageImageUpdateAPIView, PackageInclusionCreateAPIView, PackageInclusionUpdateAPIView, PackageListAPIView, PackageDetailAPIView, AddPackageAPIView, EditPackageAPIView, DestinationListAPIView, DestinationDetailAPIView, HotelDetailAPIView, AddDestinationAPIView, EditDestinationAPIView
+from .views import AddHotelAPIView, AddHotelDetailAPIView, AddHotelImageAPIView, AddHotelItineraryAPIView, CancelBookingAPIView, ConfirmBookingAPIView, EditHotelAPIView, EditHotelDetailAPIView, EditHotelImageAPIView, EditHotelItineraryAPIView, HotelBookingListAPIView, HotelListAPIView, HotelsByDestinationAPIView, ItineraryCreateAPIView, ItineraryUpdateAPIView, LoginAPIView ,LogoutAPIView, PackageBookingListAPIView, PackageExclusionCreateAPIView, PackageExclusionUpdateAPIView, PackageImageCreateAPIView, PackageImageUpdateAPIView, PackageInclusionCreateAPIView, PackageInclusionUpdateAPIView, PackageListAPIView, PackageDetailAPIView, AddPackageAPIView, EditPackageAPIView, DestinationListAPIView, DestinationDetailAPIView, HotelDetailAPIView, AddDestinationAPIView, EditDestinationAPIView
 from .views import UniqueUserListView
 
 urlpatterns = [
@@ -22,13 +22,28 @@ urlpatterns = [
 
     path('exclusions/add/', PackageExclusionCreateAPIView.as_view(), name='add-exclusion'),
     path('exclusions/edit/<int:pk>/', PackageExclusionUpdateAPIView.as_view(), name='edit-exclusion'),
-    
-    path('destinations/', DestinationListAPIView.as_view(), name='destination'),
+
+    path('destinations/', DestinationListAPIView.as_view(), name='destination-list'),
     path('destinations/add/', AddDestinationAPIView.as_view(), name='add-destination'),
     path('destination/<int:pk>/', DestinationDetailAPIView.as_view(), name='destination-detail'),
     path('destination/edit/<int:pk>/', EditDestinationAPIView.as_view(), name='edit-destination'),
 
-    path('hotels/<int:pk>/', HotelDetailAPIView.as_view(), name='hotel-detail'),
+    path('destinations/<int:destination_id>/hotels/', HotelsByDestinationAPIView.as_view(), name='hotels-by-destination'),
+
+
+    path('hotels/', HotelListAPIView.as_view(), name='hotel-list'),
+    path('hotels/add/', AddHotelAPIView.as_view(), name='add-hotel'),
+    path('hotel/<int:pk>/', HotelDetailAPIView.as_view(), name='hotel-detail'),
+    path('hotel/edit/<int:pk>/', EditHotelAPIView.as_view(), name='edit-hotel'),
+
+    path('hotel-images/add/', AddHotelImageAPIView.as_view(), name='add-hotel-image'),
+    path('hotel-images/edit/<int:pk>/', EditHotelImageAPIView.as_view(), name='edit-hotel-image'),
+
+    path('hotel-itineraries/add/', AddHotelItineraryAPIView.as_view(), name='add-hotel-itinerary'),
+    path('hotel-itineraries/edit/<int:pk>/', EditHotelItineraryAPIView.as_view(), name='edit-hotel-itinerary'),
+
+    path('hotel-details/add/', AddHotelDetailAPIView.as_view(), name='add-hotel-detail'),
+    path('hotel-details/edit/<int:pk>/', EditHotelDetailAPIView.as_view(), name='edit-hotel-detail'),
 
     path('package-bookings/', PackageBookingListAPIView.as_view(), name='package-booking-list'),
     path('hotel-bookings/', HotelBookingListAPIView.as_view(), name='hotel-booking-list'),

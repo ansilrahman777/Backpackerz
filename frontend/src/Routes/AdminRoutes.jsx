@@ -23,6 +23,12 @@ import AddPackageInclusion from '../Pages/Admin/AddPackageInclusion';
 import AddPackageExclusion from '../Pages/Admin/AddPackageExclusion';
 import AddPackageImages from '../Pages/Admin/AddPackageImages';
 import AdminPackageDetails from '../Pages/Admin/AdminPackageDetails';
+// import AdminHotel from '../Pages/Admin/AdminHotel';
+import AdminDestinationHotels from '../Pages/Admin/AdminDestinationHotels';
+import AddHotelPage from '../Pages/Admin/AddHotelPage';
+import AddHotelItinerary from '../Pages/Admin/AddHotelItinerary';
+import AddHotelDetail from '../Pages/Admin/AddHotelDetail';
+import AddHotelImage from '../Pages/Admin/AddHotelImage';
 
 
 // AdminRoutes component containing all the private routes
@@ -44,12 +50,20 @@ const AdminRoutes = () => {
 
       <Route path="/packages/edit/:id" element={<EditPackagePage />} />
 
+
       <Route path="/destinations" element={<AdminDestinations />} />
-      <Route path="/destination/:id" element={<AdminDestinationDetail />} />
+      <Route path="/destinations/:destination_id/hotels" element={<AdminDestinationHotels />} />
+      <Route path="/hotel/hotel-details/:hotel_id" element={<AdminHotelDetails />} />
+
+      <Route path="/hotels/add-hotel/:destinationId" element={<AddHotelPage />} />
+
+      <Route path="/add-hotel-itinerary/:id" element={<AddHotelItinerary />} />
+      <Route path="/add-hotel-detail/:id" element={<AddHotelDetail />} />
+      <Route path="/add-hotel-image/:id" element={<AddHotelImage />} />
+
       <Route path="/add-destination" element={<AddDestinations />} />
       <Route path="/destination/edit/:id" element={<EditDestination />} />
 
-      <Route path="/hotel_details/:id" element={<AdminHotelDetails />} />
       <Route path="/hotel-booking" element={<AdminHotelBooking />} />
       <Route path="/package-booking" element={<AdminPackageBooking />} />
  

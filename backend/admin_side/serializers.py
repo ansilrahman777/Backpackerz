@@ -80,26 +80,32 @@ class PackageSerializer(serializers.ModelSerializer):
 
 
 
-from users.models import Destination, Hotel, HotelImage, HotelItinerary
+from users.models import Destination, Hotel, HotelImage, HotelItinerary, HotelDetail
 
 
 class HotelImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = HotelImage
-        fields = ['image']
+        fields = '__all__'
 
 class HotelItinerarySerializer(serializers.ModelSerializer):
     class Meta:
         model = HotelItinerary
-        fields = ['day', 'description', 'activity']
+        fields = '__all__'
+
+class HotelDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HotelDetail
+        fields = '__all__'
 
 class HotelSerializer(serializers.ModelSerializer):
-    images = HotelImageSerializer(many=True, read_only=True)
-    itinerary = HotelItinerarySerializer(many=True, read_only=True)
+    images = HotelImageSerializer(many=True, required=False)
+    itinerary = HotelItinerarySerializer(many=True, required=False)
+    details = HotelDetailSerializer(many=True, required=False)
 
     class Meta:
         model = Hotel
-        fields = ['id', 'hotel_name', 'pricing', 'contact_no', 'hotel_type', 'is_available', 'rooms', 'rating', 'images', 'itinerary']
+        fields = ['id','destination','destination_name','hotel_name', 'hotel_description','pricing', 'contact_no', 'hotel_type', 'is_available', 'rooms', 'rating', 'images', 'itinerary','details','image_url']
 
 class DestinationSerializer(serializers.ModelSerializer):
     hotels = HotelSerializer(many=True, read_only=True)
