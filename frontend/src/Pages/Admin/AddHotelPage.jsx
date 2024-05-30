@@ -24,6 +24,7 @@ function AddHotelPage() {
     image: null,
   });
 
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showAdditionalForms, setShowAdditionalForms] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
@@ -56,8 +57,61 @@ function AddHotelPage() {
     }
   };
 
+  const validateForm = () => {
+    let formErrors = {};
+    const alphaRegex = /^[A-Za-z ]+$/;
+    const imageTypes = ["image/jpeg", "image/png"];
+    const phoneRegex = /^\d{10}$/;
+  
+    if (!formData.hotelName || formData.hotelName.length < 3 || !alphaRegex.test(formData.hotelName)) {
+      formErrors.hotelName = "Hotel Name should be at least 3 characters long and only contain alphabets.";
+    }
+  
+    if (!formData.destinationName || formData.destinationName.length < 3 || !alphaRegex.test(formData.destinationName)) {
+      formErrors.destinationName = "Destination Name should be at least 3 characters long and only contain alphabets.";
+    }
+  
+    if (!formData.hotelDescription || formData.hotelDescription.length < 10 || !alphaRegex.test(formData.hotelDescription)) {
+      formErrors.hotelDescription = "Hotel Description should be at least 10 characters long and only contain alphabets.";
+    }
+  
+    if (!formData.pricing || isNaN(formData.pricing) || formData.pricing < 1 || formData.pricing > 1000000) {
+      formErrors.pricing = "Pricing should be a number between 100 and 1,000,000.";
+    }
+  
+    if (!formData.contactNo || !phoneRegex.test(formData.contactNo)) {
+      formErrors.contactNo = "Contact Number should be a valid 10 digit phone number.";
+    }
+  
+    if (!formData.hotelType || isNaN(formData.hotelType) || formData.hotelType < 1 || formData.hotelType > 5) {
+      formErrors.hotelType = "Hotel Type should be a number between 1 and 5.";
+    }
+  
+    if (!formData.rooms || isNaN(formData.rooms) || formData.rooms < 1 || formData.rooms > 20) {
+      formErrors.rooms = "Rooms should be a number between 1 and 20.";
+    }
+  
+    if (!formData.rating || isNaN(formData.rating) || formData.rating < 0.01 || formData.rating > 5) {
+      formErrors.rating = "Rating should be a number between 1 and 5.";
+    }
+  
+    if (!formData.image || !imageTypes.includes(formData.image.type)) {
+      formErrors.image = "Please upload a valid image (JPG or PNG).";
+    }
+  
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error("Please fix the errors in the form");
+      return;
+    }
+
     const formDataToSend = new FormData();
     formDataToSend.append("destination", destinationId);
     formDataToSend.append("hotel_name", formData.hotelName);
@@ -128,6 +182,11 @@ function AddHotelPage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.hotelName && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.hotelName}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -143,6 +202,11 @@ function AddHotelPage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.destinationName && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.destinationName}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -158,6 +222,11 @@ function AddHotelPage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.hotelDescription && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.hotelDescription}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -168,11 +237,17 @@ function AddHotelPage() {
                         name="pricing"
                         value={formData.pricing}
                         onChange={handleChange}
+                        min="1"
                         placeholder="Pricing"
                         required
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.pricing && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.pricing}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -188,6 +263,11 @@ function AddHotelPage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.contactNo && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.contactNo}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -203,6 +283,11 @@ function AddHotelPage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.hotelType && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.hotelType}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -228,10 +313,16 @@ function AddHotelPage() {
                         value={formData.rooms}
                         onChange={handleChange}
                         placeholder="Rooms"
+                        min="1"
                         required
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.rooms && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.rooms}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -244,10 +335,16 @@ function AddHotelPage() {
                         value={formData.rating}
                         onChange={handleChange}
                         placeholder="Rating"
+                        min="0.01"
                         required
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.rating && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.rating}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -261,6 +358,11 @@ function AddHotelPage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.image && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.image}
+                      </p>
+                    )}
                   </div>
                 </div>
                 {imagePreview && (
@@ -276,22 +378,21 @@ function AddHotelPage() {
             </div>
           </div>
           {!showAdditionalForms && (
-                <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button
-                  type="button"
-                  className="text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Submit
-                </button>
-              </div>
-                )}
-          
+            <div className="mt-6 flex items-center justify-end gap-x-6">
+              <button
+                type="button"
+                className="text-sm font-semibold leading-6 text-gray-900"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Submit
+              </button>
+            </div>
+          )}
         </form>
         {showAdditionalForms && hotelId && (
           <div>

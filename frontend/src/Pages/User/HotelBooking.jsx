@@ -21,6 +21,15 @@ function HotelBooking() {
     no_of_room: 1,
     no_of_guest: 1,
   });
+  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(()=>{
+    if (!user) {
+
+      navigate("/login");
+      toast.error("Login for book you Hotel");
+    }
+
+  },[])
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);

@@ -7,7 +7,6 @@ function HotelBookingList() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Retrieve user details from local storage
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser && storedUser.user_id) {
       setUser(storedUser);

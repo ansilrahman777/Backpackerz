@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { MdAddPhotoAlternate } from "react-icons/md";
@@ -17,17 +17,60 @@ function AddDestinations() {
     image: null, // This will hold the selected image file
   });
 
+  const [errors, setErrors] = useState({});
+  const [imagePreview, setImagePreview] = useState(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleImageChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
+    const file = e.target.files[0];
+    setFormData({ ...formData, image: file });
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const validateForm = () => {
+    let formErrors = {};
+    const alphaRegex = /^[A-Za-z ]+$/;
+    const imageTypes = ["image/jpeg", "image/png"];
+
+    if (!formData.destinationName || formData.destinationName.length < 3 || !alphaRegex.test(formData.destinationName)) {
+      formErrors.destinationName = "Destination Name should be at least 3 characters long and only contain alphabets.";
+    }
+
+    if (!formData.season || formData.season.length < 3 || !alphaRegex.test(formData.season)) {
+      formErrors.season = "Season should be at least 3 characters long and only contain alphabets.";
+    }
+
+    if (!formData.description || formData.description.length < 3 || !alphaRegex.test(formData.description)) {
+      formErrors.description = "Description should be at least 3 characters long and only contain alphabets.";
+    }
+
+    if (!formData.state || formData.state.length < 3 || !alphaRegex.test(formData.state)) {
+      formErrors.state = "State should be at least 3 characters long and only contain alphabets.";
+    }
+
+    if (!formData.country || formData.country.length < 3 || !alphaRegex.test(formData.country)) {
+      formErrors.country = "Country should be at least 3 characters long and only contain alphabets.";
+    }
+
+    if (!formData.image || !imageTypes.includes(formData.image.type)) {
+      formErrors.image = "Please upload a valid image (JPG or PNG).";
+    }
+
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error("Please fix the errors in the form");
+      return;
+    }
 
     const formDataToSend = new FormData();
     formDataToSend.append("destination_name", formData.destinationName);
@@ -89,6 +132,11 @@ function AddDestinations() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.destinationName && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.destinationName}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -103,6 +151,11 @@ function AddDestinations() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.season && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.season}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -117,6 +170,11 @@ function AddDestinations() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.description && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.description}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -131,6 +189,11 @@ function AddDestinations() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.state && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.state}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -145,6 +208,11 @@ function AddDestinations() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.country && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.country}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="col-span-full">
@@ -152,21 +220,17 @@ function AddDestinations() {
                     htmlFor="file-upload"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Destination Image
+                    
                   </label>
-                  <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                  <div className="mt-2 flex justify-start rounded-lg ">
                     <div className="text-center">
-                      <MdAddPhotoAlternate
-                        className="mx-auto h-12 w-12 text-gray-300"
-                        aria-hidden="true"
-                      />
+                  
                       <div className="mt-4 flex text-sm leading-6 text-gray-600">
                         <label
                           htmlFor="file-upload"
-                          className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-with
-                          in:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                          className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                         >
-                          <span>Upload a file</span>
+                          <span>Upload a Image</span>
                           <input
                             id="file-upload"
                             name="file-upload"
@@ -176,13 +240,27 @@ function AddDestinations() {
                             accept="image/*" // Add accept attribute to allow only image files
                           />
                         </label>
-                        <p className="pl-1">or drag and drop</p>
+                  
                       </div>
                       <p className="text-xs leading-5 text-gray-600">
-                        PNG, JPG, GIF up to 10MB
+                        PNG, JPG 
                       </p>
                     </div>
                   </div>
+                  {errors.image && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.image}
+                    </p>
+                  )}
+                  {imagePreview && (
+                    <div className="mt-4">
+                      <img
+                        src={imagePreview}
+                        alt="Selected"
+                        className="w-32 h-32 object-cover rounded"
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="mt-2 flex lg:ml-4 lg:mt-0">
                   <span className="sm:ml-3">

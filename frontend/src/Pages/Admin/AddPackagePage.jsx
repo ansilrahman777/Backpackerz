@@ -5,14 +5,13 @@ import { MdAddPhotoAlternate } from "react-icons/md";
 import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
 import { useNavigate } from "react-router-dom";
-import AddPackageExclusion from '../Admin/AddPackageExclusion'
-import AddPackageItinerary from '../Admin/AddPackageItinerary'
-import AddPackageInclusion from '../Admin/AddPackageInclusion'
-import AddPackageImages from '../Admin/AddPackageImages'
+import AddPackageExclusion from "../Admin/AddPackageExclusion";
+import AddPackageItinerary from "../Admin/AddPackageItinerary";
+import AddPackageInclusion from "../Admin/AddPackageInclusion";
+import AddPackageImages from "../Admin/AddPackageImages";
 
 function AddPackagePage() {
   const [packages, setPackages] = useState([]);
-  console.log(packages);
   const [formData, setFormData] = useState({
     packageName: "",
     description: "",
@@ -22,13 +21,12 @@ function AddPackagePage() {
     no_of_nights: "",
     image: null,
   });
-  
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showAdditionalForms, setShowAdditionalForms] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
-  const [packageId, setPackageId] = useState(null); // State to store package ID
-  
-  console.log("id------------",packageId);
+  const [packageId, setPackageId] = useState(null);
+
   useEffect(() => {
     setLoading(true);
     setLoading(false);
@@ -47,7 +45,7 @@ function AddPackagePage() {
       setFormData({ ...formData, image: file });
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result); // Set the preview URL
+        setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
     } else {
@@ -56,8 +54,76 @@ function AddPackagePage() {
     }
   };
 
+  const validate = () => {
+    const errors = {};
+    const alphaRegex = /^[A-Za-z ]+$/;
+    const alphaNumRegex = /^[A-Za-z0-9 ]+$/;
+
+    if (
+      !formData.packageName ||
+      formData.packageName.length < 3 ||
+      !alphaRegex.test(formData.packageName)
+    ) {
+      errors.packageName =
+        "Package name should be at least 3 characters long and contain only alphabets.";
+    }
+    if (
+      !formData.description ||
+      formData.description.length < 5 ||
+      !alphaNumRegex.test(formData.description)
+    ) {
+      errors.description =
+        "Description should be at least 5 characters long and contain only alphabets and numbers.";
+    }
+    if (
+      !formData.price ||
+      !Number.isInteger(+formData.price) ||
+      formData.price < 100 ||
+      formData.price > 1000000
+    ) {
+      errors.price = "Price should be an integer between 100 and 1000000.";
+    }
+    if (
+      !formData.duration ||
+      !Number.isInteger(+formData.duration) ||
+      formData.duration < 1 ||
+      formData.duration > 50
+    ) {
+      errors.duration = "Duration should be an integer between 1 and 50.";
+    }
+    if (
+      !formData.destination ||
+      formData.destination.length < 3 ||
+      !alphaNumRegex.test(formData.destination)
+    ) {
+      errors.destination =
+        "Destination should be at least 3 characters long and contain only alphabets and numbers.";
+    }
+    if (
+      !formData.no_of_nights ||
+      !Number.isInteger(+formData.no_of_nights) ||
+      formData.no_of_nights < 1 ||
+      formData.no_of_nights > 50
+    ) {
+      errors.no_of_nights =
+        "Number of nights should be an integer between 1 and 50.";
+    }
+    if (!formData.image) {
+      errors.image = "Please upload an image.";
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      toast.error("Please fix the errors in the form");
+      return;
+    }
+
     const formDataToSend = new FormData();
     formDataToSend.append("package_name", formData.packageName);
     formDataToSend.append("description", formData.description);
@@ -66,7 +132,7 @@ function AddPackagePage() {
     formDataToSend.append("no_of_nights", formData.no_of_nights);
     formDataToSend.append("destination", formData.destination);
     formDataToSend.append("image_url", formData.image);
-  
+
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/admin_side/packages/add/",
@@ -77,18 +143,17 @@ function AddPackagePage() {
           },
         }
       );
-  
-      console.log("Package added successfully:", response.data);
+
       toast.success("Package added successfully");
       setPackages([...packages, response.data]);
-      setPackageId(response.data.id); // Set the package ID
-      setShowAdditionalForms(true); // Show additional forms after successful submission
+      setPackageId(response.data.id);
+      setErrors({})
+      setShowAdditionalForms(true);
     } catch (error) {
-      console.error("Error adding package:", error);
       toast.error("Error adding package");
     }
   };
-  
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -103,7 +168,11 @@ function AddPackagePage() {
       <Header />
       <div className="flex">
         <AsideBar />
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className="ml-16 m-4">
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="ml-16 m-4"
+        >
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
               <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -126,6 +195,11 @@ function AddPackagePage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.packageName && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {errors.packageName}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -141,6 +215,11 @@ function AddPackagePage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.description && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {errors.description}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -156,6 +235,11 @@ function AddPackagePage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.price && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {errors.price}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -171,6 +255,11 @@ function AddPackagePage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.duration && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {errors.duration}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -186,6 +275,11 @@ function AddPackagePage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.no_of_nights && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {errors.no_of_nights}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-4">
@@ -201,12 +295,16 @@ function AddPackagePage() {
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
                     </div>
+                    {errors.destination && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {errors.destination}
+                      </p>
+                    )}
                   </div>
                 </div>
-                
+
                 <div className="col-span-12">
                   <div className="text-center border">
-                    
                     <div className="mt-4 flex text-sm leading-6 text-gray-600">
                       <label
                         htmlFor="file-upload"
@@ -234,19 +332,24 @@ function AddPackagePage() {
                         />
                       </div>
                     )}
+                    {errors.image && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {errors.image}
+                      </p>
+                    )}
                   </div>
                 </div>
                 {!showAdditionalForms && (
-                <div className="mt-2 flex lg:ml-4 lg:mt-0">
-                  <span className="sm:ml-3">
-                    <button
-                      type="submit"
-                      className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Submit
-                    </button>
-                  </span>
-                </div>
+                  <div className="mt-2 flex lg:ml-4 lg:mt-0">
+                    <span className="sm:ml-3">
+                      <button
+                        type="submit"
+                        className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      >
+                        Submit
+                      </button>
+                    </span>
+                  </div>
                 )}
               </div>
             </div>

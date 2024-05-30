@@ -7,11 +7,19 @@ import { toast } from "react-toastify";
 function HotelConfirmBooking() {
   const { bookingId } = useParams();
   const user = JSON.parse(localStorage.getItem("user"));
+  
 
   const navigate = useNavigate();
 
   console.log(user.user_id);
   useEffect(() => {
+    if (!user) {
+      // Redirect to login page if user is not logged in
+      navigate("/login");
+      toast.success("Login for book you Hotel");
+
+      return;
+    }
     axios
       .get(`http://127.0.0.1:8000/api/hotelbookings/${bookingId}`)
       .then((response) => {

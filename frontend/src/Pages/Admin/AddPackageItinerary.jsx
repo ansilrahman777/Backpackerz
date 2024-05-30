@@ -18,6 +18,7 @@ function AddPackageItinerary({ packageId }) {
     description: "",
     image: null,
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,8 +30,43 @@ function AddPackageItinerary({ packageId }) {
     setFormData({ ...formData, image: file });
   };
 
+  const validate = () => {
+    const errors = {};
+    const alphaNumRegex = /^[A-Za-z0-9 ]+$/;
+    const allowedFormats = ["image/jpeg", "image/png"];
+
+    if (
+      !formData.dayNumber ||
+      !Number.isInteger(+formData.dayNumber) ||
+      formData.dayNumber < 1 ||
+      formData.dayNumber > 50
+    ) {
+      errors.dayNumber = "Day number should be an integer between 1 and 50.";
+    }
+    if (
+      !formData.description ||
+      formData.description.length < 5 ||
+      !alphaNumRegex.test(formData.description)
+    ) {
+      errors.description = "Description should be at least 5 characters";
+    }
+    if (!formData.image) {
+      errors.image = "Please upload an image.";
+    } else if (!allowedFormats.includes(formData.image.type)) {
+      errors.image = "Invalid file format.select a PNG or JPG ";
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     const formDataToSend = new FormData();
     formDataToSend.append("package", finalPackageId); // Use finalPackageId here
     formDataToSend.append("day_number", formData.dayNumber);
@@ -55,6 +91,7 @@ function AddPackageItinerary({ packageId }) {
         description: "",
         image: null,
       });
+      setErrors({});
       e.target.reset();
     } catch (error) {
       console.error("Error adding itinerary:", error);
@@ -82,7 +119,12 @@ function AddPackageItinerary({ packageId }) {
                 value={formData.dayNumber}
                 onChange={handleChange}
                 required
+                placeholder="Day Number"
+                className="block w-full rounded-md border-0 bg-gray-100 p-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
+              {errors.dayNumber && (
+                <p className="text-red-500">{errors.dayNumber}</p>
+              )}
             </div>
             <div>
               <label htmlFor="description">Description:</label>
@@ -91,8 +133,13 @@ function AddPackageItinerary({ packageId }) {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
+                placeholder="Description"
                 required
+                className="block w-full rounded-md border-0 bg-gray-100 p-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
+              {errors.description && (
+                <p className="text-red-500">{errors.description}</p>
+              )}
             </div>
             <div>
               <label htmlFor="image">Image:</label>
@@ -102,9 +149,16 @@ function AddPackageItinerary({ packageId }) {
                 name="image"
                 onChange={handleImageChange}
                 required
+                className="block w-full rounded-md border-0 bg-gray-100 p-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
               />
+              {errors.image && <p className="text-red-500">{errors.image}</p>}
             </div>
-            <button type="submit">Submit</button>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>
