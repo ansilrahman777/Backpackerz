@@ -15,7 +15,6 @@ import ForgotPassword from './../Pages/User/ForgotPassword'
 import ResetPassword from './../Pages/User/ResetPassword'
 import Test from '../Pages/User/Test';
 import PackageBooking from '../Pages/User/PackageBooking';
-import Payment from '../Pages/User/Payment';
 import Chat from '../Pages/User/Chat';
 import Booking from '../Pages/User/PackageBookingList';
 import HotelBooking from '../Pages/User/HotelBooking';
@@ -41,8 +40,6 @@ const UserWrapper = () => {
 
 
         <Route path="/hotel-detail/:id" element={<HotelDetails />} />
-        <Route path="/payment" element={<Payment />} />
-
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password-reset-confirm/:uid/:token/" element={<ResetPassword />} />
 
