@@ -133,11 +133,17 @@ function Profile() {
                   </p>
                 </div>
                 <div className="w-full h-[200px] px-8 mt-4">
-                  <Link to='/package-booking-list' className="flex items-center my-1 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
-                   PACKAGE BOOKING
+                  <Link
+                    to="/package-booking-list"
+                    className="flex items-center my-1 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100"
+                  >
+                    PACKAGE BOOKING
                   </Link>
-                  <Link to='/hotel-booking-list' className="flex items-center my-1 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
-                   HOTEL BOOKING
+                  <Link
+                    to="/hotel-booking-list"
+                    className="flex items-center my-1 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100"
+                  >
+                    HOTEL BOOKING
                   </Link>
                 </div>
                 <div className="flex-1 flex flex-col items-center px-8 mt-2">

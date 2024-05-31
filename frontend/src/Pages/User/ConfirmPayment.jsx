@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function ConfirmPayment() {
-  return (
-    <div>
-        confirm  Payment
-    </div>
-  )
+  return <div>confirm Payment</div>;
 }
 
-export default ConfirmPayment
+export default ConfirmPayment;

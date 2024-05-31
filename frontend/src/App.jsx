@@ -5,18 +5,21 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import UserWrapper from './Wrapper/UserWrapper ';
 import AdminWrapper from './Wrapper/AdminWrapper';
-import { miyagi } from 'ldrs'
-miyagi.register()
+import { AuthProvider } from './Store/AuthContext';
+import { miyagi } from 'ldrs';
+miyagi.register();
 
 function App() {
   return (
-    <Router>
-      <ToastContainer />
-      <Routes>
-        <Route path="*" element={<UserWrapper />} />
-        <Route path="/admin/*" element={<AdminWrapper />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <ToastContainer />
+        <Routes>
+          <Route path="/admin/*" element={<AdminWrapper />} />
+          <Route path="*" element={<UserWrapper />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

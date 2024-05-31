@@ -1,13 +1,15 @@
 import login_form from "./../../assets/imageAdmin/login_form.jpg";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { AuthContext } from "./../../Store/AuthContext";
 
 function AdminLogin() {
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,9 +23,13 @@ function AdminLogin() {
           password: password,
         }
       );
-      console.log(response.data); // handle success, maybe redirect to admin dashboard
+      const { access, refresh } = response.data;
+
+      localStorage.setItem("access", access);
+      localStorage.setItem("refresh", refresh);
+      setIsAuthenticated(true);
       navigate("/admin/dashboard");
-      toast.success("login successfull");
+      toast.success("Login successful");
     } catch (error) {
       toast.error("Invalid email or password");
     }
@@ -31,10 +37,7 @@ function AdminLogin() {
 
   return (
     <>
-      <div
-        className="min-h-screen bg-cover"
-
-      >
+      <div className="min-h-screen bg-cover">
         <div className="container mx-auto mt-24">
           <div className="flex flex-col md:flex-row w-10/12  md:w-8/12 bg-sky-300 bg-opacity-70 mx-auto rounded-md overflow-hidden shadow-lg">
             <div

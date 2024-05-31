@@ -18,28 +18,26 @@ function PackageBookingConfirmed() {
         .get(`http://127.0.0.1:8000/api/packagebookings/${booking_id}/`)
         .then((response) => {
           setPackageBooking(response.data);
-          console.log('book',response.data);
-          const package_id = response.data.package
+          console.log("book", response.data);
+          const package_id = response.data.package;
           if (package_id) {
             axios
               .get(`http://127.0.0.1:8000/api/packages/${package_id}/`)
               .then((response) => {
                 setPackageDetails(response.data);
-                console.log('packae',response.data);
+                console.log("packae", response.data);
               })
               .catch((error) => {
                 console.error("Error fetching booking:", error);
                 toast.error("Error fetching booking");
               });
           }
-
         })
         .catch((error) => {
           console.error("Error fetching booking:", error);
           toast.error("Error fetching booking");
         });
     }
-    
   }, [booking_id]);
 
   return (
@@ -65,9 +63,7 @@ function PackageBookingConfirmed() {
               : ""}
           </h1>
           <p className="items-center text-center cherry-bomb text-black text-4xl pb-6">
-            {packageDetails && packageDetails
-              ? packageDetails.duration
-              : ""}{" "}
+            {packageDetails && packageDetails ? packageDetails.duration : ""}{" "}
             Days /
             {packageDetails && packageDetails
               ? packageDetails.no_of_nights
@@ -99,13 +95,10 @@ function PackageBookingConfirmed() {
                           : "Package not found"}
                       </h2>
                       <p className="text-black">
-                        {packageDetails
-                          ? packageDetails.destination
-                          : ""}
+                        {packageDetails ? packageDetails.destination : ""}
                       </p>
                       <p className="text-black">
-                        {packageDetails ? packageDetails.duration : ""}{" "}
-                        Days
+                        {packageDetails ? packageDetails.duration : ""} Days
                       </p>
                       <div className="flex items-center">
                         <div className="ml-2 text-black text-xl font-medium">
@@ -132,7 +125,7 @@ function PackageBookingConfirmed() {
                       <p className="font-bold ">{packageBooking.booking_id}</p>
                     </div>
                     <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-10 flex justify-between rounded">
-                      <label className="block text-black">Traveller Name</label>
+                      <label className="block text-black">Traveler Name</label>
                       <p className="font-bold">{packageBooking.full_name}</p>
                     </div>
                     <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-10 flex justify-between rounded">

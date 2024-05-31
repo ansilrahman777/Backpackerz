@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
-import AddHotelImage from '../Admin/AddHotelImage';
-import AddHotelItinerary from '../Admin/AddHotelItinerary';
-import AddHotelDetail from '../Admin/AddHotelDetail';
+import AddHotelImage from "../Admin/AddHotelImage";
+import AddHotelItinerary from "../Admin/AddHotelItinerary";
+import AddHotelDetail from "../Admin/AddHotelDetail";
 
 function AddHotelPage() {
   const { destinationId } = useParams();
@@ -62,47 +62,83 @@ function AddHotelPage() {
     const alphaRegex = /^[A-Za-z ]+$/;
     const imageTypes = ["image/jpeg", "image/png"];
     const phoneRegex = /^\d{10}$/;
-  
-    if (!formData.hotelName || formData.hotelName.length < 3 || !alphaRegex.test(formData.hotelName)) {
-      formErrors.hotelName = "Hotel Name should be at least 3 characters long and only contain alphabets.";
+
+    if (
+      !formData.hotelName ||
+      formData.hotelName.length < 3 ||
+      !alphaRegex.test(formData.hotelName)
+    ) {
+      formErrors.hotelName =
+        "Hotel Name should be at least 3 characters long and only contain alphabets.";
     }
-  
-    if (!formData.destinationName || formData.destinationName.length < 3 || !alphaRegex.test(formData.destinationName)) {
-      formErrors.destinationName = "Destination Name should be at least 3 characters long and only contain alphabets.";
+
+    if (
+      !formData.destinationName ||
+      formData.destinationName.length < 3 ||
+      !alphaRegex.test(formData.destinationName)
+    ) {
+      formErrors.destinationName =
+        "Destination Name should be at least 3 characters long and only contain alphabets.";
     }
-  
-    if (!formData.hotelDescription || formData.hotelDescription.length < 10 || !alphaRegex.test(formData.hotelDescription)) {
-      formErrors.hotelDescription = "Hotel Description should be at least 10 characters long and only contain alphabets.";
+
+    if (
+      !formData.hotelDescription ||
+      formData.hotelDescription.length < 10 ||
+      !alphaRegex.test(formData.hotelDescription)
+    ) {
+      formErrors.hotelDescription =
+        "Hotel Description should be at least 10 characters long and only contain alphabets.";
     }
-  
-    if (!formData.pricing || isNaN(formData.pricing) || formData.pricing < 1 || formData.pricing > 1000000) {
-      formErrors.pricing = "Pricing should be a number between 100 and 1,000,000.";
+
+    if (
+      !formData.pricing ||
+      isNaN(formData.pricing) ||
+      formData.pricing < 1 ||
+      formData.pricing > 1000000
+    ) {
+      formErrors.pricing =
+        "Pricing should be a number between 100 and 1,000,000.";
     }
-  
+
     if (!formData.contactNo || !phoneRegex.test(formData.contactNo)) {
-      formErrors.contactNo = "Contact Number should be a valid 10 digit phone number.";
+      formErrors.contactNo =
+        "Contact Number should be a valid 10 digit phone number.";
     }
-  
-    if (!formData.hotelType || isNaN(formData.hotelType) || formData.hotelType < 1 || formData.hotelType > 5) {
+
+    if (
+      !formData.hotelType ||
+      isNaN(formData.hotelType) ||
+      formData.hotelType < 1 ||
+      formData.hotelType > 5
+    ) {
       formErrors.hotelType = "Hotel Type should be a number between 1 and 5.";
     }
-  
-    if (!formData.rooms || isNaN(formData.rooms) || formData.rooms < 1 || formData.rooms > 20) {
+
+    if (
+      !formData.rooms ||
+      isNaN(formData.rooms) ||
+      formData.rooms < 1 ||
+      formData.rooms > 20
+    ) {
       formErrors.rooms = "Rooms should be a number between 1 and 20.";
     }
-  
-    if (!formData.rating || isNaN(formData.rating) || formData.rating < 0.01 || formData.rating > 5) {
+
+    if (
+      !formData.rating ||
+      isNaN(formData.rating) ||
+      formData.rating < 0.01 ||
+      formData.rating > 5
+    ) {
       formErrors.rating = "Rating should be a number between 1 and 5.";
     }
-  
+
     if (!formData.image || !imageTypes.includes(formData.image.type)) {
       formErrors.image = "Please upload a valid image (JPG or PNG).";
     }
-  
+
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -159,7 +195,11 @@ function AddHotelPage() {
       <Header />
       <div className="flex">
         <AsideBar />
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className="ml-16 m-4">
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="ml-16 m-4"
+        >
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
               <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -293,12 +333,19 @@ function AddHotelPage() {
                 <div className="sm:col-span-4">
                   <div className="mt-2">
                     <div className="flex items-center">
-                      <label className="text-sm leading-6 text-gray-600 mr-4">Is Available</label>
+                      <label className="text-sm leading-6 text-gray-600 mr-4">
+                        Is Available
+                      </label>
                       <input
                         type="checkbox"
                         name="isAvailable"
                         checked={formData.isAvailable}
-                        onChange={(e) => setFormData({ ...formData, isAvailable: e.target.checked })}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            isAvailable: e.target.checked,
+                          })
+                        }
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-600 border-gray-300 rounded"
                       />
                     </div>

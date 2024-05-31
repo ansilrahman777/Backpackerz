@@ -3,6 +3,7 @@ import home2 from "./../../assets/imageUser/home2.jpg";
 import axios from "axios";
 import Header from "../../Components/User/Header/Header";
 import { Link } from "react-router-dom";
+import Footer from "../../Components/User/Footer/Footer";
 
 function Destinations() {
   const [destinations, setDestinations] = useState([]);
@@ -44,24 +45,24 @@ function Destinations() {
             <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
               {destinations.map((destination) => (
                 <div key={destination.id} className="group relative">
-                <div className="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
-                      <Link
-                        to={`/destination-details/${destination.id}`}
-                        className="block relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
-                      >
-                        <img
-                          src={destination.image_url}
-                          alt={destination.destination_name}
-                          className="h-full w-full object-cover object-center"
-                        />
-                      </Link>
-                    </div>
+                  <div className="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                    <Link
+                      to={`/destination-details/${destination.id}`}
+                      className="block relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
+                    >
+                      <img
+                        src={destination.image_url}
+                        alt={destination.destination_name}
+                        className="h-full w-full object-cover object-center"
+                      />
+                    </Link>
+                  </div>
                   <Link to={`/destination-details/${destination.id}`}>
                     <h3 className="mt-6 text-sm text-gray-500">
                       {destination.destination_name}
                     </h3>
                   </Link>
-             
+
                   <p className="text-base font-semibold text-gray-900">
                     {destination.state},{destination.country}
                   </p>
@@ -72,6 +73,7 @@ function Destinations() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

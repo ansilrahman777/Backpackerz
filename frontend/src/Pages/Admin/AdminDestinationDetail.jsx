@@ -5,8 +5,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 function AdminDestinationDetail() {
-    
-    const { id } = useParams();
+  const { id } = useParams();
   const [destinationDetail, setDestinationDetail] = useState(null);
   const [hotels, setHotels] = useState([]);
 
@@ -23,7 +22,6 @@ function AdminDestinationDetail() {
         console.error("Error fetching destination:", error);
       });
   }, [id]); // Make sure to include id in the dependency array so that useEffect runs when id changes
-  
 
   return (
     <div>

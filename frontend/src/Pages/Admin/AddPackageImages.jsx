@@ -27,7 +27,9 @@ function AddPackageImages({ packageId }) {
       setImagePreview(URL.createObjectURL(file));
       setErrors({});
     } else {
-      setErrors({ image: "Invalid file format. Please select a PNG or JPG image." });
+      setErrors({
+        image: "Invalid file format. Please select a PNG or JPG image.",
+      });
       setImagePreview(null);
     }
   };
@@ -80,26 +82,37 @@ function AddPackageImages({ packageId }) {
             className="ml-16 m-4"
           >
             <div className="mb-4">
-              <label htmlFor="image" className="block mb-1">Image:</label>
+              <label htmlFor="image" className="block mb-1">
+                Image:
+              </label>
               <input
                 type="file"
                 id="image"
                 name="image"
                 onChange={handleImageChange}
                 required
-                className={`block w-full rounded-md border-0 bg-gray-100 p-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6 ${errors.image ? "border-red-500" : ""}`}
+                className={`block w-full rounded-md border-0 bg-gray-100 p-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6 ${
+                  errors.image ? "border-red-500" : ""
+                }`}
               />
-              {errors.image && (
-                <p className="text-red-500">{errors.image}</p>
-              )}
+              {errors.image && <p className="text-red-500">{errors.image}</p>}
             </div>
             {imagePreview && (
               <div className="mb-4">
                 <p className="mb-2">Image Preview:</p>
-                <img src={imagePreview} alt="Preview" className="w-40 h-40 rounded-md" />
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-40 h-40 rounded-md"
+                />
               </div>
             )}
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">Submit</button>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>

@@ -27,10 +27,14 @@ function AddPackageInclusion({ packageId }) {
     const errors = {};
     const alphaNumRegex = /^[A-Za-z0-9 ]+$/;
 
-    if (!formData.inclusion || formData.inclusion.length < 5 || !alphaNumRegex.test(formData.inclusion)) {
+    if (
+      !formData.inclusion ||
+      formData.inclusion.length < 5 ||
+      !alphaNumRegex.test(formData.inclusion)
+    ) {
       errors.inclusion = "Inclusion should be at least 5 characters.";
     }
-  
+
     return errors;
   };
 
@@ -75,7 +79,9 @@ function AddPackageInclusion({ packageId }) {
         <div className="flex w-full">
           <form onSubmit={handleSubmit} className="mx-auto max-w-md">
             <div className="mb-4">
-              <label htmlFor="inclusion" className="block mb-1">Inclusion:</label>
+              <label htmlFor="inclusion" className="block mb-1">
+                Inclusion:
+              </label>
               <input
                 type="text"
                 id="inclusion"
@@ -85,12 +91,17 @@ function AddPackageInclusion({ packageId }) {
                 required
                 placeholder="Inclusion"
                 className="block w-full rounded-md border-0 bg-gray-100 p-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                />
+              />
               {errors.inclusion && (
                 <p className="text-red-500">{errors.inclusion}</p>
               )}
             </div>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">Submit</button>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>

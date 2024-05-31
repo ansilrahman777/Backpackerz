@@ -56,11 +56,11 @@ function EditDestination() {
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
     const allowedFormats = ["image/jpeg", "image/png"];
-  
+
     // Check if the selected file format is allowed
     if (selectedImage && allowedFormats.includes(selectedImage.type)) {
       setFormData({ ...formData, image: selectedImage });
-  
+
       // Preview the selected image
       const reader = new FileReader();
       reader.onload = () => {
@@ -74,7 +74,7 @@ function EditDestination() {
       e.target.value = null;
     }
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 

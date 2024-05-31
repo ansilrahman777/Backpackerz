@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../../Components/User/Header/Header";
+import Footer from "../../Components/User/Footer/Footer";
 
 function PackageBookingList() {
   const [bookings, setBookings] = useState([]);
@@ -97,7 +98,9 @@ function PackageBookingList() {
                             </div>
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {new Date(booking.booking_date).toLocaleDateString()}
+                            {new Date(
+                              booking.booking_date
+                            ).toLocaleDateString()}
                           </td>
                           <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                             <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
@@ -149,6 +152,7 @@ function PackageBookingList() {
           </div>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -36,24 +36,49 @@ function AddDestinations() {
     const alphaRegex = /^[A-Za-z ]+$/;
     const imageTypes = ["image/jpeg", "image/png"];
 
-    if (!formData.destinationName || formData.destinationName.length < 3 || !alphaRegex.test(formData.destinationName)) {
-      formErrors.destinationName = "Destination Name should be at least 3 characters long and only contain alphabets.";
+    if (
+      !formData.destinationName ||
+      formData.destinationName.length < 3 ||
+      !alphaRegex.test(formData.destinationName)
+    ) {
+      formErrors.destinationName =
+        "Destination Name should be at least 3 characters long and only contain alphabets.";
     }
 
-    if (!formData.season || formData.season.length < 3 || !alphaRegex.test(formData.season)) {
-      formErrors.season = "Season should be at least 3 characters long and only contain alphabets.";
+    if (
+      !formData.season ||
+      formData.season.length < 3 ||
+      !alphaRegex.test(formData.season)
+    ) {
+      formErrors.season =
+        "Season should be at least 3 characters long and only contain alphabets.";
     }
 
-    if (!formData.description || formData.description.length < 3 || !alphaRegex.test(formData.description)) {
-      formErrors.description = "Description should be at least 3 characters long and only contain alphabets.";
+    if (
+      !formData.description ||
+      formData.description.length < 3 ||
+      !alphaRegex.test(formData.description)
+    ) {
+      formErrors.description =
+        "Description should be at least 3 characters long and only contain alphabets.";
     }
 
-    if (!formData.state || formData.state.length < 3 || !alphaRegex.test(formData.state)) {
-      formErrors.state = "State should be at least 3 characters long and only contain alphabets.";
+    if (
+      !formData.state ||
+      formData.state.length < 3 ||
+      !alphaRegex.test(formData.state)
+    ) {
+      formErrors.state =
+        "State should be at least 3 characters long and only contain alphabets.";
     }
 
-    if (!formData.country || formData.country.length < 3 || !alphaRegex.test(formData.country)) {
-      formErrors.country = "Country should be at least 3 characters long and only contain alphabets.";
+    if (
+      !formData.country ||
+      formData.country.length < 3 ||
+      !alphaRegex.test(formData.country)
+    ) {
+      formErrors.country =
+        "Country should be at least 3 characters long and only contain alphabets.";
     }
 
     if (!formData.image || !imageTypes.includes(formData.image.type)) {
@@ -219,12 +244,9 @@ function AddDestinations() {
                   <label
                     htmlFor="file-upload"
                     className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    
-                  </label>
+                  ></label>
                   <div className="mt-2 flex justify-start rounded-lg ">
                     <div className="text-center">
-                  
                       <div className="mt-4 flex text-sm leading-6 text-gray-600">
                         <label
                           htmlFor="file-upload"
@@ -240,17 +262,14 @@ function AddDestinations() {
                             accept="image/*" // Add accept attribute to allow only image files
                           />
                         </label>
-                  
                       </div>
                       <p className="text-xs leading-5 text-gray-600">
-                        PNG, JPG 
+                        PNG, JPG
                       </p>
                     </div>
                   </div>
                   {errors.image && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.image}
-                    </p>
+                    <p className="text-red-500 text-xs mt-1">{errors.image}</p>
                   )}
                   {imagePreview && (
                     <div className="mt-4">

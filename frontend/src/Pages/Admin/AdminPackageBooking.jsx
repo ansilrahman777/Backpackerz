@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
-import axios from 'axios';
+import axios from "axios";
 
 function AdminPackageBooking() {
   const [bookings, setBookings] = useState([]);
@@ -20,7 +20,10 @@ function AdminPackageBooking() {
   }, []);
 
   const cancelBooking = (id) => {
-    axios.patch(`http://127.0.0.1:8000/api/admin_side/package-bookings/${id}/cancel/`)
+    axios
+      .patch(
+        `http://127.0.0.1:8000/api/admin_side/package-bookings/${id}/cancel/`
+      )
       .then(() => {
         fetchBookings(); // Refresh the bookings after cancellation
       })
@@ -28,7 +31,10 @@ function AdminPackageBooking() {
   };
 
   const confirmBooking = (id) => {
-    axios.patch(`http://127.0.0.1:8000/api/admin_side/package-bookings/${id}/confirm/`)
+    axios
+      .patch(
+        `http://127.0.0.1:8000/api/admin_side/package-bookings/${id}/confirm/`
+      )
       .then(() => {
         fetchBookings(); // Refresh the bookings after confirmation
       })
@@ -117,11 +123,15 @@ function AdminPackageBooking() {
                             </div>
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {new Date(booking.booking_date).toLocaleDateString()}
+                            {new Date(
+                              booking.booking_date
+                            ).toLocaleDateString()}
                           </td>
                           <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                             <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
-                              <h2 className="text-sm font-normal">{booking.status}</h2>
+                              <h2 className="text-sm font-normal">
+                                {booking.status}
+                              </h2>
                             </div>
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
@@ -151,9 +161,19 @@ function AdminPackageBooking() {
                             {booking.total_amount}
                           </td>
                           <td className="flex px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            <button className="text-red-800 mx-3" onClick={() => cancelBooking(booking.id)}>Cancel</button>
+                            <button
+                              className="text-red-800 mx-3"
+                              onClick={() => cancelBooking(booking.id)}
+                            >
+                              Cancel
+                            </button>
                             <br />
-                            <button className="text-green-400 mx-3" onClick={() => confirmBooking(booking.id)}>Confirm</button>
+                            <button
+                              className="text-green-400 mx-3"
+                              onClick={() => confirmBooking(booking.id)}
+                            >
+                              Confirm
+                            </button>
                           </td>
                         </tr>
                       ))}

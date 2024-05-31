@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 function HotelConfirmBooking() {
   const { bookingId } = useParams();
   const user = JSON.parse(localStorage.getItem("user"));
-  
 
   const navigate = useNavigate();
 
@@ -30,19 +29,19 @@ function HotelConfirmBooking() {
           navigate("/");
         }
       })
-      .catch((error) => { 
+      .catch((error) => {
         console.error("Error fetching booking details:", error);
       });
   }, [bookingId]); // Include bookingId in the dependency array
   const [bookingDetails, setBookingDetails] = useState(null);
 
   return (
-    <div className="min-h-screen bg-cover"
-
-    >
+    <div className="min-h-screen bg-cover">
       <Header />
       <div className="container mx-auto mt-10">
-        <h1 className="text-3xl text-center text-white font-bold mb-5">Hotel Booking Confirmation</h1>
+        <h1 className="text-3xl text-center text-white font-bold mb-5">
+          Hotel Booking Confirmation
+        </h1>
         {bookingDetails ? (
           <div>
             <div className="w-full max-w-lg px-10 py-8 mx-auto bg-gray-100 rounded-lg shadow-xl">
@@ -50,8 +49,7 @@ function HotelConfirmBooking() {
                 <p className="text-gray-600">Booking Summary</p>
 
                 <div className="text-base leading-7">
-            
-                  <p >
+                  <p>
                     <strong>Full Name:</strong> {bookingDetails.full_name}
                   </p>
                   <p>
@@ -75,7 +73,6 @@ function HotelConfirmBooking() {
                   <p>
                     <strong>Total Amount:</strong> ₹ {bookingDetails.total}
                   </p>
-
 
                   <div className="mt-4">
                     <form

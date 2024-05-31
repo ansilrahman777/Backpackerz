@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../../Components/User/Header/Header";
 import { Link } from "react-router-dom";
 import LazyLoad from "react-lazyload";
+import Footer from "../../Components/User/Footer/Footer";
 
 function TripPage() {
   const [packages, setPackages] = useState([]);
@@ -81,6 +82,7 @@ function TripPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

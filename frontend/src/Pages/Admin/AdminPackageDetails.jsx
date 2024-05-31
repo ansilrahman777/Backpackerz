@@ -238,54 +238,53 @@ function AdminPackageDetails() {
                   </div>
                 </div>
               </div>
-
             </div>
-              <div className="flex gap-x-56 mt-6">
-                <div className="mt-2 flex lg:ml-4 lg:mt-0">
-                  <span className="sm:ml-3">
-                    <Link
-                      to={`/admin/add-package-itinerary/${id}`}
-                      state={{ packageId: id }}
-                      className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Add itinerary
-                    </Link>
-                  </span>
-                </div>
-                <div className="mt-2 flex lg:ml-4 lg:mt-0">
-                  <span className="sm:ml-3">
-                    <Link
-                      to={`/admin/add-package-inclusion/${id}`}
-                      state={{ packageId: id }}
-                      className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Add inclusion
-                    </Link>
-                  </span>
-                </div>
-                <div className="mt-2 flex lg:ml-4 lg:mt-0">
-                  <span className="sm:ml-3">
-                    <Link
-                      to={`/admin/add-package-exclusion/${id}`}
-                      state={{ packageId: id }}
-                      className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Add Exclusion
-                    </Link>
-                  </span>
-                </div>
-                <div className="mt-2 flex lg:ml-4 lg:mt-0">
-                  <span className="sm:ml-3">
-                    <Link
-                      to={`/admin/add-package-images/${id}`}
-                      state={{ packageId: id }}
-                      className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Add images
-                    </Link>
-                  </span>
-                </div>
+            <div className="flex gap-x-56 mt-6">
+              <div className="mt-2 flex lg:ml-4 lg:mt-0">
+                <span className="sm:ml-3">
+                  <Link
+                    to={`/admin/add-package-itinerary/${id}`}
+                    state={{ packageId: id }}
+                    className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Add itinerary
+                  </Link>
+                </span>
               </div>
+              <div className="mt-2 flex lg:ml-4 lg:mt-0">
+                <span className="sm:ml-3">
+                  <Link
+                    to={`/admin/add-package-inclusion/${id}`}
+                    state={{ packageId: id }}
+                    className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Add inclusion
+                  </Link>
+                </span>
+              </div>
+              <div className="mt-2 flex lg:ml-4 lg:mt-0">
+                <span className="sm:ml-3">
+                  <Link
+                    to={`/admin/add-package-exclusion/${id}`}
+                    state={{ packageId: id }}
+                    className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Add Exclusion
+                  </Link>
+                </span>
+              </div>
+              <div className="mt-2 flex lg:ml-4 lg:mt-0">
+                <span className="sm:ml-3">
+                  <Link
+                    to={`/admin/add-package-images/${id}`}
+                    state={{ packageId: id }}
+                    className="inline-flex items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Add images
+                  </Link>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

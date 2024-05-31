@@ -4,6 +4,7 @@ import Header from "../../Components/User/Header/Header";
 import { FaTent } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Footer from "../../Components/User/Footer/Footer";
 
 function HotelBooking() {
   const location = useLocation();
@@ -22,14 +23,12 @@ function HotelBooking() {
     no_of_guest: 1,
   });
   const user = JSON.parse(localStorage.getItem("user"));
-  useEffect(()=>{
+  useEffect(() => {
     if (!user) {
-
       navigate("/login");
       toast.error("Login for book you Hotel");
     }
-
-  },[])
+  }, []);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -343,6 +342,7 @@ function HotelBooking() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

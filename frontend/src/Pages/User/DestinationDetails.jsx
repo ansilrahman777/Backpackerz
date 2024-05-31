@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import Header from "../../Components/User/Header/Header";
+import Footer from "../../Components/User/Footer/Footer";
 
 function DestinationDetails() {
   const { id } = useParams();
@@ -89,6 +90,7 @@ function DestinationDetails() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

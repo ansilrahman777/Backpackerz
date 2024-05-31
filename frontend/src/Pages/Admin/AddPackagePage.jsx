@@ -147,7 +147,7 @@ function AddPackagePage() {
       toast.success("Package added successfully");
       setPackages([...packages, response.data]);
       setPackageId(response.data.id);
-      setErrors({})
+      setErrors({});
       setShowAdditionalForms(true);
     } catch (error) {
       toast.error("Error adding package");

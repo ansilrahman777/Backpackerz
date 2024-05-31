@@ -29,7 +29,8 @@ function AddHotelItinerary({ hotelId }) {
 
     // Activity field validation
     if (!alphaNumRegex.test(itinerary.activity)) {
-      formErrors.activity = "Activity can contain alphabets, numbers, and spaces.";
+      formErrors.activity =
+        "Activity can contain alphabets, numbers, and spaces.";
     }
 
     setErrors(formErrors);
@@ -67,7 +68,9 @@ function AddHotelItinerary({ hotelId }) {
 
   return (
     <div className="m-3">
-      <h3 className="text-lg font-medium leading-6 text-gray-900">Add Hotel Itinerary</h3>
+      <h3 className="text-lg font-medium leading-6 text-gray-900">
+        Add Hotel Itinerary
+      </h3>
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <input
           type="number"
@@ -81,29 +84,29 @@ function AddHotelItinerary({ hotelId }) {
         {errors.day && (
           <p className="text-red-500 text-xs mt-1">{errors.day}</p>
         )}
-        <textarea 
-          name="description" 
-          value={itinerary.description} 
-          onChange={handleChange} 
-          placeholder="Description" 
-          required 
+        <textarea
+          name="description"
+          value={itinerary.description}
+          onChange={handleChange}
+          placeholder="Description"
+          required
           className="block w-full rounded-md border-0 bg-gray-100 p-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
         />
         {errors.description && (
           <p className="text-red-500 text-xs mt-1">{errors.description}</p>
         )}
-        <textarea 
-          name="activity" 
-          value={itinerary.activity} 
-          onChange={handleChange} 
-          placeholder="Activity" 
+        <textarea
+          name="activity"
+          value={itinerary.activity}
+          onChange={handleChange}
+          placeholder="Activity"
           className="block w-full rounded-md border-0 bg-gray-100 p-2 text-gray-900 focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6"
         />
         {errors.activity && (
           <p className="text-red-500 text-xs mt-1">{errors.activity}</p>
         )}
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Submit

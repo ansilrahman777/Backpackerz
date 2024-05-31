@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import Header from "../../Components/User/Header/Header";
 import { FaTent } from "react-icons/fa6";
+import Footer from "../../Components/User/Footer/Footer";
 
 function HotelDetails() {
   const { id } = useParams();
@@ -83,10 +84,7 @@ function HotelDetails() {
               >
                 <li className=" ml-4">
                   <div className="absolute w-3 h-3 bg-gray-200 rounded-full -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-                  <div
-                    key={index}
-                    className="collapse bg-base-200 mt-1"
-                  >
+                  <div key={index} className="collapse bg-base-200 mt-1">
                     <input type="checkbox" className="peer" />
                     <div className="collapse-title bg-slate-700 text-lg text-white peer-checked:bg-gray-500 peer-checked:text-black">
                       Day {item.day}
@@ -139,6 +137,7 @@ function HotelDetails() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

@@ -161,15 +161,14 @@ function EditPackagePage() {
     });
     console.log("-----------------------dfg-----------------------------");
     console.log("---------------------dfd-------------------------------");
-    console.log("itiiiii---",formData.itinerary);
+    console.log("itiiiii---", formData.itinerary);
     console.log("-----------------------dfg-----------------------------");
-    console.log("invccccccc",formData.inclusions);
+    console.log("invccccccc", formData.inclusions);
     console.log("-----------------------dfg-----------------------------");
-    console.log("exclusiojino",formData.exclusions);
-    console.log("ijmagweeeeeeeeeeeeeeeeeeeeeeee",formData.images);
+    console.log("exclusiojino", formData.exclusions);
+    console.log("ijmagweeeeeeeeeeeeeeeeeeeeeeee", formData.images);
     console.log("------------------------dfg----------------------------");
     console.log("-----------------------dfg-----------------------------");
-    
 
     // Log FormData contents
     for (let pair of formDataToSend.entries()) {
@@ -211,7 +210,7 @@ function EditPackagePage() {
 
         console.error("Error message:", error.message);
       }
-      
+
       toast.error("Error updating package---", error.response.headers);
     }
   };

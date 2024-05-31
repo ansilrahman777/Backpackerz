@@ -31,11 +31,10 @@ import AddHotelDetail from '../Pages/Admin/AddHotelDetail';
 import AddHotelImage from '../Pages/Admin/AddHotelImage';
 
 
-// AdminRoutes component containing all the private routes
+
 const AdminRoutes = () => {
   return (
     <Routes>
-      {/* Private routes */}
       <Route path="/dashboard" element={<AdminDashboard />} />
       <Route path="/profile" element={<AdminProfile />} />
       <Route path="/packages" element={<AdminPackage />} />

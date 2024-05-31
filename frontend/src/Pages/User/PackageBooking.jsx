@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import home_bg from "./../../assets/Images/home_bg.jpg";
 import Header from "../../Components/User/Header/Header";
 import { toast } from "react-toastify";
+import Footer from "../../Components/User/Footer/Footer";
 
 function PackageBooking() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -21,6 +22,11 @@ function PackageBooking() {
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const id = searchParams.get("id");
+
+    if (!user) {
+      navigate("/login");
+      toast.error("Login for book you Hotel");
+    }
 
     if (id) {
       axios
@@ -336,6 +342,7 @@ function PackageBooking() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

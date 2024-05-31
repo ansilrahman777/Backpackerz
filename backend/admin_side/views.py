@@ -11,7 +11,7 @@ from .serializers import PackageSerializer, PackageImageSerializer, ItinerarySer
 from django.contrib.auth import get_user_model
 from users.models import User
 from chat.models import ChatMessage
-
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 class UniqueUserListView(APIView):
@@ -35,7 +35,19 @@ class LoginAPIView(APIView):
             user = authenticate(request, email=email, password=password)
             if user and user.is_superuser:
                 login(request, user)
-                return Response({'message':"admin login succes"},status=status.HTTP_200_OK)
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
+                    'user': {
+                        'email': user.email,
+                        'user_id': user.id,
+                        'name': user.get_full_name,
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                        'mobile': user.mobile
+                    }
+                }, status=status.HTTP_200_OK)
             else:
                 return Response("Invalid email or password", status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

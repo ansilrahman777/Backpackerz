@@ -157,7 +157,11 @@ function AdminHotelDetails() {
                           <input
                             readOnly
                             type="text"
-                            value={hotelData.is_available ? 'Available' : 'Not Available'}
+                            value={
+                              hotelData.is_available
+                                ? "Available"
+                                : "Not Available"
+                            }
                             className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 sm:text-sm sm:leading-6"
                           />
                         </div>
@@ -299,7 +303,6 @@ function AdminHotelDetails() {
                   </div>
                 </div> */}
               </div>
-
             </div>
           </div>
         </div>
