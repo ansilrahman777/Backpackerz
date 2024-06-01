@@ -39,6 +39,8 @@ ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:8000",
+    "https://backpackerz.ansilrahman777.online/"
+    "https://main.d1tymmvwsw8kgt.amplifyapp.com/",
 ]
 
 
@@ -197,4 +199,4 @@ SOCIAL_AUTH_PASSWORD = config('SOCIAL_AUTH_PASSWORD')
 PUBLIC_KEY = 'pk_test_51P8iuOSEpt8cRvLgJpOr1qzycQ5jwtwCMCbICSJPo393y72KzVxHaddOhR6r0enE3P5laLGeaMLXgpGDzVpLJ2i1003yCkSugy'
 STRIPE_SECRET_KEY = 'sk_test_51P8iuOSEpt8cRvLgvDtWujtdviN8oEyqwamJS8Mqok2hxBqoq148idYuV4gWISrgnEKL2KH1g2CJOWARA2iI2Obi00aY5Kl5LZ'
 
-SITE_URL='http://localhost:5173/'
+SITE_URL='https://main.d1tymmvwsw8kgt.amplifyapp.com/'
