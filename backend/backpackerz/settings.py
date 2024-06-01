@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
 
 import environ
 
@@ -32,8 +33,8 @@ environ.Env.read_env(BASE_DIR / '.env')
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-SECRET_KEY = env('SECRET_KEY')
-DEBUG = env('DEBUG')
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGINS = [
@@ -108,9 +109,9 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':env('NAME'),
-        'USER':env('USER'),
-        'PASSWORD':env('PASSWORD'),
+        'NAME':config('NAME'),
+        'USER':config('USER'),
+        'PASSWORD':config('PASSWORD'),
         'HOST':'localhost',
         'PORT':'5432'
     }
@@ -182,16 +183,16 @@ MEDIA_ROOT = BASE_DIR/'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #smtp configuration
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_PORT = env('EMAIL_PORT')
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 
 
-GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID')
-GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET')
-SOCIAL_AUTH_PASSWORD = env('SOCIAL_AUTH_PASSWORD')
+GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = config('GOOGLE_CLIENT_SECRET')
+SOCIAL_AUTH_PASSWORD = config('SOCIAL_AUTH_PASSWORD')
 
 PUBLIC_KEY = 'pk_test_51P8iuOSEpt8cRvLgJpOr1qzycQ5jwtwCMCbICSJPo393y72KzVxHaddOhR6r0enE3P5laLGeaMLXgpGDzVpLJ2i1003yCkSugy'
 STRIPE_SECRET_KEY = 'sk_test_51P8iuOSEpt8cRvLgvDtWujtdviN8oEyqwamJS8Mqok2hxBqoq148idYuV4gWISrgnEKL2KH1g2CJOWARA2iI2Obi00aY5Kl5LZ'
