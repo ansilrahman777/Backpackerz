@@ -1,10 +1,15 @@
 from django.urls import path
-from .views import AddHotelAPIView, AddHotelDetailAPIView, AddHotelImageAPIView, AddHotelItineraryAPIView, CancelBookingAPIView, ConfirmBookingAPIView, EditHotelAPIView, EditHotelDetailAPIView, EditHotelImageAPIView, EditHotelItineraryAPIView, HotelBookingListAPIView, HotelListAPIView, HotelsByDestinationAPIView, ItineraryCreateAPIView, ItineraryUpdateAPIView, LoginAPIView ,LogoutAPIView, PackageBookingListAPIView, PackageExclusionCreateAPIView, PackageExclusionUpdateAPIView, PackageImageCreateAPIView, PackageImageUpdateAPIView, PackageInclusionCreateAPIView, PackageInclusionUpdateAPIView, PackageListAPIView, PackageDetailAPIView, AddPackageAPIView, EditPackageAPIView, DestinationListAPIView, DestinationDetailAPIView, HotelDetailAPIView, AddDestinationAPIView, EditDestinationAPIView
+from .views import AddHotelAPIView, AddHotelDetailAPIView, AddHotelImageAPIView, AddHotelItineraryAPIView, CancelBookingAPIView, ConfirmBookingAPIView, EditHotelAPIView, EditHotelDetailAPIView, EditHotelImageAPIView, EditHotelItineraryAPIView, HotelBookingListAPIView, HotelListAPIView, HotelsByDestinationAPIView, ItineraryCreateAPIView, ItineraryUpdateAPIView, LoginAPIView ,LogoutAPIView, PackageBookingListAPIView, PackageExclusionCreateAPIView, PackageExclusionUpdateAPIView, PackageImageCreateAPIView, PackageImageUpdateAPIView, PackageInclusionCreateAPIView, PackageInclusionUpdateAPIView, PackageListAPIView, PackageDetailAPIView, AddPackageAPIView, EditPackageAPIView, DestinationListAPIView, DestinationDetailAPIView, HotelDetailAPIView, AddDestinationAPIView, EditDestinationAPIView, ToggleUserActiveView, UserListView
 from .views import UniqueUserListView
 
 urlpatterns = [
     path('login/', LoginAPIView.as_view(), name='login'),
     path('logout/', LogoutAPIView.as_view(), name='logout'),
+    
+    path('users/', UserListView.as_view(), name='user-list'),
+    path('users/toggle-active/<int:pk>/', ToggleUserActiveView.as_view(), name='toggle-user-active'),
+
+
 
     path('packages/', PackageListAPIView.as_view(), name='package-list'),
     path('packages/<int:pk>/', PackageDetailAPIView.as_view(), name='package-detail'),

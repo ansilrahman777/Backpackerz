@@ -23,12 +23,12 @@ import AddPackageInclusion from '../Pages/Admin/AddPackageInclusion';
 import AddPackageExclusion from '../Pages/Admin/AddPackageExclusion';
 import AddPackageImages from '../Pages/Admin/AddPackageImages';
 import AdminPackageDetails from '../Pages/Admin/AdminPackageDetails';
-// import AdminHotel from '../Pages/Admin/AdminHotel';
 import AdminDestinationHotels from '../Pages/Admin/AdminDestinationHotels';
 import AddHotelPage from '../Pages/Admin/AddHotelPage';
 import AddHotelItinerary from '../Pages/Admin/AddHotelItinerary';
 import AddHotelDetail from '../Pages/Admin/AddHotelDetail';
 import AddHotelImage from '../Pages/Admin/AddHotelImage';
+import UserList from '../Pages/Admin/UserList';
 
 
 
@@ -68,6 +68,7 @@ const AdminRoutes = () => {
  
       
 
+      <Route path="/users" element={<UserList />} />
       <Route path="/admin_chat" element={<AdminChat />} />
     </Routes>
   );

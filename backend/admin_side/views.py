@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from users.models import User
 from rest_framework.views import APIView
@@ -14,6 +15,36 @@ from chat.models import ChatMessage
 from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
+
+class UserListView(APIView):
+    def get(self, request, *args, **kwargs):
+        users = User.objects.all()
+        data = [
+            {
+                'id': user.id,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'full_name':user.get_full_name,
+                'email': user.email,
+                'phone': user.mobile,
+                'is_active':user.is_active,
+                'is_verified':user.is_verified,
+                'date_joined': user.date_joined,
+            }
+            for user in users
+        ]
+        return JsonResponse({'users': data}, status=status.HTTP_200_OK) 
+
+class ToggleUserActiveView(APIView):
+    def post(self, request, pk, *args, **kwargs):
+        try:
+            user = User.objects.get(pk=pk)
+            user.is_active = not user.is_active
+            user.save()
+            return JsonResponse({'message': 'User status toggled successfully', 'is_active': user.is_active}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    
 class UniqueUserListView(APIView):
     def get(self, request, *args, **kwargs):
         # user_ids = ChatMessage.objects.values('sender').distinct()
