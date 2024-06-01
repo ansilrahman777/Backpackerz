@@ -25,3 +25,10 @@ urlpatterns = [
     path('api/admin_side/',include('admin_side.urls'))
     
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 
+
+from chat.consumer import PersonalChatConsumer
+
+
+websocket_urlpattern = [
+  path('ws/chat/<int:id>/', PersonalChatConsumer.as_asgi()),
+]
