@@ -8,16 +8,18 @@ https://docs.djangoproject.com/en/5.0/howto/deployment/asgi/
 """
 
 import os
+# Initialize Django
+import django
+django.setup()
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backpackerz.settings')
+
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack  # Ensure AuthMiddlewareStack is imported
 from .urls import websocket_urlpattern
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backpackerz.settings')
 
-# Initialize Django
-import django
-django.setup()
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backpackerz.settings')
 # Get the default ASGI application
