@@ -11,6 +11,7 @@ import Spinner from "../../Components/Spinner";
 const LoginPage = () => {
   const navigate = useNavigate();
 
+  const base_url=import.meta.env.BASE_URL
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,7 +52,7 @@ const LoginPage = () => {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/api/login/",
+        base_url+"/api/login/",
         loginData
       );
       const response = res.data;
