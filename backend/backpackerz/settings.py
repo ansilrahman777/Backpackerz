@@ -39,8 +39,8 @@ ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:8000",
-    "https://backpackerz.ansilrahman777.online/"
-    "https://main.d1tymmvwsw8kgt.amplifyapp.com/",
+    "https://backpackerz.ansilrahman777.online",
+    "https://main.d1tymmvwsw8kgt.amplifyapp.com",
 ]
 
 

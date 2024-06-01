@@ -11,7 +11,7 @@ import Spinner from "../../Components/Spinner";
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const base_url=import.meta.env.BASE_URL
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
