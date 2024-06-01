@@ -19,6 +19,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backpackerz.settings')
 import django
 django.setup()
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backpackerz.settings')
 # Get the default ASGI application
 django_asgi_app = get_asgi_application()
 
