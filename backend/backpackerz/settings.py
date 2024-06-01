@@ -91,6 +91,7 @@ TEMPLATES = [
     },
 ]
 
+CSRF_TRUSTED_ORIGINS = ['*']
 # WSGI_APPLICATION = 'backpackerz.wsgi.application'
 ASGI_APPLICATION = 'backpackerz.asgi.application'
 
