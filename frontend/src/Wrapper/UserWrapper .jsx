@@ -39,7 +39,7 @@ const UserWrapper = () => {
 
         <Route path="/hotel-detail/:id" element={<HotelDetails />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/password-reset-confirm/:uid/:token/" element={<ResetPassword />} />
+        <Route path="/api/password-reset-confirm/:uid/:token/" element={<ResetPassword />} />
 
         <Route path="/chat" element={<Chat />} />
 

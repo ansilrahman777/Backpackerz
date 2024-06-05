@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }) => {
       if (response.status === 200) {
         const newToken = response.data.access;
         localStorage.setItem('access', newToken);
+        const decodedToken = jwtDecode(newToken);
         setIsAuthenticated(true);
         setIsAdmin(user.admin);
       } else {

@@ -8,7 +8,7 @@ const AdminWrapper = () => {
   return (
     <Routes>
       <Route path="/login" element={<AdminLogin />} />
-      <Route path="/*" element={<PrivateRoute element={<AdminRoutes />} />} />
+      <Route path="/*" element={<PrivateRoute element={AdminRoutes} />} />
     </Routes>
   );
 };
