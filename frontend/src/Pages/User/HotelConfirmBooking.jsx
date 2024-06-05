@@ -78,7 +78,7 @@ function HotelConfirmBooking() {
 
                   <div className="mt-4">
                     <form
-                      action="http://127.0.0.1:8000/api/create-checkout-session/"
+                      action={`${base_url}/api/create-checkout-session/`}
                       method="POST"
                     >
                       <input
