@@ -8,6 +8,7 @@ import Footer from "../../Components/User/Footer/Footer";
 
 function PackageBooking() {
   const user = JSON.parse(localStorage.getItem("user"));
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
 
   const [packageDetail, setPackageDetail] = useState(null);
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ function PackageBooking() {
 
     if (id) {
       axios
-        .get(`http://127.0.0.1:8000/api/packages/${id}/`)
+        .get(base_url+`/api/packages/${id}/`)
         .then((response) => {
           setPackageDetail(response.data);
         })
@@ -103,7 +104,7 @@ function PackageBooking() {
     console.log("Submitting form data:", updatedFormData);
 
     axios
-      .post("http://127.0.0.1:8000/api/packagebookings/", updatedFormData)
+      .post(base_url+"/api/packagebookings/", updatedFormData)
       .then((response) => {
         console.log("Booking created:", response.data);
         const booking_id = response.data.id;

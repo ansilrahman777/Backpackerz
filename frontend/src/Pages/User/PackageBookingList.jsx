@@ -6,6 +6,7 @@ import Footer from "../../Components/User/Footer/Footer";
 function PackageBookingList() {
   const [bookings, setBookings] = useState([]);
   const [user, setUser] = useState(null);
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
 
   useEffect(() => {
     // Retrieve user details from local storage
@@ -15,7 +16,7 @@ function PackageBookingList() {
 
       axios
         .get(
-          `http://127.0.0.1:8000/api/user-package-bookings/${storedUser.user_id}/`
+          base_url+`/api/user-package-bookings/${storedUser.user_id}/`
         )
         .then((response) => {
           setBookings(response.data);
@@ -30,7 +31,7 @@ function PackageBookingList() {
 
   const cancelBooking = (bookingId) => {
     axios
-      .patch(`http://127.0.0.1:8000/api/package-bookings/${bookingId}/cancel/`)
+      .patch(base_url+`/api/package-bookings/${bookingId}/cancel/`)
       .then((response) => {
         // Update bookings state after cancellation
         setBookings((prevBookings) =>

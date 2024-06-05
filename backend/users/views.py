@@ -386,11 +386,11 @@ class StripeSuccessView(APIView):
             # Retrieve the session from Stripe to confirm payment success
             print("=======session_id=======",session_id)
             session = stripe.checkout.Session.retrieve(session_id)
-            
+
             # Get the booking ID from the session's metadata
             booking_id = session.metadata.get('booking_id')
             print("=======booking_id=======",booking_id)
-            
+
             # Update the booking status to 'Payment Complete'
             with transaction.atomic():
                 booking = HotelBooking.objects.get(id=booking_id)
@@ -398,7 +398,7 @@ class StripeSuccessView(APIView):
                 booking.payment_method = 'Stripe'
                 booking.save()    
 
-            return redirect('http://localhost:5173/hotelBookingSuccess?success=true')
+            return redirect(f'{settings.SITE_URL}/hotelBookingSuccess?success=true')
 
         except stripe.error.StripeError as e:
             return Response(

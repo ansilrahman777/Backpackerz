@@ -10,12 +10,13 @@ import { toast } from "react-toastify";
 function OtpVerficiation() {
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (otp) {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/verify-email/",
+        base_url+"/api/verify-email/",
         { otp: otp }
       );
       if (response.status === 200) {

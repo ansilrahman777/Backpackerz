@@ -23,15 +23,18 @@ function AdminLogin() {
           password: password,
         }
       );
-      const { access, refresh } = response.data;
+      console.log(response.data,"ajsdklfjal");
+      const { access, refresh, user } = response.data;
 
       localStorage.setItem("access", access);
       localStorage.setItem("refresh", refresh);
+      localStorage.setItem("user", JSON.stringify(user));
+
       setIsAuthenticated(true);
       navigate("/admin/dashboard");
       toast.success("Login successful");
     } catch (error) {
-      toast.error("Invalid email or password");
+      toast.error("Invalid email or password ");
     }
   };
 

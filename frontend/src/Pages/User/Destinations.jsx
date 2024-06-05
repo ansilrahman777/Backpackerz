@@ -6,12 +6,14 @@ import { Link } from "react-router-dom";
 import Footer from "../../Components/User/Footer/Footer";
 
 function Destinations() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const [destinations, setDestinations] = useState([]);
 
   useEffect(() => {
     // Fetch destinations from the backend API
     axios
-      .get("http://127.0.0.1:8000/api/destinations/")
+      .get(base_url+"/api/destinations/")
       .then((response) => {
         setDestinations(response.data);
       })

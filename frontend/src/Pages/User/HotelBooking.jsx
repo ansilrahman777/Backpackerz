@@ -10,6 +10,8 @@ function HotelBooking() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const [hotelDetail, setHotelDetail] = useState(null);
   const [total, setTotal] = useState(0);
 
@@ -36,7 +38,7 @@ function HotelBooking() {
 
     if (id) {
       axios
-        .get(`http://127.0.0.1:8000/api/hotels/${id}/`)
+        .get(base_url+`/api/hotels/${id}/`)
         .then((response) => {
           setHotelDetail(response.data);
         })
@@ -101,7 +103,7 @@ function HotelBooking() {
     };
 
     axios
-      .post("http://127.0.0.1:8000/api/hotelbookings/", updatedFormData)
+      .post(base_url+"/api/hotelbookings/", updatedFormData)
       .then((response) => {
         const bookingId = response.data.id;
         navigate(`/hotel-booking-details/${bookingId}`);

@@ -11,6 +11,7 @@ import Spinner from "../../Components/Spinner";
 import { useEffect } from "react";
 
 const RegisterPage = () => {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +27,7 @@ const RegisterPage = () => {
   const handleSigninWithGoogle = async (response) => {
     const payload = response.credential;
     try {
-      const server_res = await axios.post("http://127.0.0.1:8000/api/google/", {
+      const server_res = await axios.post(base_url+"/api/google/", {
         access_token: payload,
       });
       console.log(server_res);
@@ -115,7 +116,7 @@ const RegisterPage = () => {
     } else {
       try {
         const res = await axios.post(
-          "http://127.0.0.1:8000/api/register/",
+          base_url+"/api/register/",
           formData
         );
         const response = res.data;

@@ -6,12 +6,13 @@ import { FaTent } from "react-icons/fa6";
 import Footer from "../../Components/User/Footer/Footer";
 
 function HotelDetails() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
   const { id } = useParams();
   const [hotelDetails, setHotelDetails] = useState(null);
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/api/hotels/${id}/`)
+      .get(base_url+`/api/hotels/${id}/`)
       .then((response) => {
         setHotelDetails(response.data);
         console.log(response.data);

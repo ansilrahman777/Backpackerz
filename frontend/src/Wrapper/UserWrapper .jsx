@@ -13,10 +13,8 @@ import DestinationDetails from './../Pages/User/DestinationDetails'
 import HotelDetails from './../Pages/User/HotelDetails'
 import ForgotPassword from './../Pages/User/ForgotPassword'
 import ResetPassword from './../Pages/User/ResetPassword'
-import Test from '../Pages/User/Test';
 import PackageBooking from '../Pages/User/PackageBooking';
 import Chat from '../Pages/User/Chat';
-import Booking from '../Pages/User/PackageBookingList';
 import HotelBooking from '../Pages/User/HotelBooking';
 import HotelConfirmBooking from '../Pages/User/HotelConfirmBooking';
 import HotelBookingSuccess from '../Pages/User/HotelBookingSuccess';
@@ -43,7 +41,6 @@ const UserWrapper = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password-reset-confirm/:uid/:token/" element={<ResetPassword />} />
 
-        <Route path="/test" element={<Test />} />
         <Route path="/chat" element={<Chat />} />
 
         <Route path="/hotel-booking" element={<HotelBooking/>} />

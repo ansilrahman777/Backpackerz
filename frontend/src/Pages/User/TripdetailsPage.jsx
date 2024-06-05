@@ -5,6 +5,7 @@ import Header from "../../Components/User/Header/Header";
 import Footer from "../../Components/User/Footer/Footer";
 
 function TripdetailsPage() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
   const { id } = useParams(); // Destructure the id parameter using useParams
   const [packageDetail, setPackageDetail] = useState(null);
   console.log(id);
@@ -12,7 +13,7 @@ function TripdetailsPage() {
   useEffect(() => {
     // Fetch package details from the backend API
     axios
-      .get(`http://127.0.0.1:8000/api/packages/${id}/`) // Use the id parameter
+      .get(base_url+`/api/packages/${id}/`) // Use the id parameter
       .then((response) => {
         setPackageDetail(response.data);
         console.log(response.data);

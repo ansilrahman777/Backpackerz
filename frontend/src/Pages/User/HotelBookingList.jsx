@@ -6,6 +6,7 @@ import Footer from "../../Components/User/Footer/Footer";
 function HotelBookingList() {
   const [bookings, setBookings] = useState([]);
   const [user, setUser] = useState(null);
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -14,7 +15,7 @@ function HotelBookingList() {
 
       axios
         .get(
-          `http://127.0.0.1:8000/api/user-hotel-bookings/${storedUser.user_id}/`
+          base_url+`/api/user-hotel-bookings/${storedUser.user_id}/`
         )
         .then((response) => {
           setBookings(response.data);

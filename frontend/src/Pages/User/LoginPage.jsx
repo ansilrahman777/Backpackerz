@@ -69,9 +69,13 @@ const LoginPage = () => {
       };
 
       if (res.status === 200) {
+        // localStorage.setItem("user", JSON.stringify(user));
+        // localStorage.setItem("access", JSON.stringify(response.access_token));
+        // localStorage.setItem("refresh", JSON.stringify(response.refresh_token));
+        localStorage.setItem("access", response.access_token);
+        localStorage.setItem("refresh", response.refresh_token);
         localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("access", JSON.stringify(response.access_token));
-        localStorage.setItem("refresh", JSON.stringify(response.refresh_token));
+
         navigate("/");
         toast.success("Login successful");
       }

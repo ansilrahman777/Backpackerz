@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function HotelConfirmBooking() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const { bookingId } = useParams();
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -20,7 +22,7 @@ function HotelConfirmBooking() {
       return;
     }
     axios
-      .get(`http://127.0.0.1:8000/api/hotelbookings/${bookingId}`)
+      .get(base_url+`/api/hotelbookings/${bookingId}`)
       .then((response) => {
         setBookingDetails(response.data);
         if (response.data.status === "Payment Complete") {

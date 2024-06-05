@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import Header from "../../Components/User/Header/Header";
 
 function PackageBookingConfirmed() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const { booking_id } = useParams();
   const [packageBooking, setPackageBooking] = useState(null);
   console.log(packageBooking);
@@ -15,14 +17,14 @@ function PackageBookingConfirmed() {
   useEffect(() => {
     if (booking_id) {
       axios
-        .get(`http://127.0.0.1:8000/api/packagebookings/${booking_id}/`)
+        .get(base_url+`/api/packagebookings/${booking_id}/`)
         .then((response) => {
           setPackageBooking(response.data);
           console.log("book", response.data);
           const package_id = response.data.package;
           if (package_id) {
             axios
-              .get(`http://127.0.0.1:8000/api/packages/${package_id}/`)
+              .get(base_url+`/api/packages/${package_id}/`)
               .then((response) => {
                 setPackageDetails(response.data);
                 console.log("packae", response.data);

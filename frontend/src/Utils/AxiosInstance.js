@@ -4,8 +4,9 @@ import dayjs from "dayjs";
 
 const token = localStorage.getItem("access") || "";
 const refresh_token = localStorage.getItem("refresh") || "";
+const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
 
-const baseUrl = "http://127.0.0.1:8000/api/";
+const baseUrl = base_url+"/api/";
 const axiosInstance = axios.create({
   baseURL: baseUrl,
   headers: {

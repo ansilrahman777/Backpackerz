@@ -4,6 +4,7 @@ import Message from "../../Components/Chat/Message";
 import MessageInput from "../../Components/Chat/MessageInput";
 
 function Chat() {
+  const base_url_chat=import.meta.env.VITE_REACT_APP_BASE_URL_CHAT_CONFIG
   const user = JSON.parse(localStorage.getItem("user"));
   console.log("user id--", user.user_id);
 
@@ -12,7 +13,7 @@ function Chat() {
 
   useEffect(() => {
     const newSocket = new WebSocket(
-      `ws://localhost:8000/ws/chat/${user.user_id}/`
+      base_url_chat+`/${user.user_id}/`
     );
 
     newSocket.onopen = () => {

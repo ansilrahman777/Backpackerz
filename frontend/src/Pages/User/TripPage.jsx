@@ -8,11 +8,11 @@ import Footer from "../../Components/User/Footer/Footer";
 
 function TripPage() {
   const [packages, setPackages] = useState([]);
-
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
   useEffect(() => {
     // Fetch packages from the backend API
     axios
-      .get("http://127.0.0.1:8000/api/packages/")
+      .get(base_url+"/api/packages/")
       .then((response) => {
         setPackages(response.data);
       })

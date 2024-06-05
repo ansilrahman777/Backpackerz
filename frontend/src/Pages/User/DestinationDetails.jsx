@@ -5,6 +5,8 @@ import Header from "../../Components/User/Header/Header";
 import Footer from "../../Components/User/Footer/Footer";
 
 function DestinationDetails() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const { id } = useParams();
   const [destinationDetail, setDestinationDetail] = useState(null);
   const [hotels, setHotels] = useState([]);
@@ -12,7 +14,7 @@ function DestinationDetails() {
   useEffect(() => {
     // Fetch destination details and associated hotels from the backend API
     axios
-      .get(`http://127.0.0.1:8000/api/destination/${id}/`)
+      .get(base_url+`/api/destination/${id}/`)
       .then((response) => {
         console.log(response);
         setDestinationDetail(response.data);
