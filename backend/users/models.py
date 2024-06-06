@@ -233,6 +233,7 @@ class HotelBooking(models.Model):
     email = models.EmailField(max_length=254)
     start_date = models.DateField()
     end_date = models.DateField(null=True)
+    booking_date = models.DateTimeField(auto_now_add=True,null=True)
     no_of_guest = models.PositiveIntegerField()
     no_of_room = models.PositiveIntegerField()
     total = models.DecimalField(max_digits=10, decimal_places=2)

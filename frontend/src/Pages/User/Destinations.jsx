@@ -10,6 +10,8 @@ function Destinations() {
   const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
 
   const [destinations, setDestinations] = useState([]);
+  const [filteredDestinations, setFilteredDestinations] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(2); // Items per page
 
@@ -19,19 +21,43 @@ function Destinations() {
       .get(base_url + "/api/destinations/")
       .then((response) => {
         setDestinations(response.data);
+        setFilteredDestinations(response.data); // Initialize filtered destinations
       })
       .catch((error) => {
         console.error("Error fetching destinations:", error);
       });
   }, [base_url]);
 
-  // Get current destinations
+  // Filter destinations based on search term
+  useEffect(() => {
+    let filtered = destinations;
+
+    if (searchTerm.trim() !== "") {
+      filtered = destinations.filter(
+        (destination) =>
+          destination.destination_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          destination.season.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          destination.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (destination.description && destination.description.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    }
+
+    setFilteredDestinations(filtered);
+    setCurrentPage(1); // Reset to first page when search term changes
+  }, [destinations, searchTerm]);
+
+  // Get current destinations for pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentDestinations = destinations.slice(indexOfFirstItem, indexOfLastItem);
+  const currentDestinations = filteredDestinations.slice(indexOfFirstItem, indexOfLastItem);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Handle search input change
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
   return (
     <>
@@ -55,6 +81,15 @@ function Destinations() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
             <h2 className="text-2xl font-bold text-gray-900">Destinations</h2>
+            <div className="flex justify-between items-center mt-4 mb-4">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder="Search by destination name or description..."
+                className="border border-gray-300 rounded-md px-3 py-2 block w-1/2"
+              />
+            </div>
             <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
               {currentDestinations.map((destination) => (
                 <div key={destination.id} className="group relative">
@@ -75,17 +110,15 @@ function Destinations() {
                       {destination.destination_name}
                     </h3>
                   </Link>
-
                   <p className="text-base font-semibold text-gray-900">
                     {destination.state}, {destination.country}
                   </p>
-                  {/* Add more details as needed */}
                 </div>
               ))}
             </div>
             <Pagination
               itemsPerPage={itemsPerPage}
-              totalItems={destinations.length}
+              totalItems={filteredDestinations.length}
               paginate={paginate}
               currentPage={currentPage}
             />

@@ -247,11 +247,11 @@ class EditHotelDetailAPIView(generics.RetrieveUpdateAPIView):
 from .serializers import PackageBookingSerializer, HotelBookingSerializer
 
 class PackageBookingListAPIView(generics.ListAPIView):
-    queryset = PackageBooking.objects.all()
+    queryset = PackageBooking.objects.all().order_by('-booking_date')
     serializer_class = PackageBookingSerializer
 
 class HotelBookingListAPIView(generics.ListAPIView):
-    queryset = HotelBooking.objects.all()
+    queryset = HotelBooking.objects.all().order_by('-booking_date')
     serializer_class = HotelBookingSerializer
 
 class CancelBookingAPIView(APIView):

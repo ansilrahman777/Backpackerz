@@ -121,8 +121,7 @@ class PackageBookingSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class HotelBookingSerializer(serializers.ModelSerializer):
-    hotel_name = serializers.CharField(source='hotel.hotel_name')  # Include hotel name
-
+    hotel_name = serializers.CharField(source='hotel.hotel_name')  
     class Meta:
         model = HotelBooking
         fields = '__all__'
