@@ -47,8 +47,7 @@ function AddPackageItinerary({ packageId }) {
     }
     if (
       !formData.description ||
-      formData.description.length < 5 ||
-      !alphaNumRegex.test(formData.description)
+      formData.description.length < 5
     ) {
       errors.description = "Description should be at least 5 characters";
     }

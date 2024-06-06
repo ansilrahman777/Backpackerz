@@ -9,12 +9,11 @@ function AddHotelDetail({ hotelId }) {
   const [errors, setErrors] = useState({});
 
   const validateDetail = () => {
-    const alphaNumRegex = /^[A-Za-z0-9 ]+$/;
     let formErrors = {};
 
-    if (!detail || detail.length < 5 || !alphaNumRegex.test(detail)) {
+    if (!detail || detail.length < 5 ) {
       formErrors.detail =
-        "Detail should be at least 5 characters long and only contain alphabets, numbers, and spaces.";
+        "Detail should be at least 5 characters long.";
     }
 
     setErrors(formErrors);

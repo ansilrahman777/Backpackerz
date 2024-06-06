@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
 import axios from "axios";
+import Pagination from "../../Components/Admin/Pagination/Pagination";
 
 function AdminPackageBooking() {
   const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
 
   const [bookings, setBookings] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6); 
 
   // Define the fetchBookings function
   const fetchBookings = () => {
@@ -20,6 +23,14 @@ function AdminPackageBooking() {
     // Fetch data from API when component mounts
     fetchBookings();
   }, []);
+
+   // Get current packages
+   const indexOfLastItem = currentPage * itemsPerPage;
+   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+   const currentBookings = bookings.slice(indexOfFirstItem, indexOfLastItem);
+ 
+   // Change page
+   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const cancelBooking = (id) => {
     axios
@@ -117,7 +128,7 @@ function AdminPackageBooking() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                      {bookings.map((booking) => (
+                      {currentBookings.map((booking) => (
                         <tr key={booking.id}>
                           <td className="px-4 py-4 text-xs font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                             <div className="inline-flex items-center gap-x-3">
@@ -186,11 +197,15 @@ function AdminPackageBooking() {
             </div>
           </div>
 
-          {/* Pagination */}
           <div className="flex items-center justify-between mt-6">
-            {/* Previous button */}
-            {/* Pagination numbers */}
-            {/* Next button */}
+          {bookings.length > 0 && (
+              <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={bookings.length}
+                paginate={paginate}
+                currentPage={currentPage}
+              />
+            )}
           </div>
         </section>
       </div>

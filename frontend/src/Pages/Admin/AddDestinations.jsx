@@ -66,11 +66,10 @@ function AddDestinations() {
 
     if (
       !formData.state ||
-      formData.state.length < 3 ||
-      !alphaRegex.test(formData.state)
+      formData.state.length < 3 
     ) {
       formErrors.state =
-        "State should be at least 3 characters long and only contain alphabets.";
+        "State should be at least 3 characters long .";
     }
 
     if (

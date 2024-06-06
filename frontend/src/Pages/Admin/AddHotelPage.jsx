@@ -67,29 +67,26 @@ function AddHotelPage() {
 
     if (
       !formData.hotelName ||
-      formData.hotelName.length < 3 ||
-      !alphaRegex.test(formData.hotelName)
+      formData.hotelName.length < 3 
     ) {
       formErrors.hotelName =
-        "Hotel Name should be at least 3 characters long and only contain alphabets.";
+        "Hotel Name should be at least 3 characters .";
     }
 
     if (
       !formData.destinationName ||
-      formData.destinationName.length < 3 ||
-      !alphaRegex.test(formData.destinationName)
+      formData.destinationName.length < 3 
     ) {
       formErrors.destinationName =
-        "Destination Name should be at least 3 characters long and only contain alphabets.";
+        "Destination Name should be at least 3 characters.";
     }
 
     if (
       !formData.hotelDescription ||
-      formData.hotelDescription.length < 10 ||
-      !alphaRegex.test(formData.hotelDescription)
+      formData.hotelDescription.length < 5 
     ) {
       formErrors.hotelDescription =
-        "Hotel Description should be at least 10 characters long and only contain alphabets.";
+        "Hotel Description should be at least 5 characters.";
     }
 
     if (

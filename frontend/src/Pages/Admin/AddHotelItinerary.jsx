@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function AddHotelItinerary({ hotelId }) {
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
 
   const [itinerary, setItinerary] = useState({
     day: 1,
@@ -13,26 +13,21 @@ function AddHotelItinerary({ hotelId }) {
   const [errors, setErrors] = useState({});
 
   const validateItinerary = () => {
-    const alphaNumRegex = /^[A-Za-z0-9 ]+$/;
     let formErrors = {};
 
     if (itinerary.day <= 0) {
       formErrors.day = "Day should be a positive integer.";
     }
 
-    if (
-      !itinerary.description ||
-      itinerary.description.length < 5 ||
-      !alphaNumRegex.test(itinerary.description)
-    ) {
+    if (!itinerary.description || itinerary.description.length < 5) {
       formErrors.description =
-        "Description should be at least 5 characters long and only contain alphabets, numbers, and spaces.";
+        "Description should be at least 5 characters long.";
     }
 
     // Activity field validation
-    if (!alphaNumRegex.test(itinerary.activity)) {
+    if (!itinerary.activity || itinerary.activity.length < 3) {
       formErrors.activity =
-        "Activity can contain alphabets, numbers, and spaces.";
+        "Activity should be at least 3 characters long.";
     }
 
     setErrors(formErrors);
@@ -52,7 +47,7 @@ function AddHotelItinerary({ hotelId }) {
 
     try {
       const response = await axios.post(
-        base_url+`/api/admin_side/hotel-itineraries/add/`,
+        base_url + `/api/admin_side/hotel-itineraries/add/`,
         { ...itinerary, hotel: hotelId },
         {
           headers: {

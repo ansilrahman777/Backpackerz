@@ -225,7 +225,7 @@ const RegisterPage = () => {
                 <div className="mb-2">
                   <input
                     type="password"
-                    placeholder="Password (min. 6 characters)"
+                    placeholder="Password (min. 8 characters)"
                     name="password"
                     value={password}
                     onChange={handleOnChange}

@@ -4,23 +4,34 @@ import axios from "axios";
 import Header from "../../Components/User/Header/Header";
 import { Link } from "react-router-dom";
 import Footer from "../../Components/User/Footer/Footer";
+import Pagination from "../../Components/User/Pagination/Pagination"; // Import the Pagination component
 
 function Destinations() {
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
 
   const [destinations, setDestinations] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(2); // Items per page
 
   useEffect(() => {
     // Fetch destinations from the backend API
     axios
-      .get(base_url+"/api/destinations/")
+      .get(base_url + "/api/destinations/")
       .then((response) => {
         setDestinations(response.data);
       })
       .catch((error) => {
         console.error("Error fetching destinations:", error);
       });
-  }, []);
+  }, [base_url]);
+
+  // Get current destinations
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentDestinations = destinations.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -45,7 +56,7 @@ function Destinations() {
           <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
             <h2 className="text-2xl font-bold text-gray-900">Destinations</h2>
             <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-              {destinations.map((destination) => (
+              {currentDestinations.map((destination) => (
                 <div key={destination.id} className="group relative">
                   <div className="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
                     <Link
@@ -66,12 +77,18 @@ function Destinations() {
                   </Link>
 
                   <p className="text-base font-semibold text-gray-900">
-                    {destination.state},{destination.country}
+                    {destination.state}, {destination.country}
                   </p>
                   {/* Add more details as needed */}
                 </div>
               ))}
             </div>
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={destinations.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
           </div>
         </div>
       </div>

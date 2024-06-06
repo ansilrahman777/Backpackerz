@@ -63,19 +63,17 @@ function AddPackagePage() {
 
     if (
       !formData.packageName ||
-      formData.packageName.length < 3 ||
-      !alphaRegex.test(formData.packageName)
+      formData.packageName.length < 3 
     ) {
       errors.packageName =
-        "Package name should be at least 3 characters long and contain only alphabets.";
+        "Package name should be at least 3 characters long .";
     }
     if (
       !formData.description ||
-      formData.description.length < 5 ||
-      !alphaNumRegex.test(formData.description)
+      formData.description.length < 5 
     ) {
       errors.description =
-        "Description should be at least 5 characters long and contain only alphabets and numbers.";
+        "Description should be at least 5 characters long .";
     }
     if (
       !formData.price ||
@@ -95,11 +93,10 @@ function AddPackagePage() {
     }
     if (
       !formData.destination ||
-      formData.destination.length < 3 ||
-      !alphaNumRegex.test(formData.destination)
+      formData.destination.length < 3 
     ) {
       errors.destination =
-        "Destination should be at least 3 characters long and contain only alphabets and numbers.";
+        "Destination should be at least 3 characters long.";
     }
     if (
       !formData.no_of_nights ||

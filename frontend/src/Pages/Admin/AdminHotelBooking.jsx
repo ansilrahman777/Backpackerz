@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
+import Pagination from "../../Components/Admin/Pagination/Pagination";
 
 function AdminHotelBooking() {
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
 
   const [bookings, setBookings] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6);
 
   useEffect(() => {
     // Fetch data from API when component mounts
-    fetch(base_url+"/api/admin_side/hotel-bookings/")
+    fetch(base_url + "/api/admin_side/hotel-bookings/")
       .then((response) => response.json())
       .then((data) => setBookings(data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+  
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentBookings = bookings.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -89,7 +98,7 @@ function AdminHotelBooking() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                      {bookings.map((booking) => (
+                      {currentBookings.map((booking) => (
                         <tr key={booking.id}>
                           <td className="px-4 py-4 text-xs font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                             <div className="inline-flex items-center gap-x-3">
@@ -144,11 +153,15 @@ function AdminHotelBooking() {
             </div>
           </div>
 
-          {/* Pagination */}
           <div className="flex items-center justify-between mt-6">
-            {/* Previous button */}
-            {/* Pagination numbers */}
-            {/* Next button */}
+            {bookings.length > 0 && (
+              <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={bookings.length}
+                paginate={paginate}
+                currentPage={currentPage}
+              />
+            )}
           </div>
         </section>
       </div>

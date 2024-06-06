@@ -5,21 +5,34 @@ import Header from "../../Components/User/Header/Header";
 import { Link } from "react-router-dom";
 import LazyLoad from "react-lazyload";
 import Footer from "../../Components/User/Footer/Footer";
+import Pagination from "../../Components/User/Pagination/Pagination"; // Import the Pagination component
 
 function TripPage() {
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
+  
   const [packages, setPackages] = useState([]);
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(6); // Items per page
+
   useEffect(() => {
     // Fetch packages from the backend API
     axios
-      .get(base_url+"/api/packages/")
+      .get(base_url + "/api/packages/")
       .then((response) => {
         setPackages(response.data);
       })
       .catch((error) => {
         console.error("Error fetching packages:", error);
       });
-  }, []);
+  }, [base_url]);
+
+  // Get current packages
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPackages = packages.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -44,7 +57,7 @@ function TripPage() {
           <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
             <h2 className="text-2xl font-bold text-gray-900">Packages</h2>
             <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-              {packages.map((packageItem) => (
+              {currentPackages.map((packageItem) => (
                 <div
                   key={packageItem.id}
                   className="group relative"
@@ -79,6 +92,12 @@ function TripPage() {
                 </div>
               ))}
             </div>
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={packages.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
           </div>
         </div>
       </div>

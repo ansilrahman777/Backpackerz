@@ -3,18 +3,21 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import Header from "../../Components/User/Header/Header";
 import Footer from "../../Components/User/Footer/Footer";
+import Pagination from "../../Components/User/Pagination/Pagination"; // Import the Pagination component
 
 function DestinationDetails() {
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
 
   const { id } = useParams();
   const [destinationDetail, setDestinationDetail] = useState(null);
   const [hotels, setHotels] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(8); // Items per page
 
   useEffect(() => {
     // Fetch destination details and associated hotels from the backend API
     axios
-      .get(base_url+`/api/destination/${id}/`)
+      .get(base_url + `/api/destination/${id}/`)
       .then((response) => {
         console.log(response);
         setDestinationDetail(response.data);
@@ -23,7 +26,15 @@ function DestinationDetails() {
       .catch((error) => {
         console.error("Error fetching destination details:", error);
       });
-  }, [id]);
+  }, [id, base_url]);
+
+  // Get current hotels
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentHotels = hotels.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -61,7 +72,7 @@ function DestinationDetails() {
             {destinationDetail ? destinationDetail.destination_name : ""}
           </h2>
           <div className="grid w-full sm:grid-cols-2 xl:grid-cols-4 gap-6">
-            {hotels.map((hotel) => (
+            {currentHotels.map((hotel) => (
               <div
                 key={hotel.id}
                 className="relative flex flex-col shadow-md rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 max-w-sm"
@@ -90,6 +101,12 @@ function DestinationDetails() {
               </div>
             ))}
           </div>
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={hotels.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
         </div>
       </div>
       <Footer />
