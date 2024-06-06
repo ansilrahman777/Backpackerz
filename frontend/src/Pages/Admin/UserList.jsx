@@ -5,6 +5,8 @@ import Header from "../../Components/Admin/Header";
 import { toast } from "react-toastify";
 
 function UserList() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -13,7 +15,7 @@ function UserList() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/admin_side/users/');
+      const response = await axios.get(base_url+'/api/admin_side/users/');
       setUsers(response.data.users);
     } catch (error) {
       toast.error("Error fetching users");
@@ -22,7 +24,7 @@ function UserList() {
 
   const toggleUserActive = async (userId) => {
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/admin_side/users/toggle-active/${userId}/`);
+      const response = await axios.post(base_url+`/api/admin_side/users/toggle-active/${userId}/`);
       toast.success(`User ${response.data.is_active ? 'unblocked' : 'blocked'} successfully`);
       fetchUsers(); // Refresh the user list
     } catch (error) {

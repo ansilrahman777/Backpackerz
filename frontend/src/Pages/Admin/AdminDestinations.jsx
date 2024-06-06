@@ -5,12 +5,14 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 function AdminDestinations() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const [destinations, setDestinations] = useState([]);
 
   useEffect(() => {
     // Fetch destination from the backend API
     axios
-      .get("http://127.0.0.1:8000/api/admin_side/destinations/")
+      .get(base_url+"/api/admin_side/destinations/")
       .then((response) => {
         setDestinations(response.data);
       })

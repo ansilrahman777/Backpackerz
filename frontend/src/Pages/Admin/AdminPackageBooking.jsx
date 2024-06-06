@@ -4,11 +4,13 @@ import AsideBar from "../../Components/Admin/AsideBar";
 import axios from "axios";
 
 function AdminPackageBooking() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const [bookings, setBookings] = useState([]);
 
   // Define the fetchBookings function
   const fetchBookings = () => {
-    fetch("http://127.0.0.1:8000/api/admin_side/package-bookings/")
+    fetch(base_url+"/api/admin_side/package-bookings/")
       .then((response) => response.json())
       .then((data) => setBookings(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -22,7 +24,7 @@ function AdminPackageBooking() {
   const cancelBooking = (id) => {
     axios
       .patch(
-        `http://127.0.0.1:8000/api/admin_side/package-bookings/${id}/cancel/`
+        base_url+`/api/admin_side/package-bookings/${id}/cancel/`
       )
       .then(() => {
         fetchBookings(); // Refresh the bookings after cancellation
@@ -33,7 +35,7 @@ function AdminPackageBooking() {
   const confirmBooking = (id) => {
     axios
       .patch(
-        `http://127.0.0.1:8000/api/admin_side/package-bookings/${id}/confirm/`
+        base_url+`/api/admin_side/package-bookings/${id}/confirm/`
       )
       .then(() => {
         fetchBookings(); // Refresh the bookings after confirmation

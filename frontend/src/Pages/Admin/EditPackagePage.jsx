@@ -7,6 +7,8 @@ import AsideBar from "../../Components/Admin/AsideBar";
 import "ldrs"; // import ldrs for the loader component
 
 function EditPackagePage() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState("");
@@ -28,7 +30,7 @@ function EditPackagePage() {
   useEffect(() => {
     setLoading(true); // Set loading to true when the component mounts
     axios
-      .get(`http://127.0.0.1:8000/api/admin_side/packages/${id}/`)
+      .get(base_url+`/api/admin_side/packages/${id}/`)
       .then((response) => {
         const packageData = response.data;
         setFormData({
@@ -177,7 +179,7 @@ function EditPackagePage() {
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/admin_side/packages/edit/${id}/`,
+        base_url+`/api/admin_side/packages/edit/${id}/`,
         formDataToSend,
         {
           headers: {

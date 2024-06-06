@@ -7,6 +7,7 @@ import AsideBar from "../../Components/Admin/AsideBar";
 import { useNavigate } from "react-router-dom";
 
 function AddDestinations() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     destinationName: "",
@@ -107,7 +108,7 @@ function AddDestinations() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/admin_side/destinations/add/",
+        base_url+"/api/admin_side/destinations/add/",
         formDataToSend,
         {
           headers: {

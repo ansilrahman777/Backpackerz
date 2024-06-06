@@ -3,11 +3,13 @@ import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
 
 function AdminHotelBooking() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     // Fetch data from API when component mounts
-    fetch("http://127.0.0.1:8000/api/admin_side/hotel-bookings/")
+    fetch(base_url+"/api/admin_side/hotel-bookings/")
       .then((response) => response.json())
       .then((data) => setBookings(data))
       .catch((error) => console.error("Error fetching data:", error));

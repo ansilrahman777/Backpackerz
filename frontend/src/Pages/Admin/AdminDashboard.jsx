@@ -6,6 +6,8 @@ import test2 from "../../assets/imageAdmin/test2.jpg";
 import test3 from "../../assets/imageAdmin/test3.jpg";
 
 function AdminDashboard() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const packages = [
     { name: "Kashmir", image: kashmir },
     { name: "Kerala", image: test3 },

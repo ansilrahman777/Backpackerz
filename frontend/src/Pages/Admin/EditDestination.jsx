@@ -6,6 +6,8 @@ import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
 
 function EditDestination() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState("");
@@ -26,7 +28,7 @@ function EditDestination() {
 
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/admin_side/destination/${id}/`
+          base_url+`/api/admin_side/destination/${id}/`
         );
         const destinationData = response.data;
         setFormData({
@@ -90,7 +92,7 @@ function EditDestination() {
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/admin_side/destination/edit/${id}/`,
+        base_url+`/api/admin_side/destination/edit/${id}/`,
         formDataToSend,
         {
           headers: {

@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import { AuthContext } from "./../../Store/AuthContext";
 
 function AdminLogin() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const navigate = useNavigate();
   const { setIsAuthenticated } = useContext(AuthContext);
   const [email, setEmail] = useState("");
@@ -17,13 +19,12 @@ function AdminLogin() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/admin_side/login/",
+        base_url+"/api/admin_side/login/",
         {
           email: email,
           password: password,
         }
       );
-      console.log(response.data,"ajsdklfjal");
       const { access, refresh, user } = response.data;
 
       localStorage.setItem("access", access);

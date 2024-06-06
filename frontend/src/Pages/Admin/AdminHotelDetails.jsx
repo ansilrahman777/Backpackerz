@@ -6,6 +6,8 @@ import AsideBar from "../../Components/Admin/AsideBar";
 import "ldrs"; // import ldrs for the loader component
 
 function AdminHotelDetails() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const { hotel_id } = useParams(); // Get hotel ID from URL
   const [hotelData, setHotelData] = useState(null);
   const [loading, setLoading] = useState(true); // Initialize loading state as true
@@ -13,7 +15,7 @@ function AdminHotelDetails() {
   useEffect(() => {
     setLoading(true); // Set loading to true when the component mounts
     axios
-      .get(`http://127.0.0.1:8000/api/admin_side/hotel/${hotel_id}/`)
+      .get(base_url+`/api/admin_side/hotel/${hotel_id}/`)
       .then((response) => {
         setHotelData(response.data);
         setLoading(false); // Set loading to false when data is fetched

@@ -6,15 +6,16 @@ import AsideBar from "../../Components/Admin/AsideBar";
 import "ldrs"; // import ldrs for the loader component
 
 function AdminPackageDetails() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const { id } = useParams();
   const [packageData, setPackageData] = useState(null);
-  console.log("hyyyyyyy-------", id);
   const [loading, setLoading] = useState(true); // Initialize loading state as true
 
   useEffect(() => {
     setLoading(true); // Set loading to true when the component mounts
     axios
-      .get(`http://127.0.0.1:8000/api/admin_side/packages/${id}/`)
+      .get(base_url+`/api/admin_side/packages/${id}/`)
       .then((response) => {
         setPackageData(response.data);
         setLoading(false); // Set loading to false when data is fetched

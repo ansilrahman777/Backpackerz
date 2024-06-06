@@ -7,11 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function AdminProfile() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:8000/api/admin_side/logout/");
+      await axios.post(base_url+"/api/admin_side/logout/");
       console.log("Logout successful");
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");

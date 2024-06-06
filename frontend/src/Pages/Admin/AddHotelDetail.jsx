@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function AddHotelDetail({ hotelId }) {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const [detail, setDetail] = useState("");
   const [errors, setErrors] = useState({});
 
@@ -31,7 +33,7 @@ function AddHotelDetail({ hotelId }) {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/admin_side/hotel-details/add/`,
+        base_url+`/api/admin_side/hotel-details/add/`,
         { detail, hotel: hotelId },
         {
           headers: {

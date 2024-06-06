@@ -6,6 +6,8 @@ import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
 
 function AddPackageExclusion({ packageId }) {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const navigate = useNavigate();
   const { id } = useParams(); // Access the id from URL parameters
   const location = useLocation(); // Access location to get state
@@ -57,7 +59,7 @@ function AddPackageExclusion({ packageId }) {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/admin_side/exclusions/add/",
+        base_url+"/api/admin_side/exclusions/add/",
         formDataToSend
       );
 

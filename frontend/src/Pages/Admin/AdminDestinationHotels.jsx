@@ -5,6 +5,8 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 function AdminDestinationHotels() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const { destination_id } = useParams(); // get destination ID from URL
   const [hotels, setHotels] = useState([]);
   console.log(hotels);
@@ -13,7 +15,7 @@ function AdminDestinationHotels() {
     // Fetch hotels for the specific destination from the backend API
     axios
       .get(
-        `http://127.0.0.1:8000/api/admin_side/destinations/${destination_id}/hotels/`
+        base_url+`/api/admin_side/destinations/${destination_id}/hotels/`
       )
       .then((response) => {
         setHotels(response.data);

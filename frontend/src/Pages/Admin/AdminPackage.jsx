@@ -5,12 +5,14 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 function AdminPackage() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const [packages, setPackages] = useState([]);
 
   useEffect(() => {
     // Fetch packages from the backend API
     axios
-      .get("http://127.0.0.1:8000/api/admin_side/packages/")
+      .get(base_url+"/api/admin_side/packages/")
       .then((response) => {
         setPackages(response.data);
       })

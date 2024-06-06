@@ -11,6 +11,8 @@ import AddPackageInclusion from "../Admin/AddPackageInclusion";
 import AddPackageImages from "../Admin/AddPackageImages";
 
 function AddPackagePage() {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const [packages, setPackages] = useState([]);
   const [formData, setFormData] = useState({
     packageName: "",
@@ -135,7 +137,7 @@ function AddPackagePage() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/admin_side/packages/add/",
+        base_url+"/api/admin_side/packages/add/",
         formDataToSend,
         {
           headers: {

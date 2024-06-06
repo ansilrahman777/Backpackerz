@@ -6,6 +6,8 @@ import AsideBar from "../../Components/Admin/AsideBar";
 import Header from "../../Components/Admin/Header";
 
 function AddPackageImages({ packageId }) {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+
   const navigate = useNavigate();
   const { id } = useParams(); // Access the id from URL parameters
   const location = useLocation(); // Access location to get state
@@ -47,7 +49,7 @@ function AddPackageImages({ packageId }) {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/admin_side/package-images/add/",
+        base_url+"/api/admin_side/package-images/add/",
         formDataToSend,
         {
           headers: {

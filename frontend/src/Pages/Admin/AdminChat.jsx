@@ -6,6 +6,9 @@ import Sidebar from "../../Components/Admin/chat/Sidebar";
 import ChatArea from "../../Components/Admin/chat/ChatArea";
 
 const AdminChat = () => {
+  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url_chat=import.meta.env.VITE_REACT_APP_BASE_URL_CHAT_CONFIG
+
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
@@ -15,7 +18,7 @@ const AdminChat = () => {
     const fetchChatUsers = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/admin_side/chat-unique-users/"
+          base_url+"/api/admin_side/chat-unique-users/"
         );
         setUsers(
           response.data.map((user) => ({
@@ -35,7 +38,7 @@ const AdminChat = () => {
 
   useEffect(() => {
     const newSocket = new WebSocket(
-      `ws://localhost:8000/ws/chat/${selectedUser}/`
+      base_url_chat+`/${selectedUser}/`
     );
     console.log("-------------------");
     console.log(newSocket);
