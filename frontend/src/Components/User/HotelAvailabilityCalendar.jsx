@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import axios from "axios";
 import 'react-calendar/dist/Calendar.css';
+import './custom-calendar.css';
 import { toast } from "react-toastify";
 
 const HotelAvailabilityCalendar = ({ hotelId }) => {
@@ -46,9 +47,10 @@ const HotelAvailabilityCalendar = ({ hotelId }) => {
   };
 
   return (
-    <div>
+    <div className="p-4 mt-10 bg-white rounded-lg">
       <Calendar
         tileDisabled={tileDisabled}
+        className="tailwind-calendar"
       />
     </div>
   );

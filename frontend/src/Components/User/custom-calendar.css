@@ -1,0 +1,44 @@
+/* custom-calendar.css */
+
+.tailwind-calendar {
+    width: 100%;
+    border-radius: 0.5rem;
+
+  }
+  
+  .react-calendar__navigation button {
+    @apply text-blue-600 min-w-[44px] bg-transparent text-lg mt-2 hover:bg-gray-200 focus:bg-gray-200;
+  }
+  
+  .react-calendar__tile {
+    @apply bg-white rounded-md text-black p-2 text-center cursor-pointer;
+  }
+  
+  .react-calendar__tile--now {
+    @apply bg-blue-100 text-black;
+  }
+  
+  .react-calendar__tile--active {
+    @apply bg-blue-600 text-white;
+  }
+  
+  .react-calendar__tile--disabled {
+    @apply bg-gray-200 text-gray-400 cursor-not-allowed;
+  }
+  
+  .react-calendar__month-view__days__day--weekend {
+    @apply text-red-500;
+  }
+  
+  .react-calendar__month-view__days__day--neighboringMonth {
+    @apply text-gray-400;
+  }
+  
+  .react-calendar__navigation {
+    @apply flex justify-between;
+  }
+  
+  .react-calendar__month-view__days__day {
+    @apply border border-gray-200;
+  }
+  

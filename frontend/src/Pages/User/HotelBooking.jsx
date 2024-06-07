@@ -232,9 +232,7 @@ function HotelBooking() {
       <div className="ml-6 p-3 flex">
         <div className="w-1/2">
           <div className="flex flex-col justify-between p-8">
-            <p>TRAVELLER DETAILS</p>
             <div className="container mx-auto">
-              <h1 className="text-3xl font-bold my-6">Hotel Booking</h1>
               <form className="mt-3" noValidate onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 md:gap-6">
                   <div className="relative z-0 w-full mb-5 group">
@@ -375,8 +373,12 @@ function HotelBooking() {
           </div>
         </div>
         <div className="w-1/2">
+          <HotelAvailabilityCalendar
+            hotelId={hotelDetail ? hotelDetail.id : null}
+          />
+
           <div className="p-4 ">
-            <div className="border rounded-lg border-gray-400 p-4 mb-4">
+            <div className=" rounded-lg border-gray-400 p-4 mb-4">
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-lg font-bold">
@@ -393,7 +395,7 @@ function HotelBooking() {
                 </div>
               </div>
             </div>
-            <div className="border rounded-lg border-gray-400 p-4">
+            <div className=" rounded-lg border-gray-400 p-4">
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-lg font-bold">Total</p>
@@ -404,9 +406,6 @@ function HotelBooking() {
               </div>
             </div>
           </div>
-
-          <HotelAvailabilityCalendar hotelId={hotelDetail ? hotelDetail.id : null} />
-
         </div>
       </div>
       <Footer />
