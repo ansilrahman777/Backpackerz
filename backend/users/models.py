@@ -170,6 +170,19 @@ class Hotel(models.Model):
     def __str__(self):
         return self.hotel_name
 
+    def check_availability(self, start_date, end_date, no_of_rooms):
+        bookings = self.hotelbooking_set.filter(
+            models.Q(start_date__lte=end_date) & models.Q(end_date__gte=start_date)
+        )
+        booked_rooms = sum(booking.no_of_room for booking in bookings)
+        return (self.rooms - booked_rooms) >= no_of_rooms
+
+    def available_rooms(self):
+        today = timezone.now().date()
+        active_bookings = self.hotelbooking_set.filter(end_date__gte=today)
+        booked_rooms = sum(booking.no_of_room for booking in active_bookings)
+        return self.rooms - booked_rooms
+        
 class HotelImage(models.Model):
     hotel = models.ForeignKey(Hotel, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(_("Image"), upload_to='photos/hotel_images/')

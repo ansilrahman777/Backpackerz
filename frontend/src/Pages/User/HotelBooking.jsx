@@ -5,6 +5,7 @@ import { FaTent } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Footer from "../../Components/User/Footer/Footer";
+import HotelAvailabilityCalendar from "../../Components/User/HotelAvailabilityCalendar";
 
 function HotelBooking() {
   const location = useLocation();
@@ -15,7 +16,7 @@ function HotelBooking() {
   const [hotelDetail, setHotelDetail] = useState(null);
   const [total, setTotal] = useState(0);
   const [daysDiff, setDaysDiff] = useState(0);
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -59,10 +60,10 @@ function HotelBooking() {
         let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
         if (daysDiff > 29) {
-        setErrorMessage("You cant book a Room for More 29 days");
-      } else {
-        setErrorMessage("");
-      }
+          setErrorMessage("You cant book a Room for More 29 days");
+        } else {
+          setErrorMessage("");
+        }
 
         setDaysDiff(daysDiff);
         const totalAmount =
@@ -73,7 +74,7 @@ function HotelBooking() {
         setTotal(0);
       }
     }
-  }, [hotelDetail, formData,formData.no_of_room]);
+  }, [hotelDetail, formData, formData.no_of_room]);
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -101,7 +102,6 @@ function HotelBooking() {
       toast.error("Please enter a valid phone number");
       return;
     }
-
 
     // Start date and end date validation
     if (
@@ -157,8 +157,15 @@ function HotelBooking() {
         navigate(`/hotel-booking-details/${bookingId}`);
       })
       .catch((error) => {
-        console.error("Error submitting form:", error);
-        toast.error("Error submitting form. Please try again later.");
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error("Error submitting form. Please try again later.");
+        }
       });
   };
 
@@ -228,7 +235,7 @@ function HotelBooking() {
             <p>TRAVELLER DETAILS</p>
             <div className="container mx-auto">
               <h1 className="text-3xl font-bold my-6">Hotel Booking</h1>
-              <form className="mt-3" noValidate  onSubmit={handleSubmit}>
+              <form className="mt-3" noValidate onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 md:gap-6">
                   <div className="relative z-0 w-full mb-5 group">
                     <input
@@ -397,6 +404,9 @@ function HotelBooking() {
               </div>
             </div>
           </div>
+
+          <HotelAvailabilityCalendar hotelId={hotelDetail ? hotelDetail.id : null} />
+
         </div>
       </div>
       <Footer />

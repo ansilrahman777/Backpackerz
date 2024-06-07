@@ -263,6 +263,23 @@ class HotelBookingListCreateAPIView(generics.ListCreateAPIView):
     queryset = HotelBooking.objects.all()
     serializer_class = HotelBookingSerializer
 
+    def create(self, request, *args, **kwargs):
+        hotel_id = request.data.get('hotel')
+        no_of_rooms = int(request.data.get('no_of_room'))
+        start_date = request.data.get('start_date')
+        end_date = request.data.get('end_date')
+
+        hotel = Hotel.objects.get(pk=hotel_id)
+
+        if not hotel.check_availability(start_date, end_date, no_of_rooms):
+            return Response({"error": "Rooms not available for the selected dates"}, status=status.HTTP_400_BAD_REQUEST)
+
+        response = super().create(request, *args, **kwargs)
+
+        # No need to manually update available rooms as it is calculated dynamically
+
+        return response
+
 class HotelBookingDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = HotelBooking.objects.all()
     serializer_class = HotelBookingSerializer
@@ -285,7 +302,13 @@ class UserHotelBookingListAPIView(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs['user_id']
         return HotelBooking.objects.filter(user_id=user_id)
-    
+
+class HotelBookingListByHotelAPIView(generics.ListAPIView):
+    serializer_class = HotelBookingSerializer
+
+    def get_queryset(self):
+        hotel_id = self.kwargs['hotel_id']
+        return HotelBooking.objects.filter(hotel_id=hotel_id)
     
 class PackageBookingListAPIView(generics.ListCreateAPIView):
     queryset = PackageBooking.objects.all()
