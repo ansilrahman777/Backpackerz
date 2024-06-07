@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
+from .models import HotelReview, User, Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken,TokenError
@@ -161,6 +161,25 @@ class LogoutUserSerializer(serializers.Serializer):
 # ----------------------------------------------------Auth Section end------------------------------------------------------
 # --------------------------------------------------------------------------------------------------------------------------
 
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------User Sections ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'first_name', 'last_name', 'mobile', 'is_staff', 'is_superuser', 'is_verified', 'is_active', 'date_joined', 'last_login']
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name', 'mobile', 'is_staff', 'is_superuser', 'is_verified', 'is_active']
+        read_only_fields = ['email']  # Make email read-only to prevent changing it
+
+# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------User Sections ------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------
+
 
 
 # --------------------------------------------------------------------------------------------------------------------------
@@ -265,6 +284,12 @@ class PackageSerializer(serializers.ModelSerializer):
 
 from .models import Destination, Hotel, HotelImage, HotelItinerary, HotelDetail
 
+class HotelReviewSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)    
+    class Meta:
+        model = HotelReview
+        fields = ['id', 'hotel','user', 'rating', 'comment', 'created_at']
+
 class HotelDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = HotelDetail
@@ -282,13 +307,14 @@ class HotelItinerarySerializer(serializers.ModelSerializer):
 
 
 class HotelSerializer(serializers.ModelSerializer):
+    reviews = HotelReviewSerializer(many=True, read_only=True)
     images = HotelImageSerializer(many=True, read_only=True)
     itinerary = HotelItinerarySerializer(many=True, read_only=True)
     details = HotelDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = Hotel
-        fields = ['id','destination','destination_name','hotel_name', 'hotel_description','pricing', 'contact_no', 'hotel_type', 'is_available', 'rooms', 'rating', 'images', 'itinerary','details','image_url']
+        fields = ['id','destination','destination_name','hotel_name', 'hotel_description','pricing', 'contact_no', 'hotel_type', 'is_available', 'rooms', 'rating', 'images', 'itinerary','details','image_url','reviews']
 
 class DestinationSerializer(serializers.ModelSerializer):
     hotels = HotelSerializer(many=True, read_only=True)
@@ -305,24 +331,6 @@ class DestinationSerializer(serializers.ModelSerializer):
 
 
 
-# --------------------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------User Sections ------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'mobile', 'is_staff', 'is_superuser', 'is_verified', 'is_active', 'date_joined', 'last_login']
-
-class UserUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['email', 'first_name', 'last_name', 'mobile', 'is_staff', 'is_superuser', 'is_verified', 'is_active']
-        read_only_fields = ['email']  # Make email read-only to prevent changing it
-
-# --------------------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------User Sections ------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------Bookin section------------------------------------------------------

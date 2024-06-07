@@ -5,6 +5,7 @@ from .managers import UserManager
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
 import uuid
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 AUTH_PROVIDERS={'email':'email','google':'google'}
@@ -266,3 +267,14 @@ class HotelBooking(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.hotel.hotel_name}"
+    
+class HotelReview(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("Hotel Review")
+        verbose_name_plural = _("Hotel Reviews")

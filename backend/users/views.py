@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from .serializers import UserRegisterSerializer ,LoginSerializer ,PasswordResetRequestSerializer ,SetNewPasswordSerializer ,LogoutUserSerializer
+from .serializers import HotelReviewSerializer, UserRegisterSerializer ,LoginSerializer ,PasswordResetRequestSerializer ,SetNewPasswordSerializer ,LogoutUserSerializer
 from .serializers import PackageSerializer, PackageImageSerializer, ItinerarySerializer, PackageInclusionSerializer, PackageExclusionSerializer, GoogleSignInSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .utils import send_otp
-from .models import OTP, User, Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
+from .models import OTP, HotelReview, User, Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -296,6 +296,14 @@ class HotelBookingDetailView(generics.RetrieveUpdateDestroyAPIView):
         else:
             return Response({'error': 'Missing status or booking_status in request data'}, status=status.HTTP_400_BAD_REQUEST)
 
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related('hotel__reviews')  # Assuming reviews are related to the hotel model
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['include_reviews'] = True
+        return context
+    
 class UserHotelBookingListAPIView(generics.ListAPIView):
     serializer_class = HotelBookingSerializer
 
@@ -429,3 +437,10 @@ class StripeSuccessView(APIView):
                 {'error': str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )      
+class HotelReviewListCreateAPIView(generics.ListCreateAPIView):
+    queryset = HotelReview.objects.all()
+    serializer_class = HotelReviewSerializer
+    permission_classes = [IsAuthenticated] 
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
