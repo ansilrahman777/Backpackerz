@@ -47,9 +47,9 @@ function DestinationDetails() {
 
     // Sort hotels based on sort order
     if (sortOrder === "priceAsc") {
-      filtered = filtered.slice().sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      filtered = filtered.slice().sort((a, b) => parseFloat(a.pricing) - parseFloat(b.pricing));
     } else if (sortOrder === "priceDesc") {
-      filtered = filtered.slice().sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      filtered = filtered.slice().sort((a, b) => parseFloat(b.pricing) - parseFloat(a.pricing));
     }
 
     setFilteredHotels(filtered);

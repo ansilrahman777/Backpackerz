@@ -21,6 +21,8 @@ import HotelBookingSuccess from '../Pages/User/HotelBookingSuccess';
 import PackageBookingConfirmed from '../Pages/User/PackageBookingConfirmed';
 import PackageBookingList from '../Pages/User/PackageBookingList';
 import HotelBookingList from '../Pages/User/HotelBookingList';
+import HotelBookingDetails from '../Pages/User/HotelBookingDetails';
+import PackageBookingDetails from '../Pages/User/PackageBookingDetails';
 
 const UserWrapper = () => {
   return (
@@ -47,10 +49,12 @@ const UserWrapper = () => {
         <Route path="/hotel-booking-details/:bookingId" element={<HotelConfirmBooking/>} />
         <Route path="/hotelBookingSuccess" element={<HotelBookingSuccess/>} />
         <Route path="/hotel-booking-list" element={<HotelBookingList />} />
+        <Route path="/hotel-booking-view/:id" element={<HotelBookingDetails/>} />
 
         <Route path="/package-booking" element={<PackageBooking />} />
         <Route path="/package-booking-confirmed/:booking_id" element={<PackageBookingConfirmed />} />
         <Route path="/package-booking-list" element={<PackageBookingList />} />
+        <Route path="/package-booking-view/:id" element={<PackageBookingDetails />} />
 
       </Routes>
     </>

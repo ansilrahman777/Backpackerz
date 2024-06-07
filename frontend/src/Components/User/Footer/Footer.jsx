@@ -14,7 +14,7 @@ function Footer() {
                 src={logo}
               />
             </NavLink>
-            <p className="mt-2 text-sm text-gray-500">Design, Code and Ship!</p>
+            <p className="mt-2 text-sm text-gray-500">Travel With Us!</p>
             <div className="mt-4">
               <span className="inline-flex justify-center mt-2 sm:ml-auto sm:mt-0 sm:justify-start">
                 <a className="text-gray-500 cursor-pointer hover:text-gray-700">

@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "../../Components/User/Header/Header";
 import Footer from "../../Components/User/Footer/Footer";
 import Pagination from "../../Components/User/Pagination/Pagination"; // Import the Pagination component
+import { Link } from "react-router-dom";
 
 function PackageBookingList() {
   const [bookings, setBookings] = useState([]);
@@ -91,7 +92,7 @@ function PackageBookingList() {
                             Customer
                           </th>
                           <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Package Name
+                            Start Date
                           </th>
                           <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             Guests
@@ -109,7 +110,9 @@ function PackageBookingList() {
                           <tr key={booking.id}>
                             <td className="px-4 py-4 text-xs font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                               <div className="inline-flex items-center gap-x-3">
-                                <span>{booking.booking_id}</span>
+                                <Link to={`/package-booking-view/${booking.id}`}>
+                                  <span>{booking.booking_id}</span>
+                                </Link>
                               </div>
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
@@ -142,7 +145,9 @@ function PackageBookingList() {
                               </div>
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {booking.package}
+                            {new Date(
+                                booking.start_date
+                              ).toLocaleDateString()}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                               {booking.no_of_guests}

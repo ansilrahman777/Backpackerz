@@ -3,6 +3,7 @@ import Header from "../../Components/User/Header/Header";
 import axios from "axios";
 import Footer from "../../Components/User/Footer/Footer";
 import Pagination from "../../Components/User/Pagination/Pagination"; // Import the Pagination component
+import { Link } from 'react-router-dom';
 
 function HotelBookingList() {
   const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
@@ -91,7 +92,7 @@ function HotelBookingList() {
                             Customer
                           </th>
                           <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Package Name
+                            No of Room
                           </th>
                           <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             Guests
@@ -109,7 +110,12 @@ function HotelBookingList() {
                           <tr key={booking.id}>
                             <td className="px-4 py-4 text-xs font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                               <div className="inline-flex items-center gap-x-3">
-                                <span>{booking.booking_number}</span>
+                                <Link
+                                  to={`/hotel-booking-view/${booking.id}`}
+                                  className="text-blue-500 hover:underline"
+                                >
+                                  {booking.booking_number}
+                                </Link>
                               </div>
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
