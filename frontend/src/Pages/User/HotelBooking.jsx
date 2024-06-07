@@ -15,7 +15,7 @@ function HotelBooking() {
   const [hotelDetail, setHotelDetail] = useState(null);
   const [total, setTotal] = useState(0);
   const [daysDiff, setDaysDiff] = useState(0);
-
+  const [errorMessage, setErrorMessage] = useState(""); 
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -59,8 +59,10 @@ function HotelBooking() {
         let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
         if (daysDiff > 29) {
-          daysDiff = 29;
-        }
+        setErrorMessage("You cant book a Room for More 29 days");
+      } else {
+        setErrorMessage("");
+      }
 
         setDaysDiff(daysDiff);
         const totalAmount =
@@ -100,6 +102,7 @@ function HotelBooking() {
       return;
     }
 
+
     // Start date and end date validation
     if (
       new Date(formData.start_date) >= new Date(formData.end_date) ||
@@ -110,8 +113,25 @@ function HotelBooking() {
       return;
     }
 
+    if (daysDiff > 29) {
+      toast.error("You cant book a Room for More than 29 days");
+      return;
+    }
     // Adjust maximum number of guests based on number of rooms
     let maxGuests = 3 * formData.no_of_room;
+
+    if (formData.no_of_room < 1) {
+      toast.error(`Select at least 1 Room`);
+      return;
+    }
+    if (formData.no_of_guest < 1) {
+      toast.error(`Guests cannot be 0 `);
+      return;
+    }
+    if (formData.no_of_room > hotelDetail.rooms) {
+      toast.error(`Only ${hotelDetail.rooms} rooms are available`);
+      return;
+    }
 
     // Guest validation
     if (formData.no_of_guest > maxGuests) {
@@ -208,7 +228,7 @@ function HotelBooking() {
             <p>TRAVELLER DETAILS</p>
             <div className="container mx-auto">
               <h1 className="text-3xl font-bold my-6">Hotel Booking</h1>
-              <form className="mt-3" onSubmit={handleSubmit}>
+              <form className="mt-3" noValidate  onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 md:gap-6">
                   <div className="relative z-0 w-full mb-5 group">
                     <input
@@ -269,6 +289,7 @@ function HotelBooking() {
                       onChange={handleFormChange}
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
+                      min={new Date().toISOString().split("T")[0]}
                       required
                     />
                     <label
@@ -286,6 +307,7 @@ function HotelBooking() {
                       onChange={handleFormChange}
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
+                      min={new Date().toISOString().split("T")[0]}
                       required
                     />
                     <label
@@ -307,6 +329,7 @@ function HotelBooking() {
                       placeholder=" "
                       required
                       min="1"
+                      max={hotelDetail ? hotelDetail.rooms : ""}
                     />
                     <label
                       htmlFor="floating_no_of_room"
