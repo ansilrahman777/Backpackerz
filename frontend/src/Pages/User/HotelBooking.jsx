@@ -10,10 +10,11 @@ function HotelBooking() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
 
   const [hotelDetail, setHotelDetail] = useState(null);
   const [total, setTotal] = useState(0);
+  const [daysDiff, setDaysDiff] = useState(0);
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -28,7 +29,7 @@ function HotelBooking() {
   useEffect(() => {
     if (!user) {
       navigate("/login");
-      toast.error("Login for book you Hotel");
+      toast.error("Login for book your Hotel");
     }
   }, []);
 
@@ -38,7 +39,7 @@ function HotelBooking() {
 
     if (id) {
       axios
-        .get(base_url+`/api/hotels/${id}/`)
+        .get(base_url + `/api/hotels/${id}/`)
         .then((response) => {
           setHotelDetail(response.data);
         })
@@ -50,10 +51,27 @@ function HotelBooking() {
 
   useEffect(() => {
     if (hotelDetail && formData.no_of_guest) {
-      const totalAmount = hotelDetail.pricing * formData.no_of_room;
-      setTotal(totalAmount);
+      const startDate = new Date(formData.start_date);
+      const endDate = new Date(formData.end_date);
+
+      if (!isNaN(startDate) && !isNaN(endDate) && startDate < endDate) {
+        const timeDiff = endDate - startDate;
+        let daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+        if (daysDiff > 29) {
+          daysDiff = 29;
+        }
+
+        setDaysDiff(daysDiff);
+        const totalAmount =
+          hotelDetail.pricing * formData.no_of_room * daysDiff;
+        setTotal(totalAmount);
+      } else {
+        setDaysDiff(0);
+        setTotal(0);
+      }
     }
-  }, [hotelDetail, formData.no_of_guest]);
+  }, [hotelDetail, formData,formData.no_of_room]);
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -82,6 +100,16 @@ function HotelBooking() {
       return;
     }
 
+    // Start date and end date validation
+    if (
+      new Date(formData.start_date) >= new Date(formData.end_date) ||
+      new Date(formData.start_date) <
+        new Date(new Date().toISOString().split("T")[0])
+    ) {
+      toast.error("Please select valid start and end dates");
+      return;
+    }
+
     // Adjust maximum number of guests based on number of rooms
     let maxGuests = 3 * formData.no_of_room;
 
@@ -103,7 +131,7 @@ function HotelBooking() {
     };
 
     axios
-      .post(base_url+"/api/hotelbookings/", updatedFormData)
+      .post(base_url + "/api/hotelbookings/", updatedFormData)
       .then((response) => {
         const bookingId = response.data.id;
         navigate(`/hotel-booking-details/${bookingId}`);
@@ -211,9 +239,9 @@ function HotelBooking() {
                     />
                     <label
                       htmlFor="floating_email"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
-                      Email Address
+                      Email address
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-5 group">
@@ -230,7 +258,7 @@ function HotelBooking() {
                       htmlFor="floating_phone"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
-                      Phone
+                      Phone number
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-5 group">
@@ -239,9 +267,8 @@ function HotelBooking() {
                       name="start_date"
                       value={formData.start_date}
                       onChange={handleFormChange}
-                      min={new Date().toISOString().split("T")[0]}
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder="Start Date"
+                      placeholder=" "
                       required
                     />
                     <label
@@ -257,15 +284,35 @@ function HotelBooking() {
                       name="end_date"
                       value={formData.end_date}
                       onChange={handleFormChange}
-                      min={new Date().toISOString().split("T")[0]}
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder="End Date"
+                      placeholder=" "
+                      required
                     />
                     <label
                       htmlFor="floating_end_date"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       End Date
+                    </label>
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-2 md:gap-6">
+                  <div className="relative z-0 w-full mb-5 group">
+                    <input
+                      type="number"
+                      name="no_of_room"
+                      value={formData.no_of_room}
+                      onChange={handleFormChange}
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      required
+                      min="1"
+                    />
+                    <label
+                      htmlFor="floating_no_of_room"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      Number of Rooms
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-5 group">
@@ -275,39 +322,23 @@ function HotelBooking() {
                       value={formData.no_of_guest}
                       onChange={handleFormChange}
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder="No. of Guest"
+                      placeholder=" "
                       required
+                      min="1"
                     />
                     <label
                       htmlFor="floating_no_of_guest"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
-                      No. of Guests
-                    </label>
-                  </div>
-                  <div className="relative z-0 w-full mb-5 group">
-                    <input
-                      type="number"
-                      name="no_of_room"
-                      value={formData.no_of_room}
-                      onChange={handleFormChange}
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                      placeholder="No. of Rooms"
-                      required
-                    />
-                    <label
-                      htmlFor="floating_no_of_room"
-                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                    >
-                      No. of Rooms
+                      Number of Guests
                     </label>
                   </div>
                 </div>
                 <button
                   type="submit"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  Submit
+                  Book Now
                 </button>
               </form>
             </div>
@@ -321,13 +352,14 @@ function HotelBooking() {
                   <p className="text-lg font-bold">
                     Rooms X {formData.no_of_room}
                   </p>
-                  <p className="text-sm text-gray-500">Seirve Charge:0 </p>
-                  <p className="text-sm text-gray-500">Tax:0 </p>
+                  <p className="text-sm text-gray-500">Days X {daysDiff}</p>
+                  <p className="text-sm text-gray-500">Service Charge: 0</p>
+                  <p className="text-sm text-gray-500">Tax: 0</p>
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-right">{total}</p>
-                  <p className="text-sm text-right text-gray-500"> ₹ 0</p>
-                  <p className="text-sm text-right text-gray-500"> ₹ 0</p>
+                  <p className="text-lg font-bold text-right">₹ {total}</p>
+                  <p className="text-sm text-right text-gray-500">₹ 0</p>
+                  <p className="text-sm text-right text-gray-500">₹ 0</p>
                 </div>
               </div>
             </div>
