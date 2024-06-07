@@ -3,17 +3,18 @@ import Header from "../../Components/Admin/Header";
 import AsideBar from "../../Components/Admin/AsideBar";
 import axios from "axios";
 import Pagination from "../../Components/Admin/Pagination/Pagination";
+import Swal from "sweetalert2";
 
 function AdminPackageBooking() {
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
 
   const [bookings, setBookings] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6); 
+  const [itemsPerPage] = useState(6);
 
-  // Define the fetchBookings function
+  const token = localStorage.getItem("access"); 
   const fetchBookings = () => {
-    fetch(base_url+"/api/admin_side/package-bookings/")
+    fetch(base_url + "/api/admin_side/package-bookings/")
       .then((response) => response.json())
       .then((data) => setBookings(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -24,34 +25,72 @@ function AdminPackageBooking() {
     fetchBookings();
   }, []);
 
-   // Get current packages
-   const indexOfLastItem = currentPage * itemsPerPage;
-   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-   const currentBookings = bookings.slice(indexOfFirstItem, indexOfLastItem);
- 
-   // Change page
-   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // Get current packages
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentBookings = bookings.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const cancelBooking = (id) => {
-    axios
-      .patch(
-        base_url+`/api/admin_side/package-bookings/${id}/cancel/`
-      )
-      .then(() => {
-        fetchBookings(); // Refresh the bookings after cancellation
-      })
-      .catch((error) => console.error("Error cancelling booking:", error));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .patch(
+            base_url + `/api/admin_side/package-bookings/${id}/cancel/`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }
+          )
+          .then(() => {
+            Swal.fire("Cancelled!", "The booking has been cancelled.", "success");
+            fetchBookings(); // Refresh the bookings after cancellation
+          })
+          .catch((error) => console.error("Error cancelling booking:", error));
+      }
+    });
   };
 
   const confirmBooking = (id) => {
-    axios
-      .patch(
-        base_url+`/api/admin_side/package-bookings/${id}/confirm/`
-      )
-      .then(() => {
-        fetchBookings(); // Refresh the bookings after confirmation
-      })
-      .catch((error) => console.error("Error confirming booking:", error));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, confirm it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .patch(
+            base_url + `/api/admin_side/package-bookings/${id}/confirm/`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }
+          )
+          .then(() => {
+            Swal.fire("Confirmed!", "The booking has been confirmed.", "success");
+            fetchBookings(); // Refresh the bookings after confirmation
+          })
+          .catch((error) => console.error("Error confirming booking:", error));
+      }
+    });
   };
 
   return (
@@ -83,42 +122,36 @@ function AdminPackageBooking() {
                         >
                           Date
                         </th>
-
                         <th
                           scope="col"
                           className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Status
                         </th>
-
                         <th
                           scope="col"
                           className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Customer
                         </th>
-
                         <th
                           scope="col"
                           className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Package Name
                         </th>
-
                         <th
                           scope="col"
                           className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Guest
                         </th>
-
                         <th
                           scope="col"
                           className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                         >
                           Amount
                         </th>
-
                         <th
                           scope="col"
                           className="flex justify-center px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -174,19 +207,22 @@ function AdminPackageBooking() {
                             {booking.total_amount}
                           </td>
                           <td className="flex px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            <button
-                              className="text-red-800 mx-3"
-                              onClick={() => cancelBooking(booking.id)}
-                            >
-                              Cancel
-                            </button>
-                            <br />
-                            <button
-                              className="text-green-400 mx-3"
-                              onClick={() => confirmBooking(booking.id)}
-                            >
-                              Confirm
-                            </button>
+                            {booking.status !== 'Cancelled' && (
+                              <button
+                                className="text-red-800 mx-3"
+                                onClick={() => cancelBooking(booking.id)}
+                              >
+                                Cancel
+                              </button>
+                            )}
+                            {booking.status !== 'Confirmed' && (
+                              <button
+                                className="text-green-400 mx-3"
+                                onClick={() => confirmBooking(booking.id)}
+                              >
+                                Confirm
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -198,7 +234,7 @@ function AdminPackageBooking() {
           </div>
 
           <div className="flex items-center justify-between mt-6">
-          {bookings.length > 0 && (
+            {bookings.length > 0 && (
               <Pagination
                 itemsPerPage={itemsPerPage}
                 totalItems={bookings.length}

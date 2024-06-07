@@ -7,23 +7,33 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function AdminProfile() {
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
-
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await axios.post(base_url+"/api/admin_side/logout/");
+      const token = localStorage.getItem("access");
+      await axios.post(
+        base_url + "/api/admin_side/logout/",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log("Logout successful");
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
       localStorage.removeItem("user");
       navigate("/admin/login");
-      toast.success("logout successful");
+      toast.success("Logout successful");
     } catch (error) {
       console.error("Logout failed:", error);
+      toast.error("Logout failed");
     }
   };
+
   return (
     <div className="min-h-screen bg-cover">
       <div className="container mx-auto mt-5">
@@ -40,7 +50,7 @@ function AdminProfile() {
                 PROFILE
               </h2>
               <p className="text-white" style={{ fontFamily: "cursive" }}>
-                Are you planning a quick getaway? then you are at theright door.
+                Are you planning a quick getaway? then you are at the right door.
               </p>
             </div>
           </div>

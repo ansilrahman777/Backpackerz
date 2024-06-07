@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate, login, logout
 from .serializers import LoginSerializer, LogoutSerializer
-from rest_framework import generics
+from rest_framework import status, generics, permissions
 from users.models import Package, PackageImage, Itinerary, PackageInclusion, PackageExclusion,HotelBooking,PackageBooking
 from .serializers import PackageSerializer, PackageImageSerializer, ItinerarySerializer, PackageInclusionSerializer, PackageExclusionSerializer, UserSerializer
 from django.contrib.auth import get_user_model
@@ -58,6 +58,8 @@ class UniqueUserListView(APIView):
 # --------------------------------------------------------------------------------------------------------------------------
 
 class LoginAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+    
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
@@ -85,6 +87,7 @@ class LoginAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LogoutAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         logout(request)
         return Response(status=status.HTTP_200_OK)
@@ -101,10 +104,12 @@ class LogoutAPIView(APIView):
 
 
 class PackageListAPIView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
 
 class PackageDetailAPIView(generics.RetrieveAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
 
@@ -114,46 +119,56 @@ class PackageDetailAPIView(generics.RetrieveAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class AddPackageAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
 
 
 class EditPackageAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
 
 class PackageImageCreateAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = PackageImage.objects.all()
     serializer_class = PackageImageSerializer
 
 class PackageImageUpdateAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = PackageImage.objects.all()
     serializer_class = PackageImageSerializer
 
 # Views for Itinerary
 class ItineraryCreateAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Itinerary.objects.all()
     serializer_class = ItinerarySerializer
 
 class ItineraryUpdateAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Itinerary.objects.all()
     serializer_class = ItinerarySerializer
 
 # Views for PackageInclusion
 class PackageInclusionCreateAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = PackageInclusion.objects.all()
     serializer_class = PackageInclusionSerializer
 
 class PackageInclusionUpdateAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = PackageInclusion.objects.all()
     serializer_class = PackageInclusionSerializer
 
 # Views for PackageExclusion
 class PackageExclusionCreateAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = PackageExclusion.objects.all()
     serializer_class = PackageExclusionSerializer
 
 class PackageExclusionUpdateAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = PackageExclusion.objects.all()
     serializer_class = PackageExclusionSerializer
 # --------------------------------------------------------------------------------------------------------------------------
@@ -170,10 +185,12 @@ from .serializers import DestinationSerializer, HotelSerializer, HotelImageSeria
 
 # Destination Views
 class DestinationListAPIView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
 
 class DestinationDetailAPIView(generics.RetrieveAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
 
@@ -183,6 +200,7 @@ class DestinationDetailAPIView(generics.RetrieveAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 class HotelsByDestinationAPIView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
     serializer_class = HotelSerializer
 
     def get_queryset(self):
@@ -190,54 +208,66 @@ class HotelsByDestinationAPIView(generics.ListAPIView):
         return Hotel.objects.filter(destination_id=destination_id)
 
 class AddDestinationAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
 
 class EditDestinationAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
 
 # Hotel Views
 class HotelListAPIView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
 
 class HotelDetailAPIView(generics.RetrieveAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
 
 class AddHotelAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
 
 class EditHotelAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
 
 # Hotel Image Views
 class AddHotelImageAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = HotelImage.objects.all()
     serializer_class = HotelImageSerializer
 
 class EditHotelImageAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = HotelImage.objects.all()
     serializer_class = HotelImageSerializer
 
 # Hotel Itinerary Views
 class AddHotelItineraryAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = HotelItinerary.objects.all()
     serializer_class = HotelItinerarySerializer
 
 class EditHotelItineraryAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = HotelItinerary.objects.all()
     serializer_class = HotelItinerarySerializer
 
 # Hotel Detail Views
 class AddHotelDetailAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = HotelDetail.objects.all()
     serializer_class = HotelDetailSerializer
 
 class EditHotelDetailAPIView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = HotelDetail.objects.all()
     serializer_class = HotelDetailSerializer
 
@@ -247,14 +277,17 @@ class EditHotelDetailAPIView(generics.RetrieveUpdateAPIView):
 from .serializers import PackageBookingSerializer, HotelBookingSerializer
 
 class PackageBookingListAPIView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = PackageBooking.objects.all().order_by('-booking_date')
     serializer_class = PackageBookingSerializer
 
 class HotelBookingListAPIView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = HotelBooking.objects.all().order_by('-booking_date')
     serializer_class = HotelBookingSerializer
 
 class CancelBookingAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def patch(self, request, pk):
         try:
             booking = PackageBooking.objects.get(pk=pk)
@@ -265,6 +298,7 @@ class CancelBookingAPIView(APIView):
             return Response({'message': 'Booking not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class ConfirmBookingAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def patch(self, request, pk):
         try:
             booking = PackageBooking.objects.get(pk=pk)
@@ -273,3 +307,18 @@ class ConfirmBookingAPIView(APIView):
             return Response({'message': 'Booking confirmed successfully'}, status=status.HTTP_200_OK)
         except PackageBooking.DoesNotExist:
             return Response({'message': 'Booking not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+class UpdateBookingStatusAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request, pk):
+        try:
+            booking = HotelBooking.objects.get(pk=pk)
+            new_status = request.data.get('status')
+            if new_status in dict(HotelBooking.BOOKING_STATUS_CHOICES):
+                booking.booking_status = new_status
+                booking.save()
+                return Response({'status': 'success'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'status': 'invalid status'}, status=status.HTTP_400_BAD_REQUEST)
+        except HotelBooking.DoesNotExist:
+            return Response({'status': 'not found'}, status=status.HTTP_404_NOT_FOUND)

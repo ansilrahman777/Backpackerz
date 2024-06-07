@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AddHotelAPIView, AddHotelDetailAPIView, AddHotelImageAPIView, AddHotelItineraryAPIView, CancelBookingAPIView, ConfirmBookingAPIView, EditHotelAPIView, EditHotelDetailAPIView, EditHotelImageAPIView, EditHotelItineraryAPIView, HotelBookingListAPIView, HotelListAPIView, HotelsByDestinationAPIView, ItineraryCreateAPIView, ItineraryUpdateAPIView, LoginAPIView ,LogoutAPIView, PackageBookingListAPIView, PackageExclusionCreateAPIView, PackageExclusionUpdateAPIView, PackageImageCreateAPIView, PackageImageUpdateAPIView, PackageInclusionCreateAPIView, PackageInclusionUpdateAPIView, PackageListAPIView, PackageDetailAPIView, AddPackageAPIView, EditPackageAPIView, DestinationListAPIView, DestinationDetailAPIView, HotelDetailAPIView, AddDestinationAPIView, EditDestinationAPIView, ToggleUserActiveView, UserListView
+from .views import AddHotelAPIView, AddHotelDetailAPIView, AddHotelImageAPIView, AddHotelItineraryAPIView, CancelBookingAPIView, ConfirmBookingAPIView, EditHotelAPIView, EditHotelDetailAPIView, EditHotelImageAPIView, EditHotelItineraryAPIView, HotelBookingListAPIView, HotelListAPIView, HotelsByDestinationAPIView, ItineraryCreateAPIView, ItineraryUpdateAPIView, LoginAPIView ,LogoutAPIView, PackageBookingListAPIView, PackageExclusionCreateAPIView, PackageExclusionUpdateAPIView, PackageImageCreateAPIView, PackageImageUpdateAPIView, PackageInclusionCreateAPIView, PackageInclusionUpdateAPIView, PackageListAPIView, PackageDetailAPIView, AddPackageAPIView, EditPackageAPIView, DestinationListAPIView, DestinationDetailAPIView, HotelDetailAPIView, AddDestinationAPIView, EditDestinationAPIView, ToggleUserActiveView, UpdateBookingStatusAPIView, UserListView
 from .views import UniqueUserListView
 
 urlpatterns = [
@@ -55,6 +55,8 @@ urlpatterns = [
 
     path('package-bookings/<int:pk>/cancel/', CancelBookingAPIView.as_view(), name='admin_cancel_booking'),
     path('package-bookings/<int:pk>/confirm/', ConfirmBookingAPIView.as_view(), name='admin_confirm_booking'),
+    path('hotel-bookings/<int:pk>/update-status/', UpdateBookingStatusAPIView.as_view(), name='update_booking_status'),
+
 
     path('chat-unique-users/', UniqueUserListView.as_view(), name='unique-users'),
 

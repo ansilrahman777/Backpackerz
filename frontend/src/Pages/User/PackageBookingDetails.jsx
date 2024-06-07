@@ -36,7 +36,7 @@ function PackageBookingDetails() {
           toast.error("Error fetching booking");
         });
     }
-  }, [base_url,id]);
+  }, [base_url, id]);
 
   return (
     <div>
@@ -73,18 +73,16 @@ function PackageBookingDetails() {
               </div>
               <div className="flex justify-between items-center mb-6">
                 <div className="w-1/3">
-                  <h3 className="text-lg font-semibold mb-2">Payment Method</h3>
-                  <p className="text-gray-500">{packageBooking.payment_method}</p>
-                </div>
-                <div className="w-1/3">
                   <h3 className="text-lg font-semibold mb-2">Booking Dates</h3>
                   <p className="text-gray-500">
-                    {packageBooking.start_date} to {packageBooking.end_date}
+                    {new Date(packageBooking.booking_date).toLocaleDateString()}
                   </p>
                 </div>
                 <div className="w-1/3">
                   <h3 className="text-lg font-semibold mb-2">Booking Status</h3>
-                  <p className="text-gray-500">{packageBooking.booking_status}</p>
+                  <p className="text-gray-500">
+                    {packageBooking.status}
+                  </p>
                 </div>
               </div>
               <div className="bg-gray-100 p-4 rounded-lg mb-4">
@@ -102,7 +100,9 @@ function PackageBookingDetails() {
                     </div>
                   </div>
                   <div>
-                    <p className="text-lg font-semibold">{packageDetails.destination}</p>
+                    <p className="text-lg font-semibold">
+                      {new Date(packageBooking.start_date).toLocaleDateString()}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -110,12 +110,16 @@ function PackageBookingDetails() {
                 <h3 className="text-lg font-semibold mb-4">Total</h3>
                 <div className="flex justify-between items-center mb-2">
                   <p className="text-gray-500">Subtotal</p>
-                  <p className="text-gray-500">₹ {packageBooking.total_amount}</p>
+                  <p className="text-gray-500">
+                    ₹ {packageBooking.total_amount}
+                  </p>
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-between items-center">
                   <p className="font-semibold">Total</p>
-                  <p className="font-semibold">₹ {packageBooking.total_amount}</p>
+                  <p className="font-semibold">
+                    ₹ {packageBooking.total_amount}
+                  </p>
                 </div>
               </div>
             </>
