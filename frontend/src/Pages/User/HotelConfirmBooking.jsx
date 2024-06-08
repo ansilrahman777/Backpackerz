@@ -49,6 +49,7 @@ function HotelConfirmBooking() {
             <div className="w-full max-w-lg px-10 py-8 mx-auto bg-gray-100 rounded-lg shadow-xl">
               <div className="max-w-md mx-auto space-y-6">
                 <p className="text-gray-600">Booking Summary</p>
+            <p>No Refund for Confirmed Bookings</p>
 
                 <div className="text-base leading-7">
                   <p>
