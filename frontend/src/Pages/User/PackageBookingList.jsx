@@ -4,6 +4,7 @@ import Header from "../../Components/User/Header/Header";
 import Footer from "../../Components/User/Footer/Footer";
 import Pagination from "../../Components/User/Pagination/Pagination"; // Import the Pagination component
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function PackageBookingList() {
   const [bookings, setBookings] = useState([]);
@@ -32,22 +33,44 @@ function PackageBookingList() {
   }, [base_url]);
 
   const cancelBooking = (bookingId) => {
-    axios
-      .patch(base_url + `/api/package-bookings/${bookingId}/cancel/`)
-      .then((response) => {
-        // Update bookings state after cancellation
-        setBookings((prevBookings) =>
-          prevBookings.map((booking) => {
-            if (booking.id === bookingId) {
-              return { ...booking, status: "Cancelled" };
-            }
-            return booking;
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .patch(base_url + `/api/package-bookings/${bookingId}/cancel/`)
+          .then((response) => {
+            // Update bookings state after cancellation
+            setBookings((prevBookings) =>
+              prevBookings.map((booking) => {
+                if (booking.id === bookingId) {
+                  return { ...booking, status: "Cancelled" };
+                }
+                return booking;
+              })
+            );
+            Swal.fire({
+              title: "Cancelled!",
+              text: "Your booking has been cancelled.",
+              icon: "success"
+            });
           })
-        );
-      })
-      .catch((error) => {
-        console.error("Error cancelling booking:", error);
-      });
+          .catch((error) => {
+            console.error("Error cancelling booking:", error);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to cancel booking. Please try again later.",
+              icon: "error"
+            });
+          });
+      }
+    });
   };
 
   // Get current bookings
@@ -145,7 +168,7 @@ function PackageBookingList() {
                               </div>
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            {new Date(
+                              {new Date(
                                 booking.start_date
                               ).toLocaleDateString()}
                             </td>
@@ -159,7 +182,7 @@ function PackageBookingList() {
                               {booking.status === "Pending" && (
                                 <button
                                   onClick={() => cancelBooking(booking.id)}
-                                  className="text-red-500 hover:text-red-700"
+                                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-500"
                                 >
                                   Cancel
                                 </button>

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import Header from "../../Components/User/Header/Header";
 import axios from "axios";
 import Footer from "../../Components/User/Footer/Footer";
-import Pagination from "../../Components/User/Pagination/Pagination"; // Import the Pagination component
-import { Link } from 'react-router-dom';
+import Pagination from "../../Components/User/Pagination/Pagination";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function HotelBookingList() {
   const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
@@ -32,22 +33,44 @@ function HotelBookingList() {
   }, [base_url]);
 
   const cancelBooking = (bookingId) => {
-    axios
-      .patch(base_url + `/api/bookings/${bookingId}/cancel/`)
-      .then((response) => {
-        // Update bookings state after cancellation
-        setBookings((prevBookings) =>
-          prevBookings.map((booking) => {
-            if (booking.id === bookingId) {
-              return { ...booking, booking_status: "Cancelled" };
-            }
-            return booking;
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .patch(base_url + `/api/bookings/${bookingId}/cancel/`)
+          .then((response) => {
+            // Update bookings state after cancellation
+            setBookings((prevBookings) =>
+              prevBookings.map((booking) => {
+                if (booking.id === bookingId) {
+                  return { ...booking, booking_status: "Cancelled" };
+                }
+                return booking;
+              })
+            );
+            Swal.fire({
+              title: "Cancelled!",
+              text: "Your booking has been cancelled.",
+              icon: "success",
+            });
           })
-        );
-      })
-      .catch((error) => {
-        console.error("Error cancelling booking:", error);
-      });
+          .catch((error) => {
+            console.error("Error cancelling booking:", error);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to cancel booking. Please try again later.",
+              icon: "error",
+            });
+          });
+      }
+    });
   };
 
   // Get current bookings
@@ -122,11 +145,7 @@ function HotelBookingList() {
                               {booking.start_date} to {booking.end_date}
                             </td>
                             <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                              <div className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 
-                                ${booking.booking_status === 'Upcoming' ? 'text-emerald-500 bg-emerald-100/60' :
-                                   booking.booking_status === 'Ongoing' ? 'text-blue-500 bg-blue-100/60' :
-                                   booking.booking_status === 'Cancelled' ? 'text-red-500 bg-red-100/60' :
-                                   'text-gray-500 bg-gray-100/60'} dark:bg-gray-800`}>
+                              <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
                                 <h2 className="text-sm font-normal">
                                   {booking.booking_status}
                                 </h2>
@@ -153,13 +172,14 @@ function HotelBookingList() {
                               {booking.no_of_room}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {booking.no_of_guests}
+                              {booking.no_of_guest}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              ${booking.amount}
+                              ${booking.total}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {(booking.booking_status === 'Upcoming' || booking.booking_status === 'Ongoing') && (
+                              {(booking.booking_status === "Upcoming" ||
+                                booking.booking_status === "Ongoing") && (
                                 <button
                                   onClick={() => cancelBooking(booking.id)}
                                   className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-500"

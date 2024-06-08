@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import home_bg from "./../../assets/Images/home_bg.jpg";
 import Header from "../../Components/User/Header/Header";
 import { toast } from "react-toastify";
@@ -8,7 +9,7 @@ import Footer from "../../Components/User/Footer/Footer";
 
 function PackageBooking() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
 
   const [packageDetail, setPackageDetail] = useState(null);
   const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ function PackageBooking() {
 
     if (id) {
       axios
-        .get(base_url+`/api/packages/${id}/`)
+        .get(base_url + `/api/packages/${id}/`)
         .then((response) => {
           setPackageDetail(response.data);
         })
@@ -63,58 +64,76 @@ function PackageBooking() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const errors = [];
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, book it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const errors = [];
 
-    if (formData.full_name.length < 3) {
-      errors.push("Full name must be at least 3 characters long.");
-    }
+        if (formData.full_name.length < 3) {
+          errors.push("Full name must be at least 3 characters long.");
+        }
 
-    if (!validateEmail(formData.email)) {
-      errors.push("Email is not valid.");
-    }
+        if (!validateEmail(formData.email)) {
+          errors.push("Email is not valid.");
+        }
 
-    const today = new Date().toISOString().split("T")[0];
-    if (formData.start_date < today) {
-      errors.push("Start date cannot be in the past.");
-    }
+        const today = new Date().toISOString().split("T")[0];
+        if (formData.start_date < today) {
+          errors.push("Start date cannot be in the past.");
+        }
 
-    if (!/^\d{10}$/.test(formData.phone)) {
-      toast.error("Mobile number must be 10 digits long.");
-      return;
-    }
+        if (!/^\d{10}$/.test(formData.phone)) {
+          toast.error("Mobile number must be 10 digits long.");
+          return;
+        }
 
-    if (formData.no_of_guests < 1 || formData.no_of_guests > 10) {
-      errors.push("Number of guests must be between 1 and 10.");
-    }
+        if (formData.no_of_guests < 1 || formData.no_of_guests > 10) {
+          errors.push("Number of guests must be between 1 and 10.");
+        }
 
-    if (errors.length > 0) {
-      errors.forEach((error) => toast.error(error));
-      return;
-    }
+        if (errors.length > 0) {
+          errors.forEach((error) => toast.error(error));
+          return;
+        }
 
-    const totalAmount = packageDetail.price * formData.no_of_guests;
+        const totalAmount = packageDetail.price * formData.no_of_guests;
 
-    const updatedFormData = {
-      ...formData,
-      total_amount: totalAmount,
-      package: packageDetail.id,
-      user: user.user_id,
-    };
+        const updatedFormData = {
+          ...formData,
+          total_amount: totalAmount,
+          package: packageDetail.id,
+          user: user.user_id,
+        };
 
-    console.log("Submitting form data:", updatedFormData);
+        console.log("Submitting form data:", updatedFormData);
 
-    axios
-      .post(base_url+"/api/packagebookings/", updatedFormData)
-      .then((response) => {
-        console.log("Booking created:", response.data);
-        const booking_id = response.data.id;
-        toast.success("Booking created");
-        navigate(`/package-booking-confirmed/${booking_id}`);
-      })
-      .catch((error) => {
-        console.error("Error creating booking:", error);
-        toast.error("Error creating booking");
-      });
+        axios
+          .post(base_url + "/api/packagebookings/", updatedFormData)
+          .then((response) => {
+            console.log("Booking created:", response.data);
+            const booking_id = response.data.id;
+            toast.success("Booking created");
+            Swal.fire({
+              title: "Booked!",
+              text: "Your booking has been created.",
+              icon: "success"
+            }).then(() => {
+              navigate(`/package-booking-confirmed/${booking_id}`);
+            });
+          })
+          .catch((error) => {
+            console.error("Error creating booking:", error);
+            toast.error("Error creating booking");
+          });
+      }
+    });
   };
 
   return (
