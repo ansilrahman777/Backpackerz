@@ -13,9 +13,72 @@ from django.contrib.auth import get_user_model
 from users.models import User
 from chat.models import ChatMessage
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import Sum ,Count
+from datetime import datetime
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
+class DashboardAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        # Get the last 5 package bookings
+        last_five_package_bookings = PackageBooking.objects.all().order_by('-booking_date')[:5]
+        package_booking_serializer = PackageBookingSerializer(last_five_package_bookings, many=True)
+        
+        # Calculate total revenue from hotel bookings
+        total_hotel_revenue = HotelBooking.objects.aggregate(total_revenue=Sum('total'))['total_revenue']
+
+        # Get the last 5 hotel bookings
+        last_five_hotel_bookings = HotelBooking.objects.all().order_by('-booking_date')[:5]
+        hotel_booking_serializer = HotelBookingSerializer(last_five_hotel_bookings, many=True)
+
+        # Get the last 5 registered users
+        last_five_users = User.objects.all().order_by('-date_joined')[:5]
+        user_serializer = UserSerializer(last_five_users, many=True)
+        total_users = User.objects.count()
+
+        # Get total counts
+        total_package_bookings = PackageBooking.objects.count()
+        total_hotel_bookings = HotelBooking.objects.count()
+        
+        package_bookings_per_month = PackageBooking.objects.filter(booking_date__year=datetime.now().year) \
+            .values('booking_date__month') \
+            .annotate(count=Count('id')) \
+            .order_by('booking_date__month')
+
+        hotel_bookings_per_month = HotelBooking.objects.filter(booking_date__year=datetime.now().year) \
+            .values('booking_date__month') \
+            .annotate(count=Count('id')) \
+            .order_by('booking_date__month')
+
+        package_bookings_monthly = [0] * 12
+        hotel_bookings_monthly = [0] * 12
+
+        for booking in package_bookings_per_month:
+            package_bookings_monthly[booking['booking_date__month'] - 1] = booking['count']
+
+        for booking in hotel_bookings_per_month:
+            hotel_bookings_monthly[booking['booking_date__month'] - 1] = booking['count']
+
+
+        data = {
+            'last_five_package_bookings': package_booking_serializer.data,
+            'last_five_hotel_bookings': hotel_booking_serializer.data,
+            'last_five_users': user_serializer.data,
+            'total_package_bookings': total_package_bookings,
+            'total_hotel_bookings': total_hotel_bookings,
+            'total_users': total_users,
+            'total_hotel_revenue': total_hotel_revenue or 0,
+            'package_bookings_per_month': list(package_bookings_per_month),
+            'hotel_bookings_per_month': list(hotel_bookings_per_month),
+        }
+        logger.debug(f"Admin dashboard data: {data}")
+        return Response(data)
 class UserListView(APIView):
     def get(self, request, *args, **kwargs):
         users = User.objects.all()
