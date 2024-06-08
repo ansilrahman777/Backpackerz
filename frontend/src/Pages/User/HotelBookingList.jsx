@@ -33,13 +33,13 @@ function HotelBookingList() {
 
   const cancelBooking = (bookingId) => {
     axios
-      .patch(base_url + `/api/user-hotel-bookings/${bookingId}/cancel/`)
+      .patch(base_url + `/api/bookings/${bookingId}/cancel/`)
       .then((response) => {
         // Update bookings state after cancellation
         setBookings((prevBookings) =>
           prevBookings.map((booking) => {
             if (booking.id === bookingId) {
-              return { ...booking, status: "Cancelled" };
+              return { ...booking, booking_status: "Cancelled" };
             }
             return booking;
           })
@@ -122,9 +122,13 @@ function HotelBookingList() {
                               {booking.start_date} to {booking.end_date}
                             </td>
                             <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                              <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
+                              <div className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 
+                                ${booking.booking_status === 'Upcoming' ? 'text-emerald-500 bg-emerald-100/60' :
+                                   booking.booking_status === 'Ongoing' ? 'text-blue-500 bg-blue-100/60' :
+                                   booking.booking_status === 'Cancelled' ? 'text-red-500 bg-red-100/60' :
+                                   'text-gray-500 bg-gray-100/60'} dark:bg-gray-800`}>
                                 <h2 className="text-sm font-normal">
-                                  {booking.status}
+                                  {booking.booking_status}
                                 </h2>
                               </div>
                             </td>
@@ -149,16 +153,16 @@ function HotelBookingList() {
                               {booking.no_of_room}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {booking.no_of_guest}
+                              {booking.no_of_guests}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {booking.total}
+                              ${booking.amount}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {booking.status === "Pending" && (
+                              {(booking.booking_status === 'Upcoming' || booking.booking_status === 'Ongoing') && (
                                 <button
                                   onClick={() => cancelBooking(booking.id)}
-                                  className="text-red-500 hover:text-red-700"
+                                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-500"
                                 >
                                   Cancel
                                 </button>
@@ -170,17 +174,15 @@ function HotelBookingList() {
                     </table>
                   )}
                 </div>
-                {bookings.length > 0 && (
-                  <Pagination
-                    itemsPerPage={itemsPerPage}
-                    totalItems={bookings.length}
-                    paginate={paginate}
-                    currentPage={currentPage}
-                  />
-                )}
               </div>
             </div>
           </div>
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={bookings.length}
+            currentPage={currentPage}
+            paginate={paginate}
+          />
         </section>
       </div>
       <Footer />
