@@ -23,6 +23,7 @@ import PackageBookingList from '../Pages/User/PackageBookingList';
 import HotelBookingList from '../Pages/User/HotelBookingList';
 import HotelBookingDetails from '../Pages/User/HotelBookingDetails';
 import PackageBookingDetails from '../Pages/User/PackageBookingDetails';
+import ErrorPage from '../Components/ErrorPage';
 
 const UserWrapper = () => {
   return (
@@ -56,6 +57,7 @@ const UserWrapper = () => {
         <Route path="/package-booking-list" element={<PackageBookingList />} />
         <Route path="/package-booking-view/:id" element={<PackageBookingDetails />} />
 
+        <Route path="*" element={<ErrorPage />}/>
       </Routes>
     </>
   );
