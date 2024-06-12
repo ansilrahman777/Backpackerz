@@ -35,9 +35,8 @@ function Profile() {
       const res = await axiosInstance.post("/logout/", {
         refresh_token: refresh,
       });
-
+  
       if (res.status === 204) {
-        // Adjusted the expected status code
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         localStorage.removeItem("user");
@@ -49,7 +48,16 @@ function Profile() {
       }
     } catch (error) {
       console.error("Logout error:", error);
-      toast.error("Logout failed: " + error.message);
+      if (error.response && error.response.data) {
+        console.error("Server response:", error.response.data);
+      }
+  
+      // Clear tokens and redirect to login regardless of the error
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      localStorage.removeItem("user");
+      navigate("/login");
+      toast.error("Logout failed: " + (error.response?.data?.detail || error.message));
     }
   };
 

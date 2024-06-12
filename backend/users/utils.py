@@ -132,7 +132,7 @@ def register_social_user(provider, email, first_name, last_name):
             'email': email,
             'first_name': first_name,
             'last_name': last_name,
-            'mobile':'000000000',
+            'mobile':'',
             'password': settings.SOCIAL_AUTH_PASSWORD
         }
         user = User.objects.create_user(**new_user)
