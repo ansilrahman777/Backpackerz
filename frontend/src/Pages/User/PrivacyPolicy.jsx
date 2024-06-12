@@ -11,7 +11,7 @@ const PrivacyPolicy = () => {
           <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
           <p className="mb-4">
             Privacy policy is required by the law and this policy only applies
-            to Tentgram and not to the websites of other companies, individuals,
+            to Backpackerzz and not to the websites of other companies, individuals,
             or organisations to whom we provide links to our websites.
           </p>
 
@@ -45,7 +45,6 @@ const PrivacyPolicy = () => {
             <li>Gender</li>
             <li>Nationality</li>
             <li>Date of Birth</li>
-            <li>Identification data i.e. Passport, Driving License details</li>
             <li>
               Credit card details, including the three-digit code that appears
               on the back of your credit card
