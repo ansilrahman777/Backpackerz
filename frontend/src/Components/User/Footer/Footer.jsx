@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "./../../../assets/Images/logo.png";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Footer() {
   return (
@@ -133,9 +133,9 @@ function Footer() {
               </h2>
               <nav className="mb-10 list-none">
                 <li className="mt-3">
-                  <a className="text-gray-500 cursor-pointer hover:text-gray-900">
+                  <Link to={'/privacy-policy'} className="text-gray-500 cursor-pointer hover:text-gray-900">
                     Terms &amp; Privacy
-                  </a>
+                  </Link>
                 </li>
                 <li className="mt-3">
                   <a className="text-gray-500 cursor-pointer hover:text-gray-900">
