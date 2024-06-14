@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-const Message = ({messages, user_id}) =>  {
-  console.log("user_id----",user_id);
-  console.log('messages array-----', messages);
-  console.log('time-----------', messages.timestamp);
+const Message = ({ messages, user_id }) => {
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  console.log("user_id----", user_id);
+  console.log("messages array-----", messages);
+  console.log("time-----------", messages.timestamp);
+
   return (
     <div className="flex flex-col h-full overflow-x-auto mb-4">
       <div className="flex flex-col h-full">
         <div className="grid grid-cols-12 gap-y-2">
-          {messages ? (
+          {messages.length > 0 ? (
             messages.map((message, index) => (
               message.sender === user_id ? (
                 <div key={index} className="col-start-6 col-end-13 p-3 rounded-lg">
@@ -39,10 +46,11 @@ const Message = ({messages, user_id}) =>  {
           ) : (
             <p className="col-start-1 col-end-13 text-center text-gray-500">No messages to display</p>
           )}
+          <div ref={bottomRef} className="col-start-1 col-end-13"></div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Message;

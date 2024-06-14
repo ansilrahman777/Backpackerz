@@ -57,7 +57,7 @@ function Profile() {
       localStorage.removeItem("refresh");
       localStorage.removeItem("user");
       navigate("/login");
-      toast.error("Logout failed: " + (error.response?.data?.detail || error.message));
+      toast.error("Logout ");
     }
   };
 

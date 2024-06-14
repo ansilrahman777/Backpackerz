@@ -173,7 +173,7 @@ function HomePage() {
             <div className="mt-10 w-full flex max-w-md mx-auto lg:mx-0">
               <div className="flex sm:flex-row flex-col gap-5 w-full">
                 <form
-                  action="/profile"
+                  action="/chat"
                   className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-gray-600 shadow-lg shadow-gray-200/20 border border-gray-200 bg-gray-100 rounded-full ease-linear focus-within:bg-white focus-within:border-blue-600"
                 >
                   <span className="min-w-max pr-2 border-r border-gray-200">

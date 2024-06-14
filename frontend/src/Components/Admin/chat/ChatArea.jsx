@@ -1,8 +1,13 @@
-import React from "react";
-
+import React, { useEffect, useRef } from "react";
 import MessageInput from "./MessageInput";
 
 function ChatArea({ messages, selectedUser, socket }) {
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const sendMessage = (message, socket) => {
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.send(JSON.stringify({ message }));
@@ -72,6 +77,8 @@ function ChatArea({ messages, selectedUser, socket }) {
                           </p>
                         )}
                       </div>
+                      {/* Bottom ref element */}
+                      <div ref={bottomRef} className="col-start-1 col-end-13"></div>
                     </div>
                   </div>
 
