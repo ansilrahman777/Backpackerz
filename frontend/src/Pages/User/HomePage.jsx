@@ -4,58 +4,23 @@ import home_bg from "./../../assets/Images/home_bg.jpg";
 import pic1 from "./../../assets/Images/pic1.jpg";
 import pic2 from "./../../assets/Images/pic2.jpg";
 import hotel from "./../../assets/Images/hotel.jpg";
+import circles from "./../../assets/Images/home_circles.png";
 import dubai_img from "./../../assets/Images/dubai_img.jpg";
 import "./../../index.css";
 import PropTypes from "prop-types";
 import Footer from "../../Components/User/Footer/Footer";
 import { Link } from "react-router-dom";
+import { FlipWordsDemo } from "../../Components/User/FlipWordsDemo";
 
 function HomePage() {
   const user = JSON.parse(localStorage.getItem("user"));
-
-  const locations = [
-    { name: "DUBAI", color: "bg-orange-500" },
-    { name: "WAYANAD", color: "bg-green-500" },
-    { name: "MUNNAR", color: "bg-blue-500" },
-    { name: "KOCHI", color: "bg-yellow-500" },
-    { name: "PALAKKAD", color: "bg-red-500" },
-    { name: "CALICUT", color: "bg-orange-500" },
-    { name: "HIMACHAL", color: "bg-teal-500" },
-    { name: "DELHI", color: "bg-red-500" },
+  const placeholders = [
+    "What's the first rule of Fight Club?",
+    "Who is Tyler Durden?",
+    "Where is Andrew Laeddis Hiding?",
+    "Write a Javascript method to reverse a string",
+    "How to assemble your own PC?",
   ];
-
-  const LocationCard = ({ name, color }) => (
-    <div
-      className={`w-24 h-24 rounded-full ${color} m-2 flex items-center justify-center cursor-pointer`}
-    >
-      <p className="text-white text-sm">{name}</p>
-    </div>
-  );
-
-  LocationCard.propTypes = {
-    name: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
-  };
-
-  const topLocation = [{ name: "DUBAI", image: dubai_img }];
-
-  const TopLocationCard = ({ name, image }) => (
-    <div className="relative w-full h-full bg-cover flex items-center justify-center">
-      <img
-        src={image}
-        alt={name}
-        className="w-[970px] h-[450px] bg-cover rounded-2xl shadow-lg"
-      />
-      <p className="absolute inset-0 flex items-center justify-center text-center font-extrabold text-white text-9xl rounded-md cherry-bomb">
-        {name}
-      </p>
-    </div>
-  );
-
-  TopLocationCard.propTypes = {
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-  };
 
   return (
     <>
@@ -64,93 +29,15 @@ function HomePage() {
         style={{ backgroundImage: `url(${home_bg})`, backgroundSize: "cover" }}
       >
         <Header />
-        <div className="flex flex-col items-center justify-center mt-32 cherry-bomb text-black text-4xl decoration-red-800">
-          <h1 className="text-center cherry-bomb text-neutral-800 decoration-red-800 font-extrabold text-8xl mb-4">
-            Welcome {user && user.name}
-          </h1>
-          <p>We are aware of your travel arrangements</p>
-          <p className="text-center cherry-bomb text-black text-xl">
-            BACKPACKERZ is a platform for adventurers to connect,
-          </p>
-          <p className="text-center cherry-bomb text-black text-xl">
-            offering thrilling experiential stays in breathtaking properties and curated destination tours.
-          </p>
+        <div className="flex flex-col items-center justify-center m-5 md:mx-40   text-black text-4xl decoration-red-800">
+          <FlipWordsDemo />
+
         </div>
       </div>
 
-      <section className="p-10">
-        <h1 className="text-2xl font-bold font-serif mb-2 ml-16">OUR LOCATIONS</h1>
-        <p className="text-gray-700 font-semibold font-serif mb-4 ml-16">
-          Browse destinations for your next holiday plan.
-        </p>
-        <div className="flex flex-wrap gap-10 justify-center p-10">
-          {locations.map((location) => (
-            <LocationCard key={location.name} {...location} />
-          ))}
-        </div>
-      </section>
-
-      <section className="p-10">
-        <div className="relative flex items-center justify-center bg-white">
-          <div className="relative h-full px-4 pb-20 mx-auto sm:max-w-xl md:max-w-full md:pb-10 md:px-24 lg:max-w-screen-xl lg:px-8">
-            <div className="flex flex-col items-center justify-between py-16 lg:flex-row">
-              <div className="relative">
-                <div className="absolute top-0 -left-48 z-0 opacity-50">
-                  <img
-                    src="https://placehold.co/200x100"
-                    className="w-36 h-full object-fill"
-                    alt="placeholder"
-                  />
-                </div>
-                <div className="relative z-40 lg:max-w-xl lg:pr-5">
-                  <h2 className="mb-6 max-w-lg text-5xl font-light leading-snug tracking-tight text-g1 sm:text-7xl sm:leading-snug">
-                    We make your
-                    <span className="my-1 inline-block border-b-8 border-g4 bg-white px-4 font-bold text-g4 animate__animated animate__flash">
-                      Travel Plans
-                    </span>
-                  </h2>
-                  <p className="text-base text-gray-700">
-                    Backpacker Travel offers budget-friendly holiday packages
-                    for adventurous travelers. From transport tickets to hotel
-                    bookings and tour guides, they take care of the entire trip.
-                  </p>
-                  <div className="mt-10 flex flex-col items-center md:flex-row">
-                    <Link
-                      to="/trip"
-                      aria-label="Watch how it works"
-                      className="group inline-flex items-center font-semibold text-g1"
-                    >
-                      Explore More
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="ml-4 h-6 w-6 transition-transform group-hover:translate-x-2"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        ></path>
-                      </svg>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="relative hidden lg:ml-32 lg:block lg:w-1/2">
-                <div className="mx-auto w-full overflow-hidden rounded-[6rem] rounded-br-none rounded-tl-none mb-4">
-                  <img src={pic1} alt="Scenery" className="w-full h-full object-cover" />
-                </div>
-                <div className="mx-auto w-full overflow-hidden rounded-[6rem] rounded-br-none rounded-tl-none">
-                  <img src={pic2} alt="Scenery" className="w-full h-full object-cover" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="relative w-full h-full bg-cover flex items-center justify-center">
+        <img src={circles} alt="" className="w-full h-full bg-cover" />
+      </div>
 
       <section className="relative py-32 lg:py-36 bg-white">
         <div className="mx-auto w-full px-5 sm:px-10 md:px-12 lg:px-5 lg:max-w-7xl flex flex-col lg:flex-row gap-10 lg:gap-12">
@@ -168,7 +55,9 @@ function HomePage() {
               join with us.
             </h1>
             <p className="mt-8 text-gray-700">
-            Backpacker Travel offers budget-friendly holiday packages for adventurous travelers. From transport tickets to hotel bookings and tour guides, they take care of the entire trip
+              Backpacker Travel offers budget-friendly holiday packages for
+              adventurous travelers. From transport tickets to hotel bookings
+              and tour guides, they take care of the entire trip
             </p>
             <div className="mt-10 w-full flex max-w-md mx-auto lg:mx-0">
               <div className="flex sm:flex-row flex-col gap-5 w-full">
@@ -196,6 +85,7 @@ function HomePage() {
                   <input
                     type="email"
                     placeholder="backpackerz@gmail.com"
+                    disabled
                     className="w-full py-3 outline-none bg-transparent"
                   />
                   <button className="flex text-white justify-center items-center w-max min-w-max sm:w-max px-6 h-12 rounded-full outline-none relative overflow-hidden border duration-300 ease-linear after:absolute after:inset-x-0 after:aspect-square after:scale-0 after:opacity-70 after:origin-center after:duration-300 after:ease-linear after:rounded-full after:top-0 after:left-0 after:bg-[#172554] hover:after:opacity-100 hover:after:scale-[2.5] bg-blue-600 border-transparent hover:border-[#172554]">

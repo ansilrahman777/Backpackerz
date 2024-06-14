@@ -40,36 +40,40 @@ function DestinationDetails() {
       filtered = hotels.filter(
         (hotel) =>
           hotel.hotel_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          hotel.hotel_description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          hotel.destination_name.toLowerCase().includes(searchTerm.toLowerCase())
+          hotel.hotel_description
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          hotel.destination_name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
       );
     }
 
     // Sort hotels based on sort order
     if (sortOrder === "priceAsc") {
-      filtered = filtered.slice().sort((a, b) => parseFloat(a.pricing) - parseFloat(b.pricing));
+      filtered = filtered
+        .slice()
+        .sort((a, b) => parseFloat(a.pricing) - parseFloat(b.pricing));
     } else if (sortOrder === "priceDesc") {
-      filtered = filtered.slice().sort((a, b) => parseFloat(b.pricing) - parseFloat(a.pricing));
+      filtered = filtered
+        .slice()
+        .sort((a, b) => parseFloat(b.pricing) - parseFloat(a.pricing));
     }
 
     setFilteredHotels(filtered);
     setCurrentPage(1); // Reset to first page when search term or sort order changes
   }, [hotels, searchTerm, sortOrder]);
 
-  // Get current hotels for pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentHotels = filteredHotels.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Handle search input change
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // Handle sort order change
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
   };
@@ -77,7 +81,7 @@ function DestinationDetails() {
   return (
     <div>
       <div
-        className="min-h-screen bg-cover"
+        className="min-h-screen bg-cover flex flex-col items-center justify-center"
         style={{
           backgroundImage: `url(${
             destinationDetail ? destinationDetail.image_url : ""
@@ -86,70 +90,62 @@ function DestinationDetails() {
         }}
       >
         <Header />
-        <div className="flex flex-col items-center justify-center flex-grow mt-32 cherry-bomb text-black text-4xl decoration-red-800">
-          <h1 className="text-center cherry-bomb text-ba text-white decoration-red-800 font-extrabold text-8xl mb-4">
-            {destinationDetail ? destinationDetail.destination_name : ""}
-          </h1>
-          <p className="items-center text-center cherry-bomb text-white text-9xl">
-            {destinationDetail ? destinationDetail.package_name : ""}
-          </p>
+        <div className="flex flex-col mt-52 flex-grow cherry-bomb text-black text-4xl decoration-red-800">
+          <h1 className="cherry-bomb text-white decoration-red-800  font-extrabold text-8xl">{destinationDetail ? destinationDetail.destination_name : ""}</h1>
         </div>
       </div>
       <div className="p-10">
-        <h1 className="text-2xl font-bold font-serif mb-2 ml-16">
+        <h1 className="text-2xl font-bold font-serif mb-2">
           {destinationDetail ? destinationDetail.destination_name : ""}
         </h1>
-        <p className="text-gray-700 font-semibold font-serif mb-4 ml-16">
+        <p className="text-gray-700 font-semibold font-serif">
           {destinationDetail ? destinationDetail.description : ""}
         </p>
       </div>
-      <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-100 sm:py-12">
-        <div className="mx-auto max-w-screen-xl px-4 w-full">
-          <h2 className="mb-4 font-bold text-xl text-gray-600">
+      <div className="relative flex flex-col justify-centerpy-10 p-10">
+        <div className="mx-auto max-w-screen-xl w-full">
+          <h2 className="font-bold text-xl text-gray-600">
             Our Destinations in{" "}
             {destinationDetail ? destinationDetail.destination_name : ""}
           </h2>
-          <div className="flex justify-between items-center mt-4 mb-4">
+          <div className="flex flex-col md:flex-row justify-between items-center mt-4 mb-4 gap-4">
             <input
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
               placeholder="Search by hotel name or description..."
-              className="border border-gray-300 rounded-md px-3 py-2 block w-1/2"
+              className="border border-gray-300 rounded-md px-3 py-2 w-full md:w-1/2"
             />
             <select
               value={sortOrder}
               onChange={handleSortChange}
-              className="border border-gray-300 rounded-md px-3 py-2 block w-1/4"
+              className="border border-gray-300 rounded-md px-3 py-2 w-full md:w-1/4"
             >
               <option value="default">Sort by</option>
               <option value="priceAsc">Price: Low to High</option>
               <option value="priceDesc">Price: High to Low</option>
             </select>
           </div>
-          <div className="grid w-full sm:grid-cols-2 xl:grid-cols-4 gap-6">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {currentHotels.map((hotel) => (
               <div
                 key={hotel.id}
-                className="relative flex flex-col shadow-md rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300 max-w-sm"
+                className="relative flex flex-col shadow-md rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="h-auto overflow-hidden">
-                  <div className="h-44 overflow-hidden relative">
-                    <Link
-                      to={`/hotel-detail/${hotel.id}`}
-                      className="block relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
-                    >
-                      <img
-                        src={
-                          hotel.images.length > 0 ? hotel.images[0].image : ""
-                        }
-                        alt={hotel.hotel_name}
-                      />
-                    </Link>
-                  </div>
+                <div className="h-44 overflow-hidden">
+                  <Link
+                    to={`/hotel-detail/${hotel.id}`}
+                    className="block relative h-44 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75"
+                  >
+                    <img
+                      src={hotel.images.length > 0 ? hotel.images[0].image : ""}
+                      alt={hotel.hotel_name}
+                      className="h-full w-full object-cover"
+                    />
+                  </Link>
                 </div>
-                <div className="bg-white py-4 px-3">
-                  <h3 className="text-xs mb-2 font-medium">
+                <div className="bg-white p-4">
+                  <h3 className="text-sm font-medium mb-2">
                     {hotel.hotel_name}
                   </h3>
                   <p className="text-xs text-gray-400">{hotel.description}</p>

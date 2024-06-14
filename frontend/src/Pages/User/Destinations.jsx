@@ -76,10 +76,11 @@ function Destinations() {
             Destinations with BACKPACKERZ!
           </p>
         </div>
+        
       </div>
       <div className="bg-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
+          <div className="mx-auto max-w-2xl py-8 sm:py-8 lg:max-w-none lg:py-8">
             <h2 className="text-2xl font-bold text-gray-900">Destinations</h2>
             <div className="flex justify-between items-center mt-4 mb-4">
               <input

@@ -48,7 +48,7 @@ function Header() {
     <div className="flex p-5 items-center justify-between">
       <div
         className={`fixed inset-x-0 top-0 z-30 transition-transform duration-500 ease-in-out ${
-          isHeaderVisible ? "translate-y-0 mt-5" : "-translate-y-full mt-0"
+          isHeaderVisible ? "translate-y-0 md:mt-5" : "-translate-y-full mt-0"
         }`}
         style={{ height: '90px' }}
       >

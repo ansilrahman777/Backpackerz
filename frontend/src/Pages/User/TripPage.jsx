@@ -95,7 +95,7 @@ function TripPage() {
       </div>
       <div className="bg-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
+          <div className="mx-auto max-w-2xl py-8 sm:py-8 lg:max-w-none lg:py-8">
             <h2 className="text-2xl font-bold text-gray-900">Packages</h2>
             <div className="flex justify-between items-center mt-4 mb-4">
               <input
@@ -115,14 +115,14 @@ function TripPage() {
                 <option value="priceDesc">Price: High to Low</option>
               </select>
             </div>
-            <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
+            <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0 ">
               {currentPackages.map((packageItem) => (
                 <div key={packageItem.id} className="group relative">
                   <LazyLoad height={200} once>
                     <div className="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
                       <Link
                         to={`/trip-details/${packageItem.id}`}
-                        className="block relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
+                        className="block relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 self-stretch hover:scale-105 hover:shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] transition-all duration-150 ease-in 75 sm:h-64"
                       >
                         <img
                           src={packageItem.image_url}

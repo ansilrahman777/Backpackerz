@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .span-style {
+    @apply absolute top-0 left-0 w-full h-full origin-center [transform-style:preserve-3d] [transform:rotateY(calc(var(--i)*45deg))_translateZ(350px)];
+  }
+  .img-style {
+    @apply absolute top-0 left-0 w-full h-full rounded-sm object-cover [transition:2s] hover:-translate-y-[50px] hover:scale-[1.3];
+  }
+}
+
 .cherry-bomb {
     font-family: "Cherry Bomb One", system-ui;
     font-weight: 400;
