@@ -12,6 +12,8 @@ import HeaderItems from "./HeaderItems";
 import { Link, NavLink } from "react-router-dom";
 
 function Header() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isHeaderVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -50,7 +52,7 @@ function Header() {
         className={`fixed inset-x-0 top-0 z-30 transition-transform duration-500 ease-in-out ${
           isHeaderVisible ? "translate-y-0 md:mt-5" : "-translate-y-full mt-0"
         }`}
-        style={{ height: '90px' }}
+        style={{ height: "90px" }}
       >
         <header className="w-full max-w-screen-md mx-auto border border-gray-300 bg-white/50 py-3 px-6 shadow backdrop-blur-lg md:rounded-full lg:max-w-screen-lg">
           <div className="px-4">
@@ -75,7 +77,15 @@ function Header() {
                 ))}
               </div>
               <div className="hidden md:flex items-center justify-end gap-3">
-                <NavLink to="/profile" className="active">
+                <NavLink
+                  to="/profile"
+                  className="flex items-center font-semibold cursor-pointer text-[14px]"
+                >
+                  {user
+                    ? `${user.first_name
+                        .charAt(0)
+                        .toUpperCase()}${user.first_name.slice(1)}`
+                    : "Login"}
                   <FaUserAstronaut className="flex w-[40px] rounded-full cursor-pointer" />
                 </NavLink>
               </div>

@@ -28,7 +28,9 @@
     "react-router-dom": "^6.22.2",
     "react-toastify": "^10.0.5",
     "sweetalert2": "^11.11.1",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "three": "^0.165.0",
+    "vanta": "^0.5.24"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

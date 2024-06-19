@@ -14,13 +14,6 @@ import { FlipWordsDemo } from "../../Components/User/FlipWordsDemo";
 
 function HomePage() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const placeholders = [
-    "What's the first rule of Fight Club?",
-    "Who is Tyler Durden?",
-    "Where is Andrew Laeddis Hiding?",
-    "Write a Javascript method to reverse a string",
-    "How to assemble your own PC?",
-  ];
 
   return (
     <>
@@ -123,16 +116,7 @@ function HomePage() {
             />
           </div>
         </div>
-      </section>
-
-      {/* <div className="flex m-4 justify-center">
-        <div className="flex flex-wrap justify-center">
-          {topLocation.map((location) => (
-            <TopLocationCard key={location.name} {...location} />
-          ))}
-        </div>
-      </div> */}
-
+      </section>    
       <Footer />
     </>
   );
