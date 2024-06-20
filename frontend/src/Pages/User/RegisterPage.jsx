@@ -259,7 +259,7 @@ const RegisterPage = () => {
                   <hr className="border-t border-gray-300 w-full" />
                 </div>
 
-                <div className="relative mt-2" id="signInDiv"></div>
+                {/* <div className="relative mt-2" id="signInDiv"></div> */}
 
                 <div className="flex items-center justify-center mt-4">
                   <div className="text-center">
