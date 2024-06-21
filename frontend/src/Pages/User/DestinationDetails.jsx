@@ -81,20 +81,23 @@ function DestinationDetails() {
   return (
     <div>
       <div
-        className="min-h-screen bg-cover flex flex-col items-center justify-center"
+        className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center"
         style={{
           backgroundImage: `url(${
             destinationDetail ? destinationDetail.image_url : ""
           })`,
           backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <Header />
-        <div className="flex flex-col mt-52 flex-grow cherry-bomb text-black text-4xl decoration-red-800">
-          <h1 className="cherry-bomb text-white decoration-red-800  font-extrabold text-8xl">{destinationDetail ? destinationDetail.destination_name : ""}</h1>
+        <div className="flex flex-col items-center justify-center flex-grow text-center text-white text-4xl cherry-bomb decoration-red-800">
+          <h1 className="font-extrabold text-4xl sm:text-6xl md:text-8xl mb-4">
+            {destinationDetail ? destinationDetail.destination_name : ""}
+          </h1>
         </div>
       </div>
-      <div className="p-10">
+      <div className="p-4 sm:p-10">
         <h1 className="text-2xl font-bold font-serif mb-2">
           {destinationDetail ? destinationDetail.destination_name : ""}
         </h1>
@@ -102,7 +105,7 @@ function DestinationDetails() {
           {destinationDetail ? destinationDetail.description : ""}
         </p>
       </div>
-      <div className="relative flex flex-col justify-centerpy-10 p-10">
+      <div className="relative flex flex-col justify-center p-4 sm:p-10">
         <div className="mx-auto max-w-screen-xl w-full">
           <h2 className="font-bold text-xl text-gray-600">
             Our Destinations in{" "}

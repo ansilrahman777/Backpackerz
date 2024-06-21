@@ -38,10 +38,10 @@ function HotelDetails() {
   }, [id]);
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       {hotelDetails && (
         <div
-          className="min-h-screen bg-cover"
+          className="min-h-screen flex flex-col bg-cover bg-center"
           style={{
             backgroundImage: `url(${
               hotelDetails.images.length > 0 ? hotelDetails.images[0].image : ""
@@ -50,11 +50,11 @@ function HotelDetails() {
           }}
         >
           <Header />
-          <div className="flex flex-col items-center justify-center flex-grow mt-32 cherry-bomb text-white text-4xl decoration-red-800">
-            <h1 className="text-center cherry-bomb text-ba text-white decoration-red-800 font-extrabold text-8xl mb-4">
+          <div className="flex flex-col items-center justify-center flex-grow cherry-bomb text-white text-4xl decoration-red-800 p-3">
+            <h1 className="text-center cherry-bomb text-ba text-white decoration-red-800 font-extrabold text-5xl mb-4 sm:text-4xl md:text-6xl lg:text-8xl">
               {hotelDetails.hotel_name}
             </h1>
-            <p className="items-center text-center cherry-bomb text-white text-5xl">
+            <p className="items-center text-center cherry-bomb text-white text-5xl sm:text-2xl md:text-3xl lg:text-5xl">
               {hotelDetails.pricing} /-
             </p>
             <div className="items-center text-center mt-5 text-white font-serif text-lg">
@@ -68,12 +68,11 @@ function HotelDetails() {
               ))}
             </div>
           </div>
-          <div className="card w-48 bg-white border-solid border border-black absolute -bottom-16 right-[4%]">
+          <div className="card w-48 bg-white border-solid border border-black absolute -bottom-16 right-[4%] hidden md:flex">
             <div className="card-body items-center text-center">
               <p className="text-xl font-bold font-serif">
                 ₹ {hotelDetails ? hotelDetails.pricing : ""}
               </p>
-              <p className="text-xs font-bold font-serif"></p>
               <div className="justify-center">
                 <Link
                   to={`/hotel-booking?id=${id}`}
@@ -84,11 +83,27 @@ function HotelDetails() {
               </div>
             </div>
           </div>
+          <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-black p-4 flex justify-between items-center z-50">
+            <div>
+              <p className="text-lg sm:text-xl font-bold font-serif">
+                ₹ {hotelDetails ? hotelDetails.pricing : ""}
+              </p>
+              <p className="text-xs font-bold font-serif">PER HEAD</p>
+            </div>
+            <div className="justify-center">
+              <Link
+                to={`/hotel-booking?id=${id}`}
+                className="rounded-md p-2 px-4 bg-emerald-600"
+              >
+                Book Now
+              </Link>
+            </div>
+          </div>
         </div>
       )}
 
-      <div className="m-10 items-start justify-center flex ">
-        <div className="w-3/4">
+      <div className="m-10 items-start justify-center flex flex-col lg:flex-row">
+        <div className="w-full lg:w-3/4 mb-10 lg:mb-0">
           <h2 className="text-2xl font-bold font-serif mb-2">
             Day Wise Itinerary
           </h2>
@@ -117,12 +132,11 @@ function HotelDetails() {
             <p>Loading...</p>
           )}
         </div>
-        <div className="w-2/4 p-2">
+        <div className="w-full lg:w-2/4 p-2">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <p className="max-w-lg text-3xl font-semibold leading-relaxed text-gray-900 dark:text-black">
               {hotelDetails && hotelDetails.hotel_name}
             </p>
-
             <p className="max-w-lg font-semibold leading-relaxed text-gray-900 dark:text-black">
               {hotelDetails && hotelDetails.hotel_description}
             </p>
@@ -138,6 +152,7 @@ function HotelDetails() {
           </div>
         </div>
       </div>
+
       <div className="m-10">
         {hotelDetails && (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
@@ -153,6 +168,7 @@ function HotelDetails() {
           </div>
         )}
       </div>
+
       <div className="flex flex-col bg-white m-auto p-auto">
         <h1 className="font-bold text-center text-lg m-2 text-black">
           Reviews
@@ -175,8 +191,7 @@ function HotelDetails() {
                         <StarRating rating={review.rating} />
                       </h2>
                       <h2 className="font-normal text-base mb-2 text-black">
-                        <span className="font-semibold"></span>{" "}
-                        {review.comment}
+                        <span className="font-semibold"></span> {review.comment}
                       </h2>
                       <p className="font-semibold text-black mb-2">
                         -{review.user.first_name}

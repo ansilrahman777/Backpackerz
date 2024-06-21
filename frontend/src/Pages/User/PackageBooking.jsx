@@ -71,7 +71,7 @@ function PackageBooking() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, book it!"
+      confirmButtonText: "Yes, book it!",
     }).then((result) => {
       if (result.isConfirmed) {
         const errors = [];
@@ -123,7 +123,7 @@ function PackageBooking() {
             Swal.fire({
               title: "Booked!",
               text: "Your booking has been created.",
-              icon: "success"
+              icon: "success",
             }).then(() => {
               navigate(`/package-booking-confirmed/${booking_id}`);
             });
@@ -139,7 +139,7 @@ function PackageBooking() {
   return (
     <div>
       <div
-        className="h-1/2 bg-center"
+        className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center"
         style={{
           backgroundImage: `url(${
             packageDetail &&
@@ -152,25 +152,89 @@ function PackageBooking() {
         }}
       >
         <Header />
-        <div className="flex flex-col items-center justify-center flex-grow mt-12 cherry-bomb text-black text-4xl decoration-red-800">
-          <h1 className="text-center cherry-bomb text-ba text-black decoration-red-800 font-extrabold text-8xl mb-4">
+        <div className="flex flex-col items-center justify-center flex-grow mt-12 text-black text-4xl decoration-red-800">
+          <h1 className="text-center text-black decoration-red-800 font-extrabold cherry-bomb text-4xl sm:text-6xl md:text-8xl mb-4">
             {packageDetail ? packageDetail.package_name : "Package not found"}
           </h1>
-          <p className="items-center text-center cherry-bomb text-black text-4xl pb-6">
+          <p className="text-center cherry-bomb text-black text-2xl sm:text-4xl pb-6">
             {packageDetail ? packageDetail.duration : ""} Days
           </p>
         </div>
       </div>
-      <div>
-        <div className="ml-6 p-3 items-start justify-center">
+      <div className="p-4 sm:p-10">
+        <div className="mb-6">
           <h1 className="text-2xl font-bold font-serif">Booking Details</h1>
         </div>
-        <div className="ml-6 p-3 flex">
-          <div className="w-1/2">
-            <div className="flex justify-between p-8">
-              <div className="">
+        <div className="flex flex-col lg:flex-row lg:space-x-6">
+          <div className="lg:w-1/2">
+            <div className="p-4 lg:pl-8">
+              <div className="my-12 flex border-gray-300 rounded-lg shadow-gray-500 justify-start">
+                <img
+                  src={packageDetail ? packageDetail.image_url : ""}
+                  alt="Tour image"
+                  className="w-1/2 h-40 object-cover rounded-lg mr-4"
+                />
+                <div className="flex w-auto items-start">
+                  <div>
+                    <h2 className="text-2xl font-bold">
+                      {packageDetail
+                        ? packageDetail.package_name
+                        : "Package not found"}
+                    </h2>
+                    <p className="text-black">
+                      {packageDetail ? packageDetail.destination : ""}
+                    </p>
+                    <p className="text-black">
+                      {packageDetail ? packageDetail.duration : ""} Days
+                    </p>
+                    <div className="flex items-center">
+                      <div className="ml-2 text-black text-xl font-medium">
+                        ₹ {packageDetail ? packageDetail.price : ""}/-
+                      </div>
+                      <div className="ml-4 text-xl font-bold text-black">
+                        Per Head
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="border rounded-lg border-gray-400 p-4 mb-4">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-lg font-bold">
+                      Adults X {formData.no_of_guests}
+                    </p>
+                    <p className="text-sm text-gray-500">Tax: 0</p>
+                    <p className="text-sm text-gray-500">Discount: 0</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-right">
+                      ₹ {totalAmount}
+                    </p>
+                    <p className="text-sm text-right text-gray-500"> ₹ 0</p>
+                    <p className="text-sm text-right text-gray-500"> ₹ 0</p>
+                  </div>
+                </div>
+              </div>
+              <div className="border rounded-lg border-gray-400 p-4">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="text-lg font-bold">Total</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-right">
+                      ₹ {totalAmount}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="lg:w-1/2 mb-6 lg:mb-0">
+            <div className="flex flex-col sm:flex-row justify-between p-4 sm:p-8">
+              <div className="mb-4 sm:mb-0">
                 <p>LOCATION</p>
-                <div className="mt-2 h-20 w-52 object-cover object-center bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-lg flex justify-center items-center">
+                <div className="mt-2 h-20 w-full sm:w-52 object-cover bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-lg flex justify-center items-center">
                   <p>
                     {packageDetail
                       ? packageDetail.destination
@@ -178,9 +242,9 @@ function PackageBooking() {
                   </p>
                 </div>
               </div>
-              <div className="">
+              <div>
                 <p>PACKAGE</p>
-                <div className="mt-2 h-20 w-52 object-cover object-center bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-lg flex justify-center items-center">
+                <div className="mt-2 h-20 w-full sm:w-52 object-cover bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-lg flex justify-center items-center">
                   <p>
                     {packageDetail
                       ? packageDetail.package_name
@@ -189,7 +253,7 @@ function PackageBooking() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-between p-8">
+            <div className="p-4 sm:p-8">
               <p>TRAVELLER DETAILS</p>
               <form className="mt-3" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 md:gap-6">
@@ -286,78 +350,14 @@ function PackageBooking() {
                 </div>
                 <button
                   type="submit"
-                  class="group relative h-12 w-48 overflow-hidden rounded-lg bg-gradient-to-r from-green-400 to-blue-500 text-lg shadow"
+                  className="group relative h-12 w-48 overflow-hidden rounded-lg bg-gradient-to-r from-green-400 to-blue-500 text-lg shadow"
                 >
-                  <div class="absolute inset-0 w-3 bg-gradient-to-r from-pink-500 to-yellow-500 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
-                  <span class="relative text-black group-hover:text-white">
+                  <div className="absolute inset-0 w-3 bg-gradient-to-r from-pink-500 to-yellow-500 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
+                  <span className="relative text-black group-hover:text-white">
                     Confirm Booking
                   </span>
                 </button>
               </form>
-            </div>
-          </div>
-          <div className="w-1/2">
-            <div className="p-4 ">
-              <div className="my-12 flex border-gray-300 rounded-lg shadow-gray-500 justify-start">
-                <img
-                  src={packageDetail ? packageDetail.image_url : ""}
-                  alt="Tour image"
-                  className="w-2/4 h-40 object-cover rounded-lg mr-4"
-                />
-                <div className="flex w-auto items-start">
-                  <div>
-                    <h2 className="text-2xl font-bold">
-                      {packageDetail
-                        ? packageDetail.package_name
-                        : "Package not found"}
-                    </h2>
-                    <p className="text-black">
-                      {packageDetail ? packageDetail.destination : ""}
-                    </p>
-                    <p className="text-black">
-                      {packageDetail ? packageDetail.duration : ""} Days
-                    </p>
-                    <div className="flex items-center">
-                      <div className="ml-2 text-black text-xl font-medium">
-                        ₹ {packageDetail ? packageDetail.price : ""}/-
-                      </div>
-                      <div className="ml-4 text-xl font-bold text-black">
-                        Per Head
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="border rounded-lg border-gray-400 p-4 mb-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-lg font-bold">
-                      Adults X {formData.no_of_guests}
-                    </p>
-                    <p className="text-sm text-gray-500">Tax: 0</p>
-                    <p className="text-sm text-gray-500">Discount: 0</p>
-                  </div>
-                  <div>
-                    <p className="text-lg font-bold text-right">
-                      ₹ {totalAmount}
-                    </p>
-                    <p className="text-sm text-right text-gray-500"> ₹ 0</p>
-                    <p className="text-sm text-right text-gray-500"> ₹ 0</p>
-                  </div>
-                </div>
-              </div>
-              <div className="border rounded-lg border-gray-400 p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-lg font-bold">Total</p>
-                  </div>
-                  <div>
-                    <p className="text-lg font-bold text-right">
-                      ₹ {totalAmount}
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

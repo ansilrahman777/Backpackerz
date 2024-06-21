@@ -170,7 +170,7 @@ function HotelBooking() {
   };
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <div
         className="h-1/2 bg-center"
         style={{
@@ -183,19 +183,20 @@ function HotelBooking() {
         }}
       >
         <Header />
-        <div className="flex flex-col items-center justify-center flex-grow mt-12 cherry-bomb text-black text-4xl decoration-red-800">
-          <h1 className="text-center cherry-bomb text-ba text-white decoration-red-800  font-extrabold text-8xl mb-4">
+        <div className="flex flex-col items-center justify-center flex-grow mt-12 cherry-bomb text-black text-4xl decoration-red-800 sm:text-2xl md:text-3xl lg:text-4xl">
+          <h1 className="text-center cherry-bomb text-ba text-white decoration-red-800 font-extrabold text-8xl mb-4 sm:text-4xl md:text-6xl lg:text-8xl">
             {hotelDetail ? hotelDetail.hotel_name : "Hotel not found"}
           </h1>
         </div>
       </div>
-      <div className="m-6 p-3  flex border-gray-300 rounded-lg shadow-gray-500 justify-start">
+
+      <div className="m-6 p-3 flex flex-col md:flex-row border-gray-300 rounded-lg shadow-gray-500 justify-start">
         <img
           src={hotelDetail ? hotelDetail.image_url : ""}
           alt="Hotel image"
-          className="w-2/4 h-56 object-cover rounded-lg mr-4"
+          className="w-full md:w-2/4 h-56 object-cover rounded-lg mb-4 md:mb-0 md:mr-4"
         />
-        <div className="flex w-auto items-start">
+        <div className="flex w-full md:w-auto items-start">
           <div>
             <h2 className="text-2xl font-bold">
               {hotelDetail ? hotelDetail.hotel_name : "Hotel not found"}
@@ -218,7 +219,7 @@ function HotelBooking() {
               {hotelDetail ? hotelDetail.hotel_type : ""}
             </p>
             <div className="flex items-center">
-              <div className="text-black text-xl font-medium ">
+              <div className="text-black text-xl font-medium">
                 ₹ {hotelDetail ? hotelDetail.pricing : ""}/-
               </div>
               <div className="ml-4 text-xl font-bold text-black">Per Room</div>
@@ -226,12 +227,49 @@ function HotelBooking() {
           </div>
         </div>
       </div>
+
       <div className="ml-6 p-3 items-start justify-center">
-        <h1 className="text-2xl font-bold font-serif ">Booking Details</h1>
+        <h1 className="text-2xl font-bold font-serif">Booking Details</h1>
       </div>
-      <div className="ml-6 p-3 flex">
-        <div className="w-1/2">
-          <div className="flex flex-col justify-between p-8">
+
+      <div className="ml-6 p-3 flex flex-col lg:flex-row">
+      <div className="w-full lg:w-1/2 mt-6 lg:mt-0">
+          <HotelAvailabilityCalendar
+            hotelId={hotelDetail ? hotelDetail.id : null}
+          />
+
+          <div className="p-4">
+            <div className="rounded-lg border-gray-400 p-4 mb-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-lg font-bold">
+                    Rooms X {formData.no_of_room}
+                  </p>
+                  <p className="text-sm text-gray-500">Days X {daysDiff}</p>
+                  <p className="text-sm text-gray-500">Service Charge: 0</p>
+                  <p className="text-sm text-gray-500">Tax: 0</p>
+                </div>
+                <div>
+                  <p className="text-lg font-bold text-right">₹ {total}</p>
+                  <p className="text-sm text-right text-gray-500">₹ 0</p>
+                  <p className="text-sm text-right text-gray-500">₹ 0</p>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-lg border-gray-400 p-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-lg font-bold">Total</p>
+                </div>
+                <div>
+                  <p className="text-lg font-bold text-right">₹ {total}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-full lg:w-1/2">
+          <div className="flex flex-col justify-between p-4 lg:p-8">
             <div className="container mx-auto">
               <form className="mt-3" noValidate onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 md:gap-6">
@@ -372,41 +410,7 @@ function HotelBooking() {
             </div>
           </div>
         </div>
-        <div className="w-1/2">
-          <HotelAvailabilityCalendar
-            hotelId={hotelDetail ? hotelDetail.id : null}
-          />
-
-          <div className="p-4 ">
-            <div className=" rounded-lg border-gray-400 p-4 mb-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-lg font-bold">
-                    Rooms X {formData.no_of_room}
-                  </p>
-                  <p className="text-sm text-gray-500">Days X {daysDiff}</p>
-                  <p className="text-sm text-gray-500">Service Charge: 0</p>
-                  <p className="text-sm text-gray-500">Tax: 0</p>
-                </div>
-                <div>
-                  <p className="text-lg font-bold text-right">₹ {total}</p>
-                  <p className="text-sm text-right text-gray-500">₹ 0</p>
-                  <p className="text-sm text-right text-gray-500">₹ 0</p>
-                </div>
-              </div>
-            </div>
-            <div className=" rounded-lg border-gray-400 p-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-lg font-bold">Total</p>
-                </div>
-                <div>
-                  <p className="text-lg font-bold text-right">₹ {total}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
       <Footer />
     </div>

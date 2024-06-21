@@ -45,9 +45,13 @@ function TripPage() {
 
     // Sort packages based on sort order
     if (sortOrder === "priceAsc") {
-      filtered = filtered.slice().sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      filtered = filtered
+        .slice()
+        .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
     } else if (sortOrder === "priceDesc") {
-      filtered = filtered.slice().sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      filtered = filtered
+        .slice()
+        .sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
     }
 
     setFilteredPackages(filtered);
@@ -78,51 +82,52 @@ function TripPage() {
   return (
     <>
       <div
-        className="min-h-screen bg-cover"
+        className="min-h-screen flex items-center justify-center bg-cover bg-center"
         style={{
           backgroundImage: `url(${home1})`,
           backgroundSize: "cover",
         }}
       >
         <Header />
-        <div className="flex flex-col items-center justify-center flex-grow mt-32 cherry-bomb text-black text-4xl decoration-red-800">
-          <h1 className="text-center cherry-bomb text-ba text-neutral-800 decoration-red-800  font-extrabold text-8xl mb-4"></h1>
-          <p className="items-center text-center text-black text-xxl">
+        <div className="flex flex-col items-center justify-center text-black text-2xl sm:text-4xl">
+          <h1 className="text-center font-extrabold text-4xl sm:text-6xl md:text-8xl text-neutral-800 mb-4"></h1>
+          <p className="text-center text-black text-3xl cherry-bomb sm:text-3xl md:text-4xl px-4">
             Your Next Destination Starts Here: Explore Our Exclusive Packages
             with BACKPACKERZ!
           </p>
         </div>
       </div>
+
       <div className="bg-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl py-8 sm:py-8 lg:max-w-none lg:py-8">
+          <div className="mx-auto max-w-2xl py-8 sm:py-12 lg:max-w-none lg:py-16">
             <h2 className="text-2xl font-bold text-gray-900">Packages</h2>
-            <div className="flex justify-between items-center mt-4 mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-4 mb-4 gap-4">
               <input
                 type="text"
                 value={searchTerm}
                 onChange={handleSearchChange}
                 placeholder="Search by package name or description..."
-                className="border border-gray-300 rounded-md px-3 py-2 block w-1/2"
+                className="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-1/2"
               />
               <select
                 value={sortOrder}
                 onChange={handleSortChange}
-                className="border border-gray-300 rounded-md px-3 py-2 block w-1/4"
+                className="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-1/4"
               >
                 <option value="default">Sort by</option>
                 <option value="priceAsc">Price: Low to High</option>
                 <option value="priceDesc">Price: High to Low</option>
               </select>
             </div>
-            <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0 ">
+            <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
               {currentPackages.map((packageItem) => (
                 <div key={packageItem.id} className="group relative">
                   <LazyLoad height={200} once>
-                    <div className="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                    <div className="relative h-48 sm:h-64 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 transition-opacity duration-200">
                       <Link
                         to={`/trip-details/${packageItem.id}`}
-                        className="block relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 self-stretch hover:scale-105 hover:shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] transition-all duration-150 ease-in 75 sm:h-64"
+                        className="block relative h-full w-full overflow-hidden rounded-lg bg-white hover:scale-105 hover:shadow-lg transition-transform duration-200"
                       >
                         <img
                           src={packageItem.image_url}
@@ -133,7 +138,7 @@ function TripPage() {
                     </div>
                   </LazyLoad>
                   <Link to={`/trip-details/${packageItem.id}`}>
-                    <h3 className="mt-6 text-sm text-gray-500">
+                    <h3 className="mt-4 text-sm text-gray-500">
                       {packageItem.package_name}
                     </h3>
                   </Link>

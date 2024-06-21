@@ -35,10 +35,15 @@ function Destinations() {
     if (searchTerm.trim() !== "") {
       filtered = destinations.filter(
         (destination) =>
-          destination.destination_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          destination.destination_name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
           destination.season.toLowerCase().includes(searchTerm.toLowerCase()) ||
           destination.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          (destination.description && destination.description.toLowerCase().includes(searchTerm.toLowerCase()))
+          (destination.description &&
+            destination.description
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()))
       );
     }
 
@@ -49,7 +54,10 @@ function Destinations() {
   // Get current destinations for pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentDestinations = filteredDestinations.slice(indexOfFirstItem, indexOfLastItem);
+  const currentDestinations = filteredDestinations.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -62,22 +70,23 @@ function Destinations() {
   return (
     <>
       <div
-        className="min-h-screen bg-cover"
+        className="min-h-screen flex flex-col bg-cover bg-center"
         style={{
           backgroundImage: `url(${home2})`,
           backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <Header />
-        <div className="flex flex-col items-center justify-center flex-grow mt-32 cherry-bomb text-black text-4xl decoration-red-800">
-          <h1 className="text-center cherry-bomb text-ba text-neutral-800 decoration-red-800  font-extrabold text-8xl mb-4"></h1>
-          <p className=" items-center text-center  text-black  text-xxl">
+        <div className="flex flex-col items-center justify-center flex-grow text-black text-4xl decoration-red-800">
+          <h1 className="text-center font-extrabold cherry-bomb text-4xl sm:text-6xl md:text-8xl text-neutral-800 mb-4"></h1>
+          <p className="text-center text-black cherry-bomb text-xl sm:text-2xl md:text-4xl px-4">
             Your Next Destination Starts Here: Explore Our Exclusive
             Destinations with BACKPACKERZ!
           </p>
         </div>
-        
       </div>
+
       <div className="bg-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl py-8 sm:py-8 lg:max-w-none lg:py-8">

@@ -5,7 +5,7 @@ import Header from "../../Components/User/Header/Header";
 import Footer from "../../Components/User/Footer/Footer";
 
 function TripdetailsPage() {
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
   const { id } = useParams(); // Destructure the id parameter using useParams
   const [packageDetail, setPackageDetail] = useState(null);
   console.log(id);
@@ -13,7 +13,7 @@ function TripdetailsPage() {
   useEffect(() => {
     // Fetch package details from the backend API
     axios
-      .get(base_url+`/api/packages/${id}/`) // Use the id parameter
+      .get(base_url + `/api/packages/${id}/`) // Use the id parameter
       .then((response) => {
         setPackageDetail(response.data);
         console.log(response.data);
@@ -26,7 +26,7 @@ function TripdetailsPage() {
   return (
     <div>
       <div
-        className="min-h-screen bg-cover"
+        className="min-h-screen flex flex-col bg-cover bg-center"
         style={{
           backgroundImage: `url(${
             packageDetail ? packageDetail.image_url : ""
@@ -35,17 +35,19 @@ function TripdetailsPage() {
         }}
       >
         <Header />
-        <div className="flex flex-col items-center justify-center flex-grow mt-32 cherry-bomb text-black text-4xl decoration-red-800">
-          <h1 className="text-center cherry-bomb text-ba text-black decoration-red-800  font-extrabold text-8xl mb-4">
+        <div className="flex flex-col items-center justify-center flex-grow text-black text-4xl decoration-red-800">
+          <h1 className="text-center text-black decoration-red-800 font-extrabold cherry-bomb text-4xl sm:text-6xl md:text-8xl mb-4">
             {packageDetail ? packageDetail.package_name : ""}
           </h1>
-          <p className=" items-center text-center cherry-bomb text-black text-5xl">
+          <p className="text-center text-black cherry-bomb text-2xl sm:text-4xl md:text-5xl">
             {packageDetail ? packageDetail.price : ""} /-
           </p>
         </div>
-        <div className="card w-48 bg-white border-solid border border-black absolute -bottom-16 right-[4%]">
+
+        {/* This is the div we want to change */}
+        <div className="hidden md:block card w-40 sm:w-48 bg-white border-solid border border-black absolute -bottom-12 sm:-bottom-16 right-4 sm:right-[4%]">
           <div className="card-body items-center text-center">
-            <p className="text-xl font-bold font-serif">
+            <p className="text-lg sm:text-xl font-bold font-serif">
               ₹ {packageDetail ? packageDetail.price : ""}
             </p>
             <p className="text-xs font-bold font-serif">PER HEAD</p>
@@ -59,20 +61,37 @@ function TripdetailsPage() {
             </div>
           </div>
         </div>
+
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-black p-4 flex justify-between items-center z-50">
+          <div>
+            <p className="text-lg sm:text-xl font-bold font-serif">
+              ₹ {packageDetail ? packageDetail.price : ""}
+            </p>
+            <p className="text-xs font-bold font-serif">PER HEAD</p>
+          </div>
+          <div className="justify-center">
+            <Link
+              to={`/package-booking?id=${id}`}
+              className="rounded-md p-2 px-4 bg-emerald-600"
+            >
+              Book Now
+            </Link>
+          </div>
+        </div>
       </div>
 
-      <div className="m-10 items-start justify-center">
-        <h1 className="text-2xl font-bold font-serif mb-2 ">
+      <div className="m-4 sm:m-10 items-start justify-center">
+        <h1 className="text-xl sm:text-2xl font-bold font-serif mb-2">
           {packageDetail ? packageDetail.package_name : ""}
         </h1>
-        <p className="text-gray-700 font-semiboldfont-serif mb-4 ">
+        <p className="text-gray-700 font-semibold font-serif mb-4">
           {packageDetail ? packageDetail.description : ""}
         </p>
       </div>
-      <div className="m-10 items-start justify-center flex ">
-        <div className="w-3/4">
-          <h2 className="text-2xl font-bold font-serif mb-2">
-            Day Wise Itirary
+      <div className="m-4 sm:m-10 flex flex-col sm:flex-row items-start justify-center">
+        <div className="w-full sm:w-3/4">
+          <h2 className="text-xl sm:text-2xl font-bold font-serif mb-2">
+            Day Wise Itinerary
           </h2>
           {packageDetail
             ? packageDetail.itinerary.map((item, index) => (
@@ -80,17 +99,17 @@ function TripdetailsPage() {
                   key={index}
                   className="relative border-l border-gray-200 dark:border-gray-700"
                 >
-                  <li className=" ml-4">
+                  <li className="ml-4">
                     <div className="absolute w-3 h-3 bg-gray-200 rounded-full -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                     <div key={index} className="collapse bg-base-200 mt-1">
                       <input type="checkbox" className="peer" />
                       <div className="collapse-title bg-slate-700 text-lg text-white peer-checked:bg-gray-500 peer-checked:text-black">
-                        Day Itirary {item.day_number}
+                        Day Itinerary {item.day_number}
                       </div>
-                      <div className="collapse-content flex bg-slate-700 text-primary-content peer-checked:bg-gray-500 peer-checked:text-black">
+                      <div className="collapse-content flex flex-col sm:flex-row bg-slate-700 text-primary-content peer-checked:bg-gray-500 peer-checked:text-black">
                         <p>{item.description}</p>
-                        <div className="flex w-[500px]">
-                          <div className="image-container rounded-lg bg-gray-100 w-[200px] overflow-hidden flex items-center justify-center">
+                        <div className="flex w-full sm:w-[500px] mt-2 sm:mt-0">
+                          <div className="image-container rounded-lg bg-gray-100 w-full sm:w-[200px] overflow-hidden flex items-center justify-center">
                             <img
                               src={item.image}
                               alt={item.day_number}
@@ -105,18 +124,18 @@ function TripdetailsPage() {
               ))
             : ""}
         </div>
-        <div className="w-2/4 p-2">
+        <div className="w-full sm:w-2/4 p-2">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl lg:mx-0">
-              <p className="text-2xl font-bold font-serif mb-2">
-                Inculsions and Exclusions
+              <p className="text-xl sm:text-2xl font-bold font-serif mb-2">
+                Inclusions and Exclusions
               </p>
             </div>
             <div className="collapse collapse-arrow bg-base-200">
               <input type="radio" name="my-accordion-2" defaultChecked />
               <div className="collapse-title text-xl font-medium">
                 <h2 className="mb-2 text-lg font-semibold text-gray-900">
-                  Inculsions:
+                  Inclusions:
                 </h2>
               </div>
               <div className="collapse-content">
@@ -186,7 +205,7 @@ function TripdetailsPage() {
                 {packageDetail.images.map((image, index) => (
                   <div
                     key={index}
-                    className="carousel-item w-3/4 h-[300px] rounded-box "
+                    className="carousel-item w-full sm:w-3/4 h-[200px] sm:h-[300px] rounded-box"
                   >
                     <img
                       className="w-full h-full object-cover object-center"

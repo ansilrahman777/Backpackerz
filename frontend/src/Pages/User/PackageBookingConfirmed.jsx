@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import Header from "../../Components/User/Header/Header";
 
 function PackageBookingConfirmed() {
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
 
   const { booking_id } = useParams();
   const [packageBooking, setPackageBooking] = useState(null);
@@ -17,14 +17,14 @@ function PackageBookingConfirmed() {
   useEffect(() => {
     if (booking_id) {
       axios
-        .get(base_url+`/api/packagebookings/${booking_id}/`)
+        .get(base_url + `/api/packagebookings/${booking_id}/`)
         .then((response) => {
           setPackageBooking(response.data);
           console.log("book", response.data);
           const package_id = response.data.package;
           if (package_id) {
             axios
-              .get(base_url+`/api/packages/${package_id}/`)
+              .get(base_url + `/api/packages/${package_id}/`)
               .then((response) => {
                 setPackageDetails(response.data);
                 console.log("packae", response.data);
@@ -58,15 +58,15 @@ function PackageBookingConfirmed() {
         }}
       >
         <Header />
-        <div className="flex flex-col  items-center justify-center flex-grow mt-12 cherry-bomb text-black text-4xl decoration-red-800">
-          <h1 className="text-center cherry-bomb text-ba text-black decoration-red-800 font-extrabold text-8xl mb-4">
+        <div className="flex flex-col items-center justify-center flex-grow mt-12 cherry-bomb text-black text-4xl decoration-red-800 sm:text-2xl md:text-3xl lg:text-4xl">
+          <h1 className="text-center cherry-bomb text-ba text-black decoration-red-800 font-extrabold text-5xl mb-4 sm:text-4xl md:text-6xl lg:text-8xl">
             {packageDetails && packageDetails
               ? packageDetails.package_name
               : ""}
           </h1>
-          <p className="items-center text-center cherry-bomb text-black text-4xl pb-6">
+          <p className="items-center text-center cherry-bomb text-black text-xl pb-6 sm:text-2xl md:text-3xl lg:text-4xl">
             {packageDetails && packageDetails ? packageDetails.duration : ""}{" "}
-            Days /
+            Days /{" "}
             {packageDetails && packageDetails
               ? packageDetails.no_of_nights
               : ""}{" "}
@@ -75,21 +75,21 @@ function PackageBookingConfirmed() {
         </div>
       </div>
 
-      <div className="my-9">
-        <div className="max-w-5xl mx-auto  shadow-lg rounded-lg overflow-hidden">
+      <div className="my-9 px-2">
+        <div className="max-w-5xl mx-auto shadow-lg rounded-lg  overflow-hidden">
           {packageBooking && (
             <div className="">
               <div className="bg-emerald-700 text-white text-center p-2 text-lg font-bold">
                 Booking Confirmed
               </div>
               <div className="mt-5">
-                <div className="px-28 flex border-gray-900 rounded-lg shadow-gray-500 justify-start">
+                <div className="px-4 sm:px-6 md:px-8 lg:px-28 flex flex-col md:flex-row border-gray-900 rounded-lg shadow-gray-500 justify-start">
                   <img
                     src={packageDetails ? packageDetails.image_url : ""}
                     alt="Tour image"
-                    className="w-2/4 h-56 object-cover rounded-lg mr-4"
+                    className="w-full md:w-2/4 h-56 object-cover rounded-lg mb-4 md:mb-0 md:mr-4"
                   />
-                  <div className="flex w-auto items-start">
+                  <div className="flex w-full md:w-auto items-start">
                     <div>
                       <h2 className="text-2xl font-bold">
                         {packageDetails
@@ -121,25 +121,25 @@ function PackageBookingConfirmed() {
                     backgroundSize: "contain",
                   }}
                 >
-                  <div className="grid grid-cols-1 px-28 gap-4">
-                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-10 flex justify-between rounded">
+                  <div className="grid grid-cols-1 px-4 sm:px-6 md:px-8 lg:px-28 gap-4">
+                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-4 sm:px-6 md:px-8 flex justify-between rounded">
                       <label className="block text-black">Booking ID</label>
-                      <p className="font-bold ">{packageBooking.booking_id}</p>
+                      <p className="font-bold">{packageBooking.booking_id}</p>
                     </div>
-                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-10 flex justify-between rounded">
+                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-4 sm:px-6 md:px-8 flex justify-between rounded">
                       <label className="block text-black">Traveler Name</label>
                       <p className="font-bold">{packageBooking.full_name}</p>
                     </div>
-                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-10 flex justify-between rounded">
+                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-4 sm:px-6 md:px-8 flex justify-between rounded">
                       <label className="block text-black">Email</label>
                       <p className="font-bold">{packageBooking.email}</p>
                     </div>
-                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-10 flex justify-between rounded">
+                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-4 sm:px-6 md:px-8 flex justify-between rounded">
                       <label className="block text-black">Contact No</label>
                       <p className="font-bold">{packageBooking.phone}</p>
                     </div>
-                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-10 flex justify-between rounded">
-                      <label className=" font-extrabold text-black">
+                    <div className="bg-green-300 border border-gray-400 bg-opacity-75 p-2 px-4 sm:px-6 md:px-8 flex justify-between rounded">
+                      <label className="font-extrabold text-black">
                         Total Fare
                       </label>
                       <p className="font-bold text-xl text-black">

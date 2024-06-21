@@ -11,7 +11,7 @@ import Spinner from "../../Components/Spinner";
 import { useEffect } from "react";
 
 const RegisterPage = () => {
-  const base_url=import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG
+  const base_url = import.meta.env.VITE_REACT_APP_BASE_URL_CONFIG;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,7 +27,7 @@ const RegisterPage = () => {
   const handleSigninWithGoogle = async (response) => {
     const payload = response.credential;
     try {
-      const server_res = await axios.post(base_url+"/api/google/", {
+      const server_res = await axios.post(base_url + "/api/google/", {
         access_token: payload,
       });
       console.log(server_res);
@@ -115,10 +115,7 @@ const RegisterPage = () => {
       toast.error("Passwords do not match");
     } else {
       try {
-        const res = await axios.post(
-          base_url+"/api/register/",
-          formData
-        );
+        const res = await axios.post(base_url + "/api/register/", formData);
         const response = res.data;
         if (res.status === 201) {
           navigate("/otp/verify");
@@ -169,56 +166,56 @@ const RegisterPage = () => {
         style={{ backgroundImage: `url(${register_bg})` }}
       >
         <Header />
-        <div className="container mx-auto mt-10">
-          <div className="flex flex-col md:flex-row w-10/12 md:w-8/12 bg-sky-950 bg-opacity-90 mx-auto rounded-md overflow-hidden shadow-lg">
-            <div className="w-full md:w-3/4 flex flex-col items-center justify-center py-16 px-12">
+        <div className="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row w-full md:w-10/12 lg:w-8/12 bg-sky-950 bg-opacity-90 mx-auto rounded-md overflow-hidden shadow-lg">
+            <div className="w-full md:w-3/4 flex flex-col items-center justify-center py-16 px-8 sm:px-12">
               <FaUser className="h-8 w-8 mr-2 text-white" />
               <p className="font-medium text-white">Signup to Register</p>
               {isLoading && <Spinner />}
-              <form className="px-8 pt-4 pb-8" onSubmit={handleOnSubmit}>
+              <form className="px-8 pt-4 pb-8 w-full" onSubmit={handleOnSubmit}>
                 <div className="mb-2">
                   <input
                     type="text"
-                    placeholder=" First Name"
+                    placeholder="First Name"
                     name="first_name"
                     value={first_name}
                     onChange={handleOnChange}
-                    className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
+                    className="appearance-none border rounded-full w-full py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />
                 </div>
                 <div className="mb-2">
                   <input
                     type="text"
-                    placeholder=" Last Name"
+                    placeholder="Last Name"
                     name="last_name"
                     value={last_name}
                     onChange={handleOnChange}
-                    className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
+                    className="appearance-none border rounded-full w-full py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />
                 </div>
                 <div className="mb-2">
                   <input
                     type="email"
-                    placeholder=" Email"
+                    placeholder="Email"
                     name="email"
                     value={email}
                     onChange={handleOnChange}
-                    className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
+                    className="appearance-none border rounded-full w-full py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />
                 </div>
                 <div className="mb-2">
                   <input
                     type="tel"
-                    placeholder=" Mobile (10 digits)"
+                    placeholder="Mobile (10 digits)"
                     name="mobile"
                     value={mobile}
                     onChange={handleOnChange}
                     pattern="[0-9]{10}"
                     title="Mobile number must be 10 digits"
-                    className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
+                    className="appearance-none border rounded-full w-full py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />
                 </div>
@@ -229,8 +226,8 @@ const RegisterPage = () => {
                     name="password"
                     value={password}
                     onChange={handleOnChange}
-                    minLength="6"
-                    className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
+                    minLength="8"
+                    className="appearance-none border rounded-full w-full py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />
                 </div>
@@ -241,29 +238,27 @@ const RegisterPage = () => {
                     name="confirm_password"
                     value={confirm_password}
                     onChange={handleOnChange}
-                    className="appearance-none border rounded-full w-full py-1 px-2 leading-tight focus:outline-none focus:shadow-outline"
+                    className="appearance-none border rounded-full w-full py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
                     required
                   />
                 </div>
                 <div className="flex items-center justify-center">
                   <button
                     type="submit"
-                    className="bg-teal-800 hover:bg-teal-700 text-white font-bold py-1 px-2 rounded-full w-full focus:outline-none focus:shadow-outline"
+                    className="bg-teal-800 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
                   >
                     SIGN UP
                   </button>
                 </div>
-                <div className="flex items-center justify-center mt-2">
+                <div className="flex items-center justify-center mt-4">
                   <hr className="border-t border-gray-300 w-full" />
                   <span className="px-3 text-white text-xs">OR</span>
                   <hr className="border-t border-gray-300 w-full" />
                 </div>
 
-                {/* <div className="relative mt-2" id="signInDiv"></div> */}
-
                 <div className="flex items-center justify-center mt-4">
                   <div className="text-center">
-                    <p className="text-white">Already Have a account?</p>
+                    <p className="text-white">Already Have an account?</p>
                     <p>
                       <Link
                         to="/login"
@@ -277,18 +272,18 @@ const RegisterPage = () => {
               </form>
             </div>
             <div
-              className="w-full md:w-1/2 flex flex-col justify-center p-12 bg-no-repeat bg-cover bg-center"
+              className="hidden md:flex w-full md:w-1/2 flex-col justify-center p-12 bg-no-repeat bg-cover bg-center"
               style={{ backgroundImage: `url(${register_form_bg})` }}
             >
               <div className="mt-11 mb-auto">
                 <h2
-                  className="text-white text-4xl font-bold "
+                  className="text-white text-4xl font-bold"
                   style={{ fontFamily: "cursive" }}
                 >
                   SIGNUP
                 </h2>
                 <p className="text-white" style={{ fontFamily: "cursive" }}>
-                  Are you planning a quick getaway? then you are at theright
+                  Are you planning a quick getaway? then you are at the right
                   door.
                 </p>
               </div>
