@@ -40,7 +40,7 @@ function PackageBookingList() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, cancel it!"
+      confirmButtonText: "Yes, cancel it!",
     }).then((result) => {
       if (result.isConfirmed) {
         axios
@@ -58,7 +58,7 @@ function PackageBookingList() {
             Swal.fire({
               title: "Cancelled!",
               text: "Your booking has been cancelled.",
-              icon: "success"
+              icon: "success",
             });
           })
           .catch((error) => {
@@ -66,7 +66,7 @@ function PackageBookingList() {
             Swal.fire({
               title: "Error!",
               text: "Failed to cancel booking. Please try again later.",
-              icon: "error"
+              icon: "error",
             });
           });
       }
@@ -82,131 +82,137 @@ function PackageBookingList() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <div className="flex">
-        <section className="container m-4">
-          <div className="flex flex-col">
-            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                  {bookings.length === 0 ? (
-                    <div className="p-4 text-center text-gray-500">
-                      <p>Make your first order!</p>
-                    </div>
-                  ) : (
-                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                      <thead className="bg-gray-50 dark:bg-gray-800">
-                        <tr>
-                          <th className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <div className="flex items-center gap-x-3">
-                              <button className="flex items-center gap-x-2">
-                                <span>Booking ID</span>
-                              </button>
-                            </div>
-                          </th>
-                          <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Date
-                          </th>
-                          <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Status
-                          </th>
-                          <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Customer
-                          </th>
-                          <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Start Date
-                          </th>
-                          <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Guests
-                          </th>
-                          <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Amount
-                          </th>
-                          <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                        {currentBookings.map((booking) => (
-                          <tr key={booking.id}>
-                            <td className="px-4 py-4 text-xs font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
-                              <div className="inline-flex items-center gap-x-3">
-                                <Link to={`/package-booking-view/${booking.id}`}>
-                                  <span>{booking.booking_id}</span>
-                                </Link>
-                              </div>
-                            </td>
-                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {new Date(
-                                booking.booking_date
-                              ).toLocaleDateString()}
-                            </td>
-                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                              <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
-                                <h2 className="text-sm font-normal">
-                                  {booking.status}
-                                </h2>
-                              </div>
-                            </td>
-                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              <div className="flex items-center gap-x-2">
-                                <img
-                                  className="object-cover w-8 h-8 rounded-full"
-                                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                                  alt=""
-                                />
-                                <div>
-                                  <h2 className="text-sm font-medium text-gray-800 dark:text-white ">
-                                    {booking.full_name}
-                                  </h2>
-                                  <p className="text-xs font-normal text-gray-600 dark:text-gray-400">
-                                    {booking.email}
-                                  </p>
+
+      <div className="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col">
+          <section className="m-4">
+            <div className="flex flex-col">
+              <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                  <div className="overflow-hidden border border-gray-200 dark:border-gray-700 rounded-lg">
+                    {bookings.length === 0 ? (
+                      <div className="p-4 text-center text-gray-500">
+                        <p>Make your first order!</p>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                          <thead className="bg-gray-50 dark:bg-gray-800">
+                            <tr>
+                              <th className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <div className="flex items-center gap-x-3">
+                                  <span>Booking ID</span>
                                 </div>
-                              </div>
-                            </td>
-                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {new Date(
-                                booking.start_date
-                              ).toLocaleDateString()}
-                            </td>
-                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {booking.no_of_guests}
-                            </td>
-                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {booking.total_amount}
-                            </td>
-                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {booking.status === "Pending" && (
-                                <button
-                                  onClick={() => cancelBooking(booking.id)}
-                                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-500"
-                                >
-                                  Cancel
-                                </button>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  )}
+                              </th>
+                              <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                Date
+                              </th>
+                              <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                Status
+                              </th>
+                              <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                Customer
+                              </th>
+                              <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                No of Room
+                              </th>
+                              <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                Guests
+                              </th>
+                              <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                Amount
+                              </th>
+                              <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                            {currentBookings.map((booking) => (
+                              <tr key={booking.id}>
+                                <td className="px-4 py-4 text-xs font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                                  <div className="inline-flex items-center gap-x-3">
+                                    <Link
+                                      to={`/package-booking-view/${booking.id}`}
+                                    >
+                                      <span>{booking.booking_id}</span>
+                                    </Link>
+                                  </div>
+                                </td>
+                                <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                  {new Date(
+                                    booking.booking_date
+                                  ).toLocaleDateString()}
+                                </td>
+                                <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                  <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
+                                    <h2 className="text-sm font-normal">
+                                      {booking.status}
+                                    </h2>
+                                  </div>
+                                </td>
+                                <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                  <div className="flex items-center gap-x-2">
+                                    <img
+                                      className="object-cover w-8 h-8 rounded-full"
+                                      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                                      alt=""
+                                    />
+                                    <div>
+                                      <h2 className="text-sm font-medium text-gray-800 dark:text-white ">
+                                        {booking.full_name}
+                                      </h2>
+                                      <p className="text-xs font-normal text-gray-600 dark:text-gray-400">
+                                        {booking.email}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                  {new Date(
+                                    booking.start_date
+                                  ).toLocaleDateString()}
+                                </td>
+                                <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                  {booking.no_of_guests}
+                                </td>
+                                <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                  {booking.total_amount}
+                                </td>
+                                <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                  {booking.status === "Pending" && (
+                                    <button
+                                      onClick={() => cancelBooking(booking.id)}
+                                      className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-500"
+                                    >
+                                      Cancel
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                {bookings.length > 0 && (
-                  <Pagination
-                    itemsPerPage={itemsPerPage}
-                    totalItems={bookings.length}
-                    paginate={paginate}
-                    currentPage={currentPage}
-                  />
-                )}
               </div>
             </div>
-          </div>
-        </section>
+            {bookings.length > 0 && (
+              <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={bookings.length}
+                currentPage={currentPage}
+                paginate={paginate}
+              />
+            )}
+          </section>
+        </div>
       </div>
+
       <Footer />
     </div>
   );

@@ -113,7 +113,7 @@ function Profile() {
         <Header />
         <div className="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-3 p-8">
-            <div className="w-full lg:w-2/5 border-2 rounded-lg">
+            <div className="w-full lg:w-1/5 border-2 rounded-lg">
               <nav className="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-700">
                 <Link
                   role="button"
@@ -210,7 +210,7 @@ function Profile() {
                 </div>
               </nav>
             </div>
-            <div className="w-full lg:w-3/5 border-2 rounded-lg p-8">
+            <div className="w-full lg:w-4/5 border-2 rounded-lg p-8">
               <h3 className="text-2xl text-center font-semibold mb-4">
                 My Profile
               </h3>
