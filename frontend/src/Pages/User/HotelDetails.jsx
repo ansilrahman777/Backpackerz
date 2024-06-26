@@ -44,7 +44,7 @@ function HotelDetails() {
           className="min-h-screen flex flex-col bg-cover bg-center"
           style={{
             backgroundImage: `url(${
-              hotelDetails.images.length > 0 ? hotelDetails.images[0].image : ""
+              hotelDetails.image_url ? hotelDetails.image_url : ""
             })`,
             backgroundSize: "cover",
           }}

@@ -141,7 +141,7 @@ function DestinationDetails() {
                     className="block relative h-44 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75"
                   >
                     <img
-                      src={hotel.images.length > 0 ? hotel.images[0].image : ""}
+                      src={hotel.image_url ? hotel.image_url : ""}
                       alt={hotel.hotel_name}
                       className="h-full w-full object-cover"
                     />
